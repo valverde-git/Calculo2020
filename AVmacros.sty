@@ -1,0 +1,273 @@
+%!TEX encoding = UTF-8 Unicode
+%
+\typeout{AVmacros.sty, A.Valverde; version 2014-10-10.}
+\typeout{Algunos macros pueden requerir otros paquetes adicionales:}
+\typeout{Incluye código modificado de spanish.ldf.}
+\typeout{amsmath.sty, amsbsy.sty,pstricks,texpower,...}
+\RequirePackage{amsmath,amssymb}
+%
+% Los comandos \nitem permiten crear apartados consecutivos
+% fuera de listas. \setcontador** pone a cero el contador y determina
+% si los ï¿½temes aparecen como letras o nï¿½meros.
+%
+\newcounter{contador}
+\newcommand{\setcontadorarabic}{%
+\setcounter{contador}{0}
+\def\nitem{
+\stepcounter{contador}
+\makebox[1.1em][r]{\arabic{contador}.\kern.5em\relax}
+}\let\cont\nitem}
+%
+\newcommand{\setcontadoralph}{%
+\setcounter{contador}{0}
+\def\nitem{
+\stepcounter{contador}
+\makebox[1.1em][r]{\textit{\alph{contador}})\kern.3em\relax}
+}\let\cont\nitem}
+%
+\newcommand{\setcontadorroman}{%
+\setcounter{contador}{0}
+\def\nitem{
+\stepcounter{contador}
+\makebox[2.3ex][r]{{\small\roman{contador}}\kern.2ex{\small)}\kern.5em\relax}
+}\let\cont\nitem}
+%
+% El entorno centrar reparte en una lï¿½nea
+% centrada los elementos que aparecen dentro
+% del entorno separados por \hfill's
+%
+\newenvironment{centrar}%
+{\par\noindent\rule{0pt}{0pt}\hfill}%
+{\hfill\rule{0pt}{0pt}\par}
+%
+%
+%%%%%%%%%%%%%%%%%%%%
+%
+% Macros  "\guardanum{_n_}" y "\enumerar{_k_}". El primero sustituye a 
+% "\end{enumerate}" guardando la numeracion en el contador "_n_"; el 
+% segundo sustituye a "\begin{enumerate}" iniciando la numeracion con 
+% el numero acumulado en "_k_"
+% De esta forma se pueden suspender las numeraciones y 
+% reanudarlarlas cuando se quiera. Los macros funcionan incluso en 
+% entornos anidados.
+%
+\def\guardanum#1{%
+\@ifundefined{c@#1}{%
+\newcounter{#1}\setcounter{#1}{\value{enum\romannumeral\the\@enumdepth}}
+\end{enumerate}}{\setcounter{#1}{\value{enum\romannumeral\the\@enumdepth}}
+\end{enumerate}}}
+%
+\def\enumerar#1{\begin{enumerate}
+\setcounter{enum\romannumeral\the\@enumdepth}{\value{#1}}}
+%
+% Conjuntos matem'aticos
+%
+\newcommand{\ene}{\mathbb{N}}
+\newcommand{\erre}{\mathbb{R}}
+\newcommand{\ceta}{\mathbb{Z}}% requiere "amssymb.sty"
+\newcommand{\cu}{\mathbb{Q}} % requiere "amssymb.sty" 
+\newcommand{\ce}{\mathbb{C}}% requiere "amssymb.sty"
+%
+% Funciones trigonom'etricas e hiperb'olicas
+% Algunas estan definidas en [spanish]{babel}
+% Sin embargo, para eliminar los espacios entre arc y sen
+% por ejemplo, he tenido que traer esta parte del codigo
+\def\es@operators{%
+  \es@sdef\bmod{\nonscript\mskip-\medmuskip\mkern5mu
+    \mathbin{\operator@font m\es@op@ac od}\penalty900\mkern5mu
+    \nonscript\mskip-\medmuskip}%
+  \@ifundefined{@amsmath@err}%
+    {\es@sdef\pmod##11{\allowbreak\mkern18mu
+        ({\operator@font m\es@op@ac od}\,\,##11)}}%
+    {\es@sdef\mod##1{\allowbreak\if@display\mkern18mu
+        \else\mkern12mu\fi{\operator@font m\es@op@ac od}\,\,##1}%
+      \es@sdef\pmod##1{\pod{{\operator@font m\es@op@ac od}%
+        \mkern6mu##1}}}%
+  \def\es@a##1 {%
+    \ifx\relax##1\relax % empty? continue
+      \bbl@afterelse
+      \es@a
+    \else
+      \bbl@afterfi
+      {\ifx\\##1% \@emtpy? finish
+       \else
+         \bbl@afterfi
+         \begingroup
+           \let\,\@empty % ignore when def'ing name
+           \let\acute\@firstofone % id
+           \edef\es@b{\expandafter\noexpand\csname##1\endcsname}%
+           \def\,{\noexpand\es@op@sp}%
+           \def\acute{\noexpand\es@op@ac}%
+         \edef\es@a{\endgroup
+           \noexpand\es@sdef\expandafter\noexpand\es@b{%
+               \mathop{\noexpand\operator@font##1}\es@c}}%
+         \es@a % restores itself
+         \es@a
+       \fi}%
+    \fi}%
+  \let\es@b\spanishoperators
+  \addto\es@b{ }%
+  \let\es@c\@empty
+  \expandafter\es@a\es@b l\acute{i}m l\acute{i}m\,sup
+    l\acute{i}m\,inf m\acute{a}x \acute{i}nf m\acute{i}n \\ %
+  \def\es@c{\nolimits}%
+  \expandafter\es@a\es@b sen tg arcsen arccos arctg \\ }
+%
+%\newcommand{\sen}{\mathop{\operator@font sen}\nolimits} 
+%\newcommand{\tg}{\mathop{\operator@font tg}\nolimits} 
+%\newcommand{\cotg}{\mathop{\operator@font cotg}\nolimits} 
+%\newcommand{\cosec}{\mathop{\operator@font cosec}\nolimits} 
+%
+%\newcommand{\arcsen}{\mathop{\operator@font arcsen}\nolimits}
+%\renewcommand{\arccos}{\mathop{\operator@font arcsen}\nolimits}
+%\newcommand{\arctg}{\mathop{\operator@font arctg}\nolimits} 
+\newcommand{\arccotg}{\mathop{\operator@font arccotg}\nolimits}
+\newcommand{\arcsec}{\mathop{\operator@font arcsec}\nolimits}
+\newcommand{\arccosec}{\mathop{\operator@font arccosec}\nolimits}
+%
+%\newcommand{\senh}{\mathop{\operator@font senh}\nolimits}
+%\newcommand{\tgh}{\mathop{\operator@font tgh}\nolimits} 
+%\newcommand{\cotgh}{\mathop{\operator@font cotgh}\nolimits} 
+%\newcommand{\sech}{\mathop{\operator@font sech}\nolimits} 
+%\newcommand{\cosech}{\mathop{\operator@font cosech}\nolimits} 
+%
+\newcommand{\argsenh}{\mathop{\operator@font argsenh}\nolimits}
+%\newcommand{\argcosh}{\mathop{\operator@font argcosh}\nolimits}
+%\newcommand{\argtgh}{\mathop{\operator@font argtgh}\nolimits} 
+%\newcommand{\argcotgh}{\mathop{\operator@font argcotgh}\nolimits}
+%\newcommand{\argsech}{\mathop{\operator@font argsech}\nolimits}
+%\newcommand{\argcosech}{\mathop{\operator@font argcosech}\nolimits}
+%
+% Otros operadores matemï¿½ticos
+%
+%\def\max{\mathop{\mathrm{m\acute{a}x}}}
+%\def\min{\mathop{\mathrm{m\acute{\char'20}n}}}
+%\def\lim{\mathop{\mathrm{l\acute{\char'20}m}}}
+\renewcommand{\inf}{\mathop{\mathrm{\acute{\char'20}nf}}}
+%
+\newcommand{\rot}{\mathop{\mathrm{rot}}\nolimits}
+\newcommand{\Div}{\mathop{\mathrm{div}}\nolimits}
+\newcommand{\dom}{\mathop{\mathrm{Dom}}\nolimits}
+\renewcommand{\deg}{\mathop{\mathrm{gr}}\nolimits}
+%
+% El operador \barra es definido para utilizar en la regla de Barrow
+% Se abre con \left[ y se cierra con \barra_a^b
+%
+\newcommand{\barra}{\vphantom{\displaystyle\int}\right]}
+%
+% Operadores \fract y \nicefract
+%
+\def\fract#1#2{
+\frac{{\textstyle\vphantom{y^5}#1}}%
+{{\textstyle\vphantom{y^5}#2}}}
+\def\fracs#1#2{\frac{\scriptstyle #1}{\scriptstyle #2}}
+%
+\newcommand{\ffft}[2]{\leavevmode
+                  \kern.1em\raise.5ex\hbox{\footnotesize$#1$}
+                  \kern-.12em/
+                  \kern-.15em\lower.25ex\hbox{\footnotesize$#2$}}
+\newcommand{\fffs}[2]{\leavevmode
+                  \raise.4ex\hbox{$\scriptscriptstyle #1$}
+                  \kern-.07em\raise.25ex\hbox{$\scriptscriptstyle /$}
+                  \kern-.1em\lower.1ex\hbox{$\scriptscriptstyle #2$}}
+\newcommand{\nicefrac}[2]%
+    {\mathchoice{\ffft{#1}{#2}}{\ffft{#1}{#2}}{\fffs{#1}{#2}}{\fffs{#1}{#2}}}
+\newcommand{\unmedio}{\nicefrac{1}{2}}
+%
+% Operadores para la notacion de Leibniz de derivadas parciales
+%
+\newcommand{\parc}{\@ifnextchar[{\@parc}{\@@parc}}
+\def\@@parc#1#2{\dfrac{\partial#1}{\partial#2}}
+\def\@parc[#1]#2#3{\dfrac{\partial^{#1}#2}{\partial#3^{#1}}}
+%
+\newcommand{\bs}[1]{\boldsymbol{#1}}
+%
+% Redefinicion del comando \smallsetminus
+% del paquete amsmath
+%
+\let\peqrestadeconj=\smallsetminus
+\renewcommand{\smallsetminus}{\mathord{\peqrestadeconj}}
+%\@ifundefined{smallsetminus}{\relax}%
+%{\let\peqrestadeconj=\smallsetminus
+%\def\smallsetminus{{}\kern -.08em\peqrestadeconj\kern -.08em{}}}
+%
+% Definiciï¿½n de \Int como integral en modo display
+\def\Int{\displaystyle\int}
+%
+% El macro ``\lm" mejora las prestaciones de \lim;
+% lo escribe siempre en modo display-math y solo requiere
+% introducir el punto en que se calcula el limite, entre corchetes, la letra
+% empleada como variable, si esta no es $x$
+%
+\def\lm{\@ifnextchar[{\@lm}{\@@lm}}
+\def\@lm[#1]#2{\displaystyle\lim_{#1\to #2}\,}
+\def\@@lm#1{{\displaystyle\lim_{x\to #1}}\,}
+%
+% El macro ``\Sum" mejora las prestaciones de \sum en la escritura de
+% serie; lo escribe siempre en modo display-math y solo requiere
+% introducir el primer indice de la serie o, entre corchetes, la letra
+% empleada como indice, si esta no es $n$
+%
+\def\Sum{\@ifnextchar[{\@Sum}{\@@Sum}}
+\def\@Sum[#1]#2{\displaystyle\sum^\infty_{#1 = #2}}
+\def\@@Sum#1{{\displaystyle\sum^\infty_{n = #1}}}
+%
+% Macros creados por mi para M. Enciso. Definimos dos relaciones 
+% de orden que amplian las ya existentes en LaTeX y AMSTeX
+% \Subseteq  y \Supseteq. Requiere el paquete `amssymb.sty'.
+%
+\def\mmmt{{\ooalign
+   {\hfil\raise .25ex\hbox{%
+$\Subset$}\hfil\crcr
+    \hfil\lower .75ex\hbox{%
+     \mathhexbox 200}\hfil }}}
+\def\mmms{{\ooalign
+   {\hfil\raise .24ex\hbox{%
+$\scriptstyle\mathsurround=0pt\Subset$}\hfil\crcr
+    \hfil\lower .47ex\hbox{%
+$\scriptstyle\mathsurround=0pt\mathchar"200$}\hfil }}}
+\def\mmmss{{\ooalign
+   {\hfil\raise .2ex\hbox{%
+$\scriptscriptstyle\mathsurround=0pt\Subset$}\hfil\crcr
+    \hfil\lower .37ex\hbox{%
+$\scriptscriptstyle\mathsurround=0pt\mathchar"200$}\hfil }}}
+\def\Subseteq{\mathrel{\mathchoice{\mmmt}{\mmmt}{\mmms}{\mmmss}}}
+\def\ssst{{\ooalign
+   {\hfil\raise .25ex\hbox{%
+$\Supset$}\hfil\crcr
+    \hfil\lower .75ex\hbox{%
+     \mathhexbox 200}\hfil }}}
+\def\ssss{{\ooalign
+   {\hfil\raise .24ex\hbox{%
+$\scriptstyle\mathsurround=0pt\Supset$}\hfil\crcr
+    \hfil\lower .47ex\hbox{%
+$\scriptstyle\mathsurround=0pt\mathchar"200$}\hfil }}}
+\def\sssss{{\ooalign
+   {\hfil\raise .2ex\hbox{%
+$\scriptscriptstyle\mathsurround=0pt\Supset$}\hfil\crcr
+    \hfil\lower .37ex\hbox{%
+$\scriptscriptstyle\mathsurround=0pt\mathchar"200$}\hfil }}}
+\def\Supseteq{\mathrel{\mathchoice{\ssst}{\ssst}{\ssss}{\sssss}}}
+%
+% El comando \parl es el signo "&" girado 180 grados
+%
+\newcommand{\parl}{\mathbin{\raisebox{.7em}{\rotatebox{180}{\&}}}}
+%\newcommand{\parl}{\mathbin{{\mathchar"A30}
+%\special{postscript
+%         gsave 
+%         newpath 
+%         0 -0.5 moveto
+%         -8.75 0 rlineto
+%         0 8.5 rlineto
+%         8.75 0 rlineto
+%         closepath %0 -8.5 lineto
+%         1 setgray fill
+%         0 0.5 moveto
+%         0 setgray        
+%         /Times-Roman findfont 12 scalefont setfont 
+%         0 8.5 moveto
+%         180 rotate
+%         (&) show
+%         grestore}}}
+%
+\endinput

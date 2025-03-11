@@ -1,0 +1,283 @@
+%!TEX root = ../Calculo20.tex
+%!TEX TS-program = pdflatex
+%!TEX encoding = UTF-8 Unicode
+%
+% Para pensar en el futuro:
+% Esquemas de series implicando pol, exp, fact, log
+% Notación O(f(n))
+% ¿qué hay que demostrar y que no?
+%
+\chapter{Aplicaciones}
+
+En este tema vamos a recoger las aplicaciones y problemas que se han eliminado de los apuntes del curso pasado y que serán susceptibles de ser preguntados en examen como ejercicios auto-contenidos donde se facilitará al alumno el contenido, quizás algún ejemplo y se le pedirá que resuelva un ejercicio similar al ejemplo y de aplicación del contenido.
+
+
+\section{Aplicaciones del Tema 1}
+
+\subsection{Polinomios de grado cuatro.}
+
+Vamos a ver unos ejemplos en los que mostramos cómo es posible obtener la factorización de polinomios de grado cuatro.
+
+Naturalmente, primero buscaremos raíces entre los divisores del término independiente y en caso de que no tenga este tipo de ceros, usaremos los métodos explicados en los siguientes ejemplos.
+
+Por otra parte, en estos ejemplos trabajamos con polinomios en los cuales el coeficiente del término de grado 3 es nulo. Porque, para factorizar un polinomio general, primero tendríamos que cambiar el centro del polinomio.
+%En las relaciones de ejercicios factorizaremos polinomios generales de grado cuatro.
+
+\begin{ejemplo}
+Vamos a factorizar el polinomio $x^4-3x^2-6x-2$ en $\mathbb{R}$ y en $\mathbb{C}$ utilizando el método de identificación de coeficientes.
+En un primer paso, vamos a escribirlo como producto de dos polinomios de grado~2 en~$\mathbb{R}$.
+\[
+x^4-3x^2-6x-2=(x^2+Ax+B)(x^2+Cx+\mathit{D}),\qquad
+A,B,C,D\in\mathbb{R}
+\]
+Para determinar los números $A$, $B$, $C$ y $\mathit D$, utilizamos identificación de coeficientes y, para ello, expandimos el producto del lado derecho.
+\[
+x^4-3x^2-6x-2=
+x^4+(A+C)x^3+(B+AC+\mathit{D})x^2+(A\mathit{D}+BC)x+B\mathit{D}
+\]
+Dado que dos polinomios son iguales si y solo si los coeficientes correspondientes a los términos del mismo grado son iguales, podemos construir el siguiente sistema de ecuaciones:
+\begin{align*}
+A+C&=0\\
+B+AC+\mathit{D}&=-3\\
+A\mathit{D}+BC& =-6\\
+B\mathit{D}&=-2
+\end{align*}
+Este sistema se puede resolver porque proviene de un polinomio sin término de tercer grado,
+pero para ello, conviene seguir el camino que indicamos a continuación.
+\begin{enumerate}
+\item
+De la primera ecuación deducimos que $C=-A$; sustituimos $C$ por $-A$ en las dos ecuaciones centrales y obtenemos
+\begin{align*}
+\mathit{D}+B &=-3+A^2\\
+\mathit{D}-B &=\frac{-6}A
+\end{align*}
+Sumando las dos ecuaciones, podemos expresar $D$ en función de $A$, y restándolas, podemos expresar $B$ en función de $A$:
+\[
+\mathit{D}=\frac12\Big(-3+A^2-\frac6A\Big),\qquad\qquad B=\frac12\Big(-3+A^2+\frac6A\Big)
+\]
+\item
+A continuación, utilizamos la última ecuación del sistema inicial, $B\mathit{D}=-2$; sustituyendo $B$ y $\mathit{D}$ por las expresiones obtenidas en el punto anterior, obtenemos una ecuación en $A$:
+\begin{multline*}
+-2=B\mathit{D}= \frac14\Big((-3+A^2)-\frac6A\Big)\Big((-3+A^2)+\frac6A\Big)=\\
+=\frac14\Big((-3+A^2)^2-\frac{36}{A^2}\Big) =
+\frac14\Big(9-6A^2+A^4-\frac{36}{A^2}\Big)
+\end{multline*}
+Multiplicando por $4A^2$ en los dos extremos de la igualdad anterior
+\[
+-8A^2=9A^2-6A^4+A^6-36
+\]
+Y reagrupando los términos en las potencias de $A$, obtenemos la siguiente ecuación polinómica
+\[
+A^6-6A^4+17A^2-36=0
+\]
+Aparentemente, el problema se ha complicado, ya que pasamos de una ecuación de grado 4 a una ecuación de grado 6.
+Sin embargo, observamos que en esta última ecuación, todas las potencias de $A$ son pares, por lo que podemos hacer un cambio de variable, $A^2=z$, obteniendo una ecuación de grado 3.
+\[
+z^3-6z^2+17z-36=0
+\]
+Utilizando el algoritmo de Ruffini, buscamos una solución entre los divisores de 36, y la encontramos en $z=4$
+\begin{center}
+\begin{tabular}{r|rrrr}
+  & $1$ & $-6$ & $17$ & $-36$ \\
+$4$ &   &  $4$ & $-8$ &  $36$\\\hline
+  & $1$ & $-2$ &  $9$ & \multicolumn{1}{|r}{$0$}\\\cline{5-5}
+\end{tabular}
+\end{center}
+Dado que la factorización de un polinomio es única, basta tomar una de las soluciones en $A$, ya que cualquier otra solución nos conducirá a la misma factorización.
+En este caso, una posible solución verifica $A^2=4$, y podemos considerar $A=2$.
+\item
+A partir del valor de $A$, ya podemos calcular el valor del resto de los parámetros:
+\begin{align*}
+C & = -A = -2 \\
+B & =\frac12\Big(-3+A^2+\frac6A\Big) = \frac12(-3+4-3) = 2\\
+\mathit{D} & =\frac12\Big(-3+A^2-\frac6A\Big) = \frac12(-3+4+3)=-1
+\end{align*}
+Por lo tanto:\quad $x^4-3x^2-6x-2=(x^2+2x+2)(x^2-2x-1)$
+\end{enumerate}
+%
+Todavía no podemos concluir que esta sea la factorización en $\mathbb{R}$, antes debemos comprobar si los dos polinomio son irreducibles.
+\begin{align*}
+x^2+2x+2=0 &\quad \Longrightarrow\quad x= \frac{-2\pm\sqrt{4-8}}2=-1\pm\mathrm{i}\\
+x^2-2x-1=0 &\quad \Longrightarrow\quad x= \frac{2\pm\sqrt{4+4}}2=1\pm\sqrt2
+\end{align*}
+Por lo tanto, el primer polinomio de grado 2 es irreducible en $\mathbb{R}$, pero  el segundo no lo es.
+En cualquier caso, ya podemos escribir las dos factorizaciones:
+
+\noindent
+Factorización en $\mathbb{R}$:
+\[
+x^4-3x^2-6x-2=(x^2+2x+2)(x-1-\sqrt2)(x-1+\sqrt2)
+\]
+%
+Factorización en $\mathbb{C}$:
+\[
+x^4-3x^2-6x-2=(x+1-\mathrm{i})(x+1+\mathrm{i})(x-1-\sqrt2)(x-1+\sqrt2)\fejeq
+\]
+\end{ejemplo}
+
+
+\begin{ejemplo}\label{ej:factorR}
+%:ej:factorR
+En este ejemplo, vamos a factorizar el polinomio $x^4+4$ en $\mathbb{R}$ siguiendo el método del ejemplo anterior.
+\[
+x^4+4=(x^2+Ax+B)(x^2+Cx+\mathit{D}),\qquad
+A,B,C,D\in\mathbb{R}
+\]
+Expandiendo el lado derecho de la igualdad y agrupando los términos obtenemos
+\[
+x^4+4=
+x^4+(A+C)x^3+(B+AC+\mathit{D})x^2+(A\mathit{D}+BC)x+B\mathit{D}.
+\]
+Identificamos coeficientes y obtenemos el siguiente sistema:
+\begin{align*}
+A+C&=0\\
+B+AC+\mathit{D}&=0\\
+A\mathit{D}+BC&=0\\
+B\mathit{D}&=4
+\end{align*}
+De la primera ecuación deducimos que $C=-A$, y sustituyendo $C$ por $-A$ en las dos ecuaciones centrales obtenemos:
+\begin{align*}
+\mathit{D}+B&=A^2\\
+A(\mathit{D}-B)&=0
+\end{align*}
+Necesariamente, $A\ne 0$, ya que en caso contrario, el sistema se reduciría a $B+D=0$, $BD=4$, y de ahí: $-B^2=4$, lo que es imposible.
+Por lo tanto, las ecuaciones quedan:
+\begin{align*}
+\mathit{D}+B&=A^2\\
+\mathit{D}-B &=0;
+\end{align*}
+y sumándolas y restándolas, podemos escribir $B$ y $\mathit D$ en función de $A$: 
+\[
+\mathit{D} = \dfrac{A^2}2,\qquad
+B = \dfrac{A^2}2.
+\]
+Sustituyendo en la última ecuación del sistema inicial, $B\mathit{D}=4$:
+\begin{align*}
+\dfrac{A^2}2\cdot\dfrac{A^2}2 &=4\\
+A^4 &=16
+%\\
+%A &= \pm\sqrt2
+\end{align*}
+Nos quedamos con la solución $A=2$ y terminamos de calcular el resto de coeficientes
+\[
+C=-A=-2,\qquad B= \dfrac{A^2}2= 2,\qquad D=\dfrac{A^2}2= 2
+\]
+y escribimos la factorización obtenida:
+\[
+x^4+4=(x^2+2x+2)(x^2-2x+2)
+\]
+En este caso, los dos polinomios de grado 2 son irreducibles, por lo que esa es la factorización en $\mathbb{R}$.\fej
+\end{ejemplo}
+
+Dado que todas las magnitudes físicas se pueden medir con números reales, se podría pensar que los números complejos solo son un objeto matemático abstracto sin interés práctico.
+Sin embargo, la utilidad de estos números no está en la descripción de magnitudes físicas, sino que constituyen una herramienta para resolver problemas algebraicos y geométricos.
+En el ejemplo anterior, hemos factorizado un polinomio en $\mathbb{R}$ usando solamente números reales;
+en el siguiente ejemplo, vamos a resolver el mismo ejercicio pero ayudándonos de los números complejos.
+%
+\begin{ejemplo}\label{ej:factor}
+Vamos a factorizar el polinomio $P(x)=x^4+4$ en $\mathbb{C}$ y en $\mathbb{R}$.
+Introduciendo números complejos, podemos realizar fácilmente la siguiente factorización:
+\[
+x^4+4=x^4-(2\mathrm{i})^2=(x^2-2\mathrm{i})(x^2+2\mathrm{i}).
+\]
+Para seguir factorizando, resolvemos las ecuaciones $x^2-2\mathrm{i}=0$ y $x^2+2\mathrm{i}=0$.
+Para la primera, buscamos $x=a+b\mathrm{i}$, con $a,b\in\mathbb{R}$, tal que $(a+b\mathrm{i})^2=2\mathrm{i}$, es decir,
+\begin{align*}
+%(a+b\mathrm{i})^2&= 2\mathrm{i}\\
+a^2-b^2+2ab\mathrm{i} &= 2\mathrm{i}
+\end{align*}
+A partir de esta igualdad, comparando las partes reales e imaginarias, construimos el siguiente sistemas de ecuaciones en $\mathbb{R}$:
+\[
+a^2-b^2 = 0,\qquad ab = 1,
+\]
+cuyas soluciones son $\{a_1=1,b_1=1\}$, $\{a_2=-1,b_2=-1\}$;
+es decir, las soluciones de $x^2-2\mathrm{i}=0$ son
+\[
+1+\mathrm{i},\qquad
+-1-\mathrm{i}
+\]
+Siguiendo el mismo método, obtenemos las soluciones de $x^2+2\mathrm{i}=0$:
+\[
+1-\mathrm{i},\qquad
+-1+\mathrm{i}
+\]
+En consecuencia, la factorización en $\mathbb{C}$ del polinomio $x^4+1$ es
+\[
+x^4+4=(x-1-\mathrm{i})(x+1+\mathrm{i})(x-1+\mathrm{i})(x+1-\mathrm{i})
+\]
+%
+Para obtener la factorización en $\mathbb{R}$ basta multiplicar los factores correspondientes a las raíces conjugadas.
+De esa forma, la identidad $(A+B)(A-B)=A^2-B^2$ elimina la unidad imaginaria.
+\begin{align*}
+x^4+4 &=\big((x+1)-\mathrm{i}\big)\big((x+1)+\mathrm{i}\big)
+\big((x-1)-\mathrm{i}\big)\big((x-1)+\mathrm{i}\big)=\\
+&=\big((x+1)^2+1\big)\big((x-1)^2+1\big)=\\
+&=(x^2+2x+2)(x^2-2x+2)\fejeq
+\end{align*}
+\end{ejemplo}
+
+El esquema seguido en este ejemplo es muy habitual en matemáticas: para resolver un problema en $\mathbb{R}$, lo estudiamos antes en $\mathbb{C}$ para aprovecharnos de las propiedades adicionales;
+posteriormente volvemos a $\mathbb{R}$ para dar las soluciones deseadas.
+A lo largo del tema veremos más ejemplos de esta metodología.
+
+También nos hemos encontrado en estos dos últimos ejemplos con algo que será muy recurrente en matemáticas: los problemas admiten distintos caminos para llegar a su solución.
+Debemos aprender las distintas herramientas y métodos alternativos y saber elegir en cada momento el más adecuado y simple.
+
+
+\subsubsection{EJERCICIOS:}
+
+\begin{enumerate}
+
+\item
+Factorice en $\erre$ y en $\ce$ el polinomio $x^4-2x^2+8x-3$.
+¿Cuáles son las soluciones de la ecuación $x^4-2x^2+8x-3=0$?
+
+
+\item
+Factorice en $\erre$ y en $\ce$ los siguientes polinomios:
+\setcontadoralph
+\vspace{-.5em}
+\begin{centrar}
+\nitem
+$16x^4-56x^2-256x+561$\hfill
+\nitem
+$4x^4+8x^3+17x^2+2x+4$
+%$x^4-6x^3+12x^2-18x+27$
+\end{centrar}
+
+
+\item
+En este ejercicio vamos a aprender a factorizar un polinomio de grado 4 con término cúbico.
+Consideremos el polinomio $P(x)=x^4-4x^3+9x^2-4x+8$:
+%\[
+%%P(x)=x^4-x^3+x^2+2
+%%P(x)=4x^4+8x^3+17x^2+2x+4
+%P(x)=x^4-4x^3+9x^2-4x+8
+%\]
+\begin{enumerate}
+\item
+Exprese el polinomio $P$ cambiando su centro a 1 y, mediante el cambio de variable $t=x-1$ conviértalo en otro polinomio $Q(t)$. (Que no debe contener término de grado 3).
+\item
+Factorice el polinomio $Q(t)$ usando identificación de coeficientes.
+%siguiendo el método del ejemplo~\ref{ej:factorR} (página~\pageref{ej:factorR}).
+\item
+Obtenga la factorización en $\erre$ de $P(x)$ deshaciendo el cambio de variable y finalmente, factorice el polinomio en $\ce$.
+\end{enumerate}
+
+
+\item
+En este ejercicio vamos a calcular $\cos\frac{\pi}{5}$ utilizando números complejos.
+\begin{enumerate}
+\item
+Utilice la fórmula de De Moivre para demostrar que
+\[\cos(5\theta)=16\cos^5\theta-20\cos^3\theta+5\cos\theta\]
+\item
+Deduzca que $\cos\frac{\pi}{5}$ es raíz del polinomio $P(x)=16x^5-20x^3+5x+1$
+\item
+Factorice el polinomio $P(x)$ determinando una raíz ``a ojo'' y usando identificación de coeficientes para factorizar el polinomio de grado 4 resultante como producto de dos polinomios de grado 2.
+\item
+A partir de la factorización del apartado anterior, calcule $\cos\dfrac{\pi}{5}$
+\end{enumerate}
+
+
+\end{enumerate}

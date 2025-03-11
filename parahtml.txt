@@ -1,0 +1,40 @@
+* Añadir definición de estilo "texto" en apcalc5.hva. Añadir el tamaño de letra en todos los bloques de texto con estilo (ejemplo, teorema,...)
+
+* En el modo [auto] del paquete mathjax.hva, los macros dentro del modo matemï¿½tico no se expanden, asï¿½ que hay que hacerlo antes; he creado el script 'expmacros' para hacerlo:
+
+sed -Ef expmacros ./T1/Calc1.tex > ./T1/Calc1-exp.tex
+
+* Los archivos .tex son utilizables con latex y con hevea:
+
+~/.opam/default/bin/hevea Calculo19.tex
+
+* Alguno macros dentro del modo matemï¿½tico son necesarios para el formato con latex, asï¿½ que hay que quitarlos del html:
+
+sed -Ef mathfix Calculo.html > Calculo2019-fix.html
+
+(\qed,\fej,\fejeq)
+
+También sustituimos <p> por <p class="texto"> y así cambiar el tamaño de todos los párrafos según la definición del estilo.
+
+
+* Referencias cruzadas: en general, estoy quitando todas las referencias cruzadas, ya que no son prï¿½cticas en documentos html. Para los teoremas, procuraremos nombrarlos y aï¿½adir referencias espaciales para recurrir a ellos. Solo mantendrï¿½ la referencias en las figuras y tablas ya que necesitaremos procesarlas de forma especial en html: en lugar de figuras flotante, pasarï¿½n a tener una posiciï¿½n fija.
+
+* Necesitaremos corregir sobre el html:
+- Tablas: no funciona ni \multicolumn ni \cline. Si es necesario usar estos comandos, es preferible hacerlo en tabular. De esta forma, se creará una tabla html que será más fácil de arreglar.
+- Figuras
+- Fórmulas en las que usemos \cancel: es suficiente con añadir \require{cancel}
+en la primera fórmula del documento html
+
+* Necesitamos corregir sobre el css: El archivo o cabecera css debe copiarse en un bloque html del CV que aparezca en todas las páginas.
+- En todas las definiciones de estilo que corresponda a bloques de texto (li-itemize,li-enumerate,...) , hay que añadir el tamaño de la letra y el alineado a la izquierda.
+
+
+*****
+
+
+ ~/.opam/default/bin/hevea Calculo19.tex
+ sed -Ef mathfix Calculo19.html > Calculo19-fix.html
+ ~/.opam/default/bin/hacha Calculo19-fix.html
+ ~/.opam/default/bin/hacha Calculo19.html
+ 
+ pdftocairo -svg "Calculo19-figure21.pdf" "Calc1-img21.svg"

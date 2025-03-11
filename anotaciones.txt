@@ -1,0 +1,54 @@
+
+http://www.math.hawaii.edu/lab/
+
+
+I CURSO DE EXTENSIÓN UNIVERSITARIA: CURSO CERO DE MATEMÁTICAS PARA LA INGENIERÍA (INGENIERÍA DEL SOFTWARE):
+Docencia en el curso=125€
+
+
+81524120001-2
+
+<ol class="enumerate" type=a>
+    <li class="li-enumerate">
+
+</li>
+<li class="li-enumerate">
+
+<p class="texto">
+
+<iframe>   -->  para quitar párrafos anidados
+
+
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+
+\begin{rawhtml}
+<img src="./T4/figuras/Tema4-fig0.svg" width="350">
+\end{rawhtml}
+\begin{latexonly}
+
+\end{latexonly}
+\begin{rawhtml}
+<div class="center">
+<img src="./T4/figuras/Tema4-fig0.svg" width="450">
+</div>
+\end{rawhtml}
+
+
+<a id="ej:c6"></a>
+<a href="#fig%3Akoningsberg">??</a>
+\tag*{}
+\label{}
+
+Mariam Cobalea Vico (1ºA)
+Inmaculada Fortes Ruiz (1ºB)
+Eligius Maria Theodorus Hendrix (1ºC)
+Enrique Soler Castillo (2ºA)
+Leonardo Franco (2ºB)
+Juan Miguel Ortiz de Lazcano (2ºC)
+Manuel Ojeda Aciego (3º)
+Pablo López Olivas (4º Computación)
+Antonio Maña Gómez (4º Sistemas de Información)
+Vicente Arévalo Espejo (4º Tecnología de la Información)
+

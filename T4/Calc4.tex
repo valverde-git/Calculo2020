@@ -1,0 +1,3538 @@
+%!TEX root = ../Calculo20.tex
+%!TEX TS-program = pdflatex
+%!TEX encoding = UTF-8 Unicode
+%
+% Para pensar en el futuro:
+% Esquemas de series implicando pol, exp, fact, log
+% Notación O(f(n))
+% ¿qué hay que demostrar y que no?
+%
+\chapter{Sucesiones y series numéricas}\label{tema:suc-ser}
+
+\pagestyle{temas}
+\thispagestyle{primera}
+%\pagenumbering{arabic}\setcounter{page}{79}
+
+\paragraph{Contenido:}
+\begin{itemize}
+
+\item
+{\scshape Lección \thechapter.1: Sucesiones.}
+Estudio de las propiedades de una sucesión.
+Sucesiones recursivas.
+Límites de sucesiones.
+Infinitésimos e infinitos equivalentes.
+% Introducción al cálculo numérico. Resolución aproximada de ecuaciones: método de las bisecciones y método de Newton.
+\item
+{\scshape Lección \thechapter.2: Series numéricas.}
+Suma de series.
+Criterios de convergencia.
+Series de potencias.
+Series de Taylor.
+Evaluación aproximada de funciones elementales.
+
+\end{itemize}
+
+\paragraph{Prerrequisitos:}
+Manipulación de expresiones y propiedades de las funciones elementales. Concepto de límite de una función y cálculo de límites (regla de L'Hôpital).
+
+
+
+\paragraph{Objetivos:}
+Los objetivos son:
+estudiar las propiedades de una sucesión numérica,
+saber aplicar criterios para estudiar la convergencia de series numéricas,
+saber estudiar la convergencia de series de potencias,
+saber sumar de forma exacta y aproximada algunas series numéricas y de potencias.
+
+\paragraph{Resultados de aprendizaje:}\ \par\vspace{-1em}
+\begin{itemize}
+
+\item
+Saber estudiar las características de monotonía y acotación de una sucesión escrita en forma explícita o en forma recursiva.
+\item
+Saber calcular límites de sucesiones que se puedan resolver mediante operaciones algebraicas, utilizando el número e y equivalencia de infinitésimos e infinitos.
+%equivalentes, el numero e y la constante $\gamma$. 
+\item
+Saber estudiar la convergencia de sucesiones recursivas.
+\item
+Reconocer y sumar algunos tipos de series numéricas, como geométricas (mediante fórmula), aritmético-geométricas, hipergeométricas,\dots
+% y aquellas que responden a los siguientes esquemas
+%\[
+%\sum p(n)x^n,\qquad
+%\sum\frac{x^n}{n},\qquad
+%\sum\frac{x^n}{n!},\qquad
+%\sum\frac{p(n)}{n!},
+%\]
+%siendo $p(n)$ un polinomio.
+También se sumarán aquellas que se puedan sumar calculando el límite de la sucesión de sumas parciales utilizando las técnicas aprendidas en este tema.
+
+\item
+Saber estudiar el carácter de una serie usando los siguientes criterios:
+%de la raíz,
+del cociente, comparación por paso al límite, convergencia absoluta y Leibniz.
+%(usando infinitésimos e infinitos equivalentes para construir series con las que comparar), convergencia absoluta, Leibniz.
+
+\item
+Saber interpretar y aplicar criterios de convergencia que se indiquen explícitamente.
+% (de Raabe, condensación, integral, doble cociente,\dots).
+
+\item
+Saber hallar el campo de convergencia de series de potencias utilizando los criterios de convergencia de series numéricas.
+
+\item
+Saber el polinomio y la serie de Taylor de las funciones exponencial, logaritmo neperiano, seno y arco tangente y usarlas para sumar otras series.
+
+\item
+Saber utilizar el resto de Lagrange para aproximar las funciones  exponencial, logaritmo neperiano y seno.
+
+\item
+Saber utilizar las propiedades algebraicas, de derivación e integración para sumar series de potencias a partir de la serie geométrica.
+
+%\item
+%Saber evaluar de forma aproximada una función elemental usando el resto de Lagrange y los criterios del cociente y Leibniz (de la raíz y de Raabe) para acotar el error dado por una suma parcial. (se pueden dar las fórmulas)
+%
+%\item
+%Saber determinar infinitésimos equivalentes usando polinomios de Taylor.
+
+\end{itemize}
+
+
+\newpage
+
+%	\section{Introducción a métodos numéricos}
+%	
+%	\begin{itemize}
+%	
+%	\item
+%	¿Qué son los métodos numéricos?
+%	
+%	\item
+%	error$\sle \frac1210^{-k}$ significa que el número está redondeado en la $k$-ésima cifra decimal.
+%	Sin embargo, esto solo nos garantiza que solo las $k-1$ primeras cifras decimales son exactas.
+%	
+%	Por supuesto, hay que recordar que un número racional puede tener dos representaciones decimales, ya que $1=0.\wideparen9$
+%	
+%	\end{itemize}
+
+
+%\section{Sucesiones numéricas}
+\section{Sucesiones}
+
+Una \emph{sucesión} de números reales es una enumeración de los elementos de un conjunto de números reales, es decir, una regla que asocia un número real a cada número natural; por ejemplo:
+\begin{equation}
+\begin{array}{ccccccc}
+0 & 1 & 2 & 3 & \dots & n & \dots \\
+\downarrow & \downarrow & \downarrow & \downarrow & \dots & \downarrow & \dots \\
+1 & \dfrac12 & \dfrac13 & \dfrac14 & \dots & \dfrac1{n+1} & \dots \\
+\end{array}\label{ej:1n+1}
+\end{equation}
+Formalmente, una sucesión no es más que una aplicación $a\colon\mathbb{N}\to\mathbb{R}$.
+Sin embargo, para las sucesiones es habitual escribir la variable como subíndice, es decir, $a_n$ en lugar de $a(n)$.
+Por ejemplo, la sucesión representada en~\eqref{ej:1n+1} se definiría
+\[
+a_n=\frac1{n+1}
+\]
+Para representar la sucesión completa se utiliza la notación $\{a_n\}_{n\in\mathbb{N}}$, aunque también es habitual escribir simplemente $a_n$ si esta simplificación no conduce a error.
+Los números reales $a_0,a_1,a_2,a_3,\dots,a_n,\dots$ son los \emph{términos} de la sucesión $\{a_n\}_{n\in\mathbb{N}}$ y decimos que $a_n$ es el \emph{término n-ésimo}, el \emph{término de índice $n$} o el término que ocupa la posición $n$.
+
+Para simplificar, cuando hablamos de sucesiones de forma general, suponemos que $n\ge0$, sin embargo, en ejemplos concretos, puede ser necesario considerar que los valores de la variable $n$ empiezan en un valor mayor.
+Por ejemplo, la sucesión
+\[
+a_n=\dfrac1{\sqrt{n-1}}
+\]
+tiene sentido para $n\ge 2$.
+%
+\begin{ejemplo-br}
+\label{61suc}
+\begin{itemize}
+\item 
+Los términos de la sucesión $b_n=(-1)^n$ con $n\ge 0$ son 
+\[
+1,-1,1,-1,1,\dots
+\]
+Como vemos, los números que ocupan una determinada posición pueden repetirse en otra.
+El conjunto de los términos de esta sucesión es $\{-1,1\}$, sin embargo, en una sucesión no solo importa el conjunto de términos, sino la posición que ocupan en la enumeración.
+\item 
+Los términos de la sucesión $c_n=\dfrac{2^n-1}{n^2}$ con $n\ge 1$ son
+\newcommand{\veq}{\rule[-.3em]{.5pt}{.8em}\kern.17em\rule[-.3em]{.5pt}{.8em}}
+\[
+\begin{array}{ccccc}
+\dfrac{2^1-1}{1^2},&\dfrac{2^2-1}{2^2},&\dfrac{2^3-1}{3^2},&\dfrac{2^4-1}{4^2},&\dots\\
+\Vert & \Vert & \Vert & \Vert & \\
+1,&\dfrac34,&\dfrac79,&\dfrac{15}{16},&\dots
+\end{array}
+\]
+\item
+Los términos de la sucesión
+$\mathit{d}_n=\dfrac{1+2+3+\dots+n}{n^n}=
+\displaystyle\dfrac{1}{n^n}\sum_{k=1}^n k$ con $n\ge 1$ son
+\[
+\begin{array}{ccccc}
+\dfrac{1}{1^1},&\dfrac{1+2}{2^2},&\dfrac{1+2+3}{3^3},&\dfrac{1+2+3+4}{4^4},&\dots\\
+\Vert & \Vert & \Vert & \Vert & \\
+1,&\dfrac{3}{4},&\dfrac{2}{9},&\dfrac{5}{128},&\dots 
+\end{array}
+\]
+\ \fej
+\end{itemize}
+\end{ejemplo-br}
+
+Hemos definido las sucesiones del ejemplo anterior dando una fórmula para el término $n$-ésimo en función de $n$, es decir, a partir del \emph{término general}.
+Otra forma de definir sucesiones, de gran importancia en computación, es mediante \emph{recurrencias}, es decir, utilizando definiciones \emph{recursivas}.
+
+\begin{ejemplo-br}
+\begin{itemize}
+\item
+Consideremos la sucesión
+\[
+\begin{cases}
+a_1=1 & \\
+a_n=n+a_{n-1} & \mbox{ si } n>1
+\end{cases}
+\]
+Como vemos, para determinar un término de la sucesión, debemos conocer los anteriores.
+Los términos de esta sucesión son
+\[
+1,3,6,10,15,21,28,\dots
+\]
+En este ejemplo, es fácil deducir una expresión para el término general.
+% Usando el ejemplo~\ref{ej:suma1n} de la página~\pageref{ej:suma1n}
+% deducimos fácilmente que:
+\begin{multline}
+a_n=1+2+\dots+n=\frac12(1+2+\dots+n+n+(n-1)+\dots+2+1)= \\
+= \frac12((1+n)+(2+n-1)+(2+n-2)+\dots+(n-1+2)+(n+1)) = \\
+= \frac12((n+1)+(n+1)+(n+1)+\dots+(n+1)+(n+1)) = \\
+= \frac12n(n+1)\rule{20em}{0pt}
+\end{multline}
+Sin embargo, en la mayoría de los casos, esta conversión suele ser bastante complicada y deberemos estudiar las características de la sucesión a partir de su definición recursiva.
+
+\item
+En las definiciones recursivas, podemos utilizar más de un elemento previo de la sucesión.
+La siguiente sucesión, conocida como sucesión de Fibonacci, define cada término a partir de los dos inmediatamente anteriores.
+\[
+\begin{cases}
+a_1=a_2=1 & \\
+a_n=a_{n-1}+a_{n-2} & \mbox{ si } n>2
+\end{cases}
+\]
+Los términos de esta sucesión son $\{1,1,2,3,5,8,13,21,\dots\}$ y su término general es
+\[
+a_n = \frac{1}{\sqrt{5}}\left(\frac{1+\sqrt{5}}{2}\right)^n - \frac{1}{\sqrt{5}}\left(\frac{1-\sqrt{5}}{2}\right)^n;
+\]
+la demostración de esta igualdad queda fuera de los contenidos de este curso, aunque sí será abordada en la asignatura de \emph{Matemática Discreta}.
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/V4ibOZjz-2Q?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+\end{itemize}
+\end{ejemplo-br}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{definicion} Sea $a_n$ una sucesión de números reales:
+\begin{enumerate}
+\item
+Decimos que $a_n$ es \emph{creciente} si $a_n\leq a_{n+1}$ para todo $n$.
+\item
+Decimos que $a_n$ es \emph{decreciente} si $a_n\geq a_{n+1}$ para todo $n$.
+\end{enumerate}
+\end{definicion}
+
+También hablaremos de sucesiones \emph{estrictamente} crecientes o decrecientes si las desigualdades de las definiciones anteriores son estrictas, es decir, $\sle$ y $>$ respectivamente.
+En general, decimos que una sucesión es \emph{monótona} si es creciente o decreciente.
+Para estudiar la monotonía de una sucesión, podemos utilizar los siguientes métodos
+\begin{itemize}
+\item
+Utilizar las propiedades de la relación de orden para ``transformar'' la desigualdad $n\sle n+1$ en otra que relacione $a_n$ con $a_{n+1}$.
+\item
+Comparar 0 con la diferencia $a_{n+1}-a_n$
+
+\item
+Comparar 1 con el cociente $\dfrac{a_{n+1}}{a_n}$
+
+\item
+Inducción, en caso de funciones definidas recursivamente.
+
+\item
+Utilizar la caracterización de la monotonía de una función usando su derivada (teorema~\ref{th:der-crec}, página~\pageref{th:der-crec}) y la siguiente propiedad
+\begin{quote}
+Si $f$ es una función creciente en $[N,\infty)$, entonces  $a_n=f(n)$ es una sucesión creciente para $n\ge N$.
+\end{quote}
+\end{itemize}
+Usaremos uno u otro método dependiendo de la definición concreta de la sucesión.
+
+\begin{ejemplo}
+Vamos a analizar la monotonía de algunas sucesiones.
+\begin{enumerate}
+\item
+La sucesión $a_n=\dfrac1{n+1}$ es estrictamente decreciente:
+\begin{align*}
+n &\sle n+1 \\
+n+1 &\sle n+2 \quad\text{(Orden cerrado para la suma)}\\
+\dfrac{n+1}{n+2} & \sle 1  \quad\text{(Dividimos por $n+2>0$)}\\
+\dfrac1{n+2} &\sle \dfrac1{n+1}  \quad\text{(Dividimos por $n+1>0$)}\\
+a_{n+1} &\sle a_n
+\end{align*}
+\item
+La sucesión $b_n=(-1)^n$ no es monótona: mientras que $b_1=-1\sle b_2=1$, se verifica que $b_2=1>b_3=-1$.
+\item
+La sucesión $\mathit{d}_n=\dfrac{1+2+3+\dots+n}{n^n}$ es estrictamente decreciente:
+% En lugar de analizar directamente la desigualdad $\mathit{d}_{n+1} \sle  \mathit{d}_n$ vamos a analizar $\dfrac{\mathit{d}_{n+1}}{\mathit{d}_n}\sle 1$, que es equivalente, ya que $d_n$ una sucesión de términos positivos. 
+\begin{align*}
+\dfrac{\mathit{d}_{n+1}}{\mathit{d}_n} &= \dfrac{(1+2+3+\dots+n+(n+1))n^n}{(1+2+3+\dots+n)(n+1)^{n+1}}= \\
+&= \dfrac{2(n+1)(n+2)n^n}{2n(n+1)(n+1)^{n+1}} =\\
+&= \dfrac{n+2}{n(n+1)}\left(\dfrac{n}{n+1}\right)^{n} \sle 1\cdot 1^n =1
+\end{align*}
+Para la segunda igualdad hemos usado la fórmula de la suma de los $n$ primeros números naturales que demostramos en~\eqref{ej:suma1n} (página~\pageref{ej:suma1n}).
+Además, para el último paso, hemos utilizado que $\dfrac{n+2}{n(n+1)}\sle 1$, lo cual es cierto para todo $n\ge 2$:
+\begin{align*}
+n &\ge 2 \\
+n^2 & \ge 2^2 > 2 \\
+n+n^2 & > n+2 \\
+n(n+1) &> n+2 \\
+1 &> \dfrac{n+2}{n(n+1)}
+\end{align*}
+Dado que $\dfrac{\mathit{d}_{n+1}}{\mathit{d}_n}\sle 1$, entonces $\mathit{d}_{n+1}\sle \mathit{d}_n$ y, por lo tanto,~$\mathit{d}_n$ es estrictamente decreciente si $n\ge 2$.
+
+\item
+La sucesión $c_n=\dfrac{2^n-1}{n^2}$ es creciente si $n\ge2$.
+Para demostrarlo, considaremos la función $f(x)=\rule{0pt}{2em}\dfrac{2^x-1}{x^2}$ para $x\ge2$:
+\begin{align*}
+f(x) & =\dfrac{2^x-1}{x^2} \\
+f'(x) & =\dfrac{2^xx^2\log 2-2x(2^x-1)}{x^4} \\
+f'(x) & =\dfrac{2^x}{x^3}(x\log 2-2) +\dfrac{2}{x^3}\\
+\end{align*}
+%
+``Ordenar'' los factores y términos de $f'(x)$ ha sido la parte complicada del proceso.
+Si $x>\dfrac2{\log 2}\approx 2.88$, entonces $x\log 2-2>0$, y además $2^x>0$ y $x^3>0$, y en consecuencia
+$f'(x)>0$.
+Por lo tanto, $f$ es estrictamente creciente en $[3,+\infty)$ y $c_n$ lo es si $n\ge3$.\fej
+\end{enumerate}
+\end{ejemplo}
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/guplXXCtYXc?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+\begin{definicion} 
+Decimos que una sucesión $a_n$ está acotada si existe un número real $M$ tal que $|a_n|\le M$.
+\end{definicion}
+
+Siguiendo esta definición, $M$ es una \emph{cota superior} de la sucesión y $-M$ es una \emph{cota inferior}.
+Normalmente, determinaremos estas cotas por separado y hablaremos de sucesiones acotadas \emph{superiormente} o \emph{inferiormente}.
+
+\begin{ejemplo-br}
+\begin{enumerate}
+\item
+La sucesión $a_n=\dfrac1{n+1}$ está acotada, ya que trivialmente $a_n>0$ y $a_n\le 1$.
+
+\item
+La sucesión $b_n=(-1)^n$ está acotada, ya que $|(-1)^n|=1$.
+
+\item
+La sucesión $c_n=\dfrac{1+2+3+\dots+n}{n^n}$ está acotada. Trivialmente, $c_n>0$ y además,
+\[
+\dfrac{1+2+3+\dots+n}{n^n} \sle \dfrac{n\cdot n}{n^n} =\dfrac1{n^{n-2}} \le 1
+\]
+%\item
+%*** La sucesión $c_n=\dfrac{2^n-1}{n^2}$ no está acotada superiormente, pero haremos la demostración basándonos en el cálculo de límites que vemos a continuación.\fej
+\end{enumerate}
+\end{ejemplo-br}
+
+\subsection{Límites de sucesiones.}
+
+Las sucesiones se utilizan para describir la forma en la que nos acercamos o aproximamos a un número real que sea solución de un determinado problema.
+La noción de acercamiento o aproximación se formaliza con los conceptos de límite y convergencia.
+
+\begin{definicion} 
+Decimos que $\ell\in\mathbb{R}$ es el \emph{límite} de la sucesión $a_n$ si para todo $\varepsilon > 0$, existe un número natural $N$ tal que $|a_n-\ell|\sle \varepsilon$ para todo $n\geq  N$
+(véase la figura~\ref{06limsuc1}). En tal caso escribimos $\lim a_n=%\lm[n]{\infty} a_n=
+\ell$ y decimos que $a_n$ es \emph{convergente} y {\em converge} a $\ell$.
+\begin{rawhtml}
+<div class="center">
+<img src="./T4/figuras/Tema4-fig0.svg" width="450">
+</div>
+\end{rawhtml}
+\end{definicion}
+%
+\begin{latexonly}
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[x=1.8em,y=1.8em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-2,0) -- (12,0) node[right] {$\mathbb{N}$}; 
+\draw[-stealth] (0,-1) -- (0,5) node[above] {$\mathbb{R}$};
+\draw (0,2.5) -- (11,2.5);
+\draw[dashed] (0,1.8) -- (11,1.8);
+\draw[dashed] (0,3.2) -- (11,3.2);
+\draw (0,2.5) node[left] {$\ell$};
+\draw (0,1.8) node[left] {$\ell-\varepsilon$};
+\draw (0,3.2) node[left] {$\ell+\varepsilon$};
+%
+\foreach\xxx in {1,2,3,4,5,6,7,8,9,10,11}
+\draw (\xxx,0.2)--(\xxx,-0.2);
+\foreach\xxx in {1,2,3,4,5}
+\draw (\xxx,-0.2) node[below]{$\xxx$};
+\draw (6.5,-0.3) node[below]{$\dots$};
+\draw (8,-0.2) node[below]{$N$};
+\draw (9.5,-0.3) node[below]{$\dots$};
+\draw[fill] (1,4) circle (.06);
+\draw[fill] (2,3.7) circle (.06);
+\draw[fill] (3,2.9) circle (.06);
+\draw[fill] (4,2.1) circle (.06);
+\draw[fill] (5,1.6) circle (.06);
+\draw[fill] (6,3.3) circle (.06);
+%\draw[fill] (7,1.7) circle (.06);
+\draw[fill] (8,3) circle (.06);
+\draw[fill] (9,2.3) circle (.06);
+\draw[fill] (10,2.7) circle (.06);
+\draw[fill] (11,2.6) circle (.06);
+%
+%\draw[dashed] (0,6)--(8,6)--(8,0);
+%\draw (0,6) node[left] {$y$};
+%\draw (8,0) node[below] {$x$};
+%\draw (4.8,4.1) node {$r$};
+%\draw (7.8,6.1) node[right] {$z=x+y\cdot i$};
+%\draw[->] (0,0) +(0:4) arc (0:37:4);
+%\draw (4.4,1.6) node {$\theta$};
+\end{tikzpicture}\\[-3em]\rule{0pt}{0pt}
+\end{center}
+\caption{Si $\lim a_n=\ell$ entonces para $n\geq N$ los términos de la sucesión distan de~$\ell$ menos de $\varepsilon$.}\label{06limsuc1}
+\end{figure}
+\end{latexonly}
+
+Igual que para funciones, también podemos obtener límites cuyo valor sea $+\infty$ o $-\infty$;
+no incluimos las definiciones detalladas ya que suponemos que son conocidas por el alumno y porque no necesitaremos trabajar con ellas.
+Hablaremos de \emph{divergencia a infinito} o a \emph{menos infinito} si el límite es $+\infty$ o $-\infty$ respectivamente.
+
+La definición de límite no establece un método para calcularlos, solo enuncia la propiedad que debemos verificar para comprobar si un número es o no límite.
+En este caso, las propiedades algebraicas y los límites de funciones serán las herramientas básicas para el estudio de límites de sucesiones.
+No detallamos aquí las propiedades algebraicas, ya que deben ser conocidas por el alumno y coinciden
+con las enunciadas para funciones en la proposición~\ref{pr:alg-lim} (página~\pageref{pr:alg-lim}), pero sí introducimos el siguiente resultado que relaciona límites de sucesiones y límites de funciones;
+en el enunciado, utilizamos el conjunto $\overline{\mathbb{R}}=\mathbb{R}\cup \{-\infty,+\infty \}$, que se denomina \emph{$\mathbb{R}$ ampliado}.
+
+\begin{teorema}
+Sean $a_n$, $b_n$ son dos sucesiones convergentes tales que $a_n\sle b_n$.
+Entonces $\lim a_n \le \lim b_n$.
+\end{teorema}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{corolario}[Teorema de Compresión]\label{T-lim-2}\nlinea
+\begin{enumerate}
+\item Sean $a_n$, $b_n$ y $c_n$ tres sucesiones tales que $a_n\leq c_n \leq b_n$, 
+$\lim a_n =\lim b_n =\ell$, en donde $\ell \in\overline{\mathbb{R}}$; entonces, $\lim c_n=\ell$.
+\item Sea $a_n$ una sucesión convergente a 0 y $b_n$ una sucesión acotada; entonces, 
+$\lim a_nb_n =0$.
+\end{enumerate}
+\end{corolario}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}
+Aplicando el segundo apartado del teorema~\ref{T-lim-2}, podemos deducir que 
+\[
+\lim\frac{\operatorname{sen} n}{n}=0,
+\]
+pues la sucesión $x_n=\dfrac{\operatorname{sen} n}{n}$ se puede expresar como producto de una sucesión acotada $b_n=\operatorname{sen} n$, por otra sucesión $a_n=\frac1n$ convergente a 0.
+\fej\end{ejemplo}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{teorema}[Caracterización secuencial]\label{teo:car-sec}
+Sean $a,\ell\in\overline{\mathbb{R}}$.\newline
+%Consideremos una función $f\colon \mathit{D}\subseteq\mathbb{R}\to\mathbb{R}$ y $a\in \overline{\mathbb{R}}$.
+$\displaystyle\lim_{x\to a}f(x)=\ell\in\overline{\mathbb{R}}$ si y solo si: para toda sucesión $\{x_n\}\subset \mathit{D}$, con $x_n\neq a$ para todo~$n$, y $\lim x_n=a$, se verifica que $\lim f(x_n)=\ell$.
+\end{teorema}
+
+Si trabajamos con funciones continuas, entonces podemos sustituir $\ell$ por $f(a)$ en el teorema.
+Este resultado tiene importantes consecuencias prácticas respecto del cálculo de límites, usado conjuntamente con la propiedad de continuidad de las funciones definidas en términos de funciones elementales.
+% si lo usamos junto con el siguiente.
+%%
+%\begin{teorema-br}
+%\begin{enumerate}
+%\item
+%Todas las funciones elementales (ver sección~\ref{ss:funel}) son continuas en su dominio.
+%\item
+%Si una función está determinada, en un entorno de un punto $a$,
+%% entorno en $\mathrm{Dom}(f)$),
+%por operaciones algebraicas (suma, producto, cociente y composición) entre funciones elementales, entonces la función es continua en~$a$.
+%\end{enumerate}
+%\end{teorema-br}
+%
+%En la pagina~\pageref{pag:fun-pot-exp} utilizamos estos resultados para justificar la forma en la que estudiamos las sucesiones potenciales-exponenciales:
+%\[
+%\lim {x_n}^{y_n}=\exp({\lim (y_n \log x_n)})
+%\]
+%
+\begin{ejemplo}
+\[
+\lim\operatorname{sen}\dfrac{\pi n-1}{2+3n}=\operatorname{sen}\dfrac{\pi}{3} =\dfrac{\sqrt{3}}{2},
+\]
+ya que $\lim\dfrac{\pi n-1}{2+3n}=\dfrac{\pi}3$, y $\displaystyle\lim_{x\to\pi/3}\operatorname{sen} x =\operatorname{sen}\dfrac{\pi}{3}$, por ser continua la función seno.
+\hfill\fej
+\end{ejemplo}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}
+También podemos usar la caracterización secuencial para demostrar que una función no tiene límite en algún punto.
+Por ejemplo, la función $\operatorname{sen} x$ no tiene límite en $+\infty$, es decir,
+\emph{``$\displaystyle\lim_{x\to+\infty}\operatorname{sen} x$ no
+existe"}.
+Para probar esto, tomamos dos sucesiones divergentes a $+\infty$,
+\[
+x_n=2\pi n,\qquad\qquad
+y_n=\frac{\pi}{2}+2\pi n,
+\]
+y dado que
+\[
+\lim \operatorname{sen} x_n =\lim 0 = 0 \neq 1 = \lim 1 = \lim \operatorname{sen} y_n,
+\]
+podemos concluir que la función $\operatorname{sen} x$ no tiene límite en $+\infty$.
+\fej\end{ejemplo}
+
+Otra importante consecuencia de la caracterización secuencial es que podemos deducir límites de sucesiones a partir de límites de funciones calculados con técnicas específicas, como la regla de L'Hôpital. 
+%
+\begin{ejemplo}\label{ej:logndivn}
+Para calcular el límite de sucesiones $\lim\dfrac{\log n}{n}$, consideramos el límite de la función $\dfrac{\log x}{x}$ cuando $x$ tiende a $+\infty$, es decir $\displaystyle\lim_{x\to+\infty}\frac{\log x}{x}$.
+Esté límite se puede calcular usando la regla de L'Hôpital:
+\[
+\lim_{x\to+\infty}\frac{\log x}{x} =
+\lim_{x\to+\infty}\frac{1/x}{1} =
+\lim_{x\to+\infty}\frac{1}{x} = 0
+\]
+Si tomamos $x_n=n$, se verifica que $\lim x_n=\lim n=+\infty$ y por la caracterización secuencial, sustituyendo $x$ por $x_n=n$, obtenemos que $\lim\dfrac{\log n}{n}=0$.
+
+De la misma forma, se demuestra que
+\[
+\lim\dfrac{\log n}{p(n)}=0
+\]
+para cualquier polinomio $p(n)$.\fej
+\end{ejemplo}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}\label{ej:ndiv2n}
+Para calcular el límite de $\lim\dfrac{n}{2^n}$, consideramos la función $\dfrac{x}{2^x}$ y calculamos su límite en $+\infty$, que calculamos usando la regla de L'Hôpital:
+\[
+\lim_{x\to+\infty}\dfrac{x}{2^x} =
+\lim_{x\to+\infty}\dfrac{1}{2^x\cdot(\log 2)} = 0
+\]
+Si tomamos $x_n=n$, se verifica que $\lim x_n=\lim n=+\infty$ y por la caracterización secuencial
+obtenemos que $\lim\dfrac{n}{2^n}=0$.
+
+En general, podemos utilizar el mismo procedimiento, aplicando la regla de L'Hôpital tantas veces como sea necesario para demostrar que 
+\[
+\lim\dfrac{p(n)}{a^n}=0
+\]
+para cualquier polinomio $p(n)$ y cualquier número real $a>1$.\fej
+\end{ejemplo}
+
+Obsérvese que en los ejemplos anteriores, no se ha aplicado la regla de L'Hôpital en el límite de sucesiones sino en un límite de funciones.
+Es decir, cambiar la $n$ por $x$ no es un simple cambio de letra, sino que pasamos a considerar la expresión como función en lugar de como sucesión.
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/623QQyogUMM?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+Para trabajar con las expresiones del tipo $a_n^{b_n}$ es conveniente utilizar la igualdad
+\[
+a_n^{b_n}=\exp(b_n\log a_n)
+\]
+De esta forma, la caracterización secuencial del límite de funciones permitirá calcular el límite de $a_n^{b_n}$ a partir del límite de $b_n\log a_n$.
+%
+\begin{ejemplo}
+Si reescribimos la sucesión $a_n=\sqrt[n]n$ utilizando la función logaritmo como acabamos de indicar, observamos que una primera evaluación de su límite nos conduce a una indeterminación
+\[
+\lim \sqrt[n]n = \lim \exp\left(\frac1n{\log n}\right) =\exp(0\cdot\infty)
+\]
+Sin embargo, podemos calcular el límite de la sucesión que ha quedado dentro de la función exponencial como hemos visto en el ejemplo~\ref{ej:logndivn} y completar el cálculo:
+\[
+\lim \sqrt[n]n = \lim \exp\left(\frac1n{\log n}\right) =\exp(\lim\frac{\log n}n)=e^0=1
+\tag*{\fej}\]
+%utilizar el criterio del cociente para su cálculo, ya que
+%\[
+%\lim\dfrac{n+1}n =1
+%\]
+%y en consecuencia $\lim \sqrt[n]n =\lim\dfrac{n+1}n =1$\fej
+\end{ejemplo}
+
+%El estudio de la convergencia y el cálculo del límite de una sucesión está relacionado con el comportamiento de los términos de la sucesión \emph{a largo plazo}; por tanto, no es necesario que las condiciones que se exigen en los criterios anteriores se verifiquen para todos los términos de la sucesión, es suficiente que esto ocurra a partir de un término determinado.
+%Por ejemplo, si un criterio exige que la sucesión sea creciente, no importará que los primeros términos no verifican esta propiedad, será suficiente si la sucesión es creciente partir de un término.
+%
+
+Recordamos a continuación la relación entre las propiedades de convergencia, monotonía y acotación.
+En primer lugar, no es difícil deducir que toda sucesión convergente está acotada, pero no es cierto que, en general, las sucesiones acotadas sean convergentes.
+En el primer tema, enunciamos el teorema~\ref{th:completitud} (página~\pageref{th:completitud}) que establecía la propiedad que distingue al conjunto de los números reales del de los números racionales: \emph{toda sucesión monónota y acotada de números reales es convergente}.
+A lo largo del tema, iremos viendo distintas consecuencias de esta propiedad que extendemos y detallamos en el siguiente resultado.
+
+\begin{proposicion-br} 
+\begin{itemize}
+\item Toda sucesión creciente y acotada superiormente es convergente.
+\item Toda sucesión decreciente y acotada inferiormente es convergente.
+\item Toda sucesión creciente y no acotada superiormente diverge a $+\infty$.
+\item Toda sucesión decreciente y no acotada inferiormente diverge a $-\infty$.
+\end{itemize}
+\end{proposicion-br}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}
+La sucesión 
+\[
+a_n=\left(1+\frac{1}{n}\right)^n
+\]
+es una sucesión creciente y acotada y en consecuencia es convergente.
+El límite de esta sucesión es un número irracional y \emph{transcendente} (es decir, no es raíz de ningún polinomio de coeficientes racionales).
+Así se define el número denotado por $e$ y que es base del logaritmo neperiano y de la función exponencial.
+Podemos aproximar el valor de este número tomando valores suficientemente altos de $n$, aunque más adelante aprenderemos otras formas más eficientes para hacerlo.
+En concreto, las cinco primeras cifras significativas del número $e$ son: 
+$e\approx 2.7182\dots$.\fej
+\end{ejemplo}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}\label{ej:raiz2}
+%:ej:raiz2
+Consideramos la sucesión $a_n$ definida recursivamente por
+\[
+\begin{cases}
+a_0=2\\
+a_{n+1}=\dfrac{a_n}{2}+\dfrac{1}{a_n} & \text{ si }\quad n\ge 0
+\end{cases}
+\]
+%Los términos de esta sucesión son números racionales;
+Vamos a demostrar que $a_n$ es decreciente, acotada inferiormente y que su límite es $\sqrt2$.
+En primer lugar, demostramos por inducción que la sucesión está acotada inferiormente por 1 y superiormente por 2:
+\begin{itemize}
+\item[(i)]
+$2\ge a_0=2>1$.
+\item[(ii)]
+Supongamos que $1\le a_k\le2$ y demostremos la desigualdad para $a_{k+1}$:\newline
+Aplicando el inverso a la desigualdad de la hipótesis de inducción:
+$\dfrac12\le \dfrac1{a_k}\le 1$;\newline
+dividiendo por 2 la desigualdad de la hipótesis de inducción:
+$\dfrac12\le \dfrac{a_k}2 \le 1$;\newline
+sumando término a término las dos desigualdades anteriores:
+$1\le \dfrac{a_k}{2}+\dfrac{1}{a_k} \le 2$,\newline
+o lo que es lo mismo: $1\le a_{k+1} \le 2$, que es lo que queríamos demostrar.
+\end{itemize}
+Por lo tanto, por el principio de inducción, $1\le a_n\le 2$ para todo $n$.
+
+Para demostrar el decrecimento de la sucesión, observamos en primer lugar que
+\[
+a_n-a_{n+1} = a_n-\dfrac{a_n}{2}-\dfrac{1}{a_n} =
+\dfrac{a_n}{2}-\dfrac{1}{a_n} =\dfrac{a_n^2-2}{2a_n}
+\]
+Por lo tanto, solo tenemos que demostrar que $a_n^2\ge 2$ para todo $n$. Esta desigualdad la vamos a demostrar también por inducción.\newline
+Trivialmente, $a_0^2=4>2$;
+si $a_k^2\ge 2$, entonces
+\[
+a_{k+1}^2 = \left(\dfrac{a_k}{2}+\dfrac{1}{a_k}\right)^2 =
+\dfrac{a_k^2}{4}+\dfrac{1}{a_k^2}+1
+\stackrel{(\ast)}{\ge} 2\dfrac{a_{k}}{2}\dfrac{1}{a_{k}} + 1 = 2
+\]
+La desigualdad $(\ast)$ es consecuencia de que $x^2+y^2\ge 2xy$ para todo $x,y\in\mathbb{R}$, ya que
+\begin{align*}
+(x-y)^2 & \ge 0\\
+x^2-2xy+y^2 &\ge 0\\
+x^2+y^2 &\ge 2xy
+\end{align*}
+Por lo tanto, la sucesión $a_n$ es decreciente y acotada y en consecuencia es convergente. Supongamos que $\ell=\lim a_n$; entonces $a_{n+1}$ también converge a $\ell$ y por lo tanto:
+\[
+\ell = \lim a_{n+1}= \lim \dfrac{a_n}{2}+\dfrac{1}{a_n} = \dfrac\ell2+\dfrac1\ell =\dfrac{\ell^2+2}{2\ell}
+\]
+y por lo tanto el número $\ell$ verifica que $\ell^2=2$, es decir, $\ell=\sqrt2$.\fej
+\end{ejemplo}
+
+
+
+\subsection{Introducción al cálculo numérico}
+
+Hemos presentado el conjunto de los números reales como un cuerpo ordenado con la propiedad de que \emph{toda sucesión monótona y acotada es convergente}.
+Esta propiedad se conoce como \emph{completitud}, y el cuerpo de los reales es el único cuerpo que la tiene.
+Por lo tanto, esta es la propiedad que permite construir o describir a los números reales;
+concretamente, podemos establecer un propiedad un poco más fuerte y que es la que realmente usamos: \emph{todo número real puede ser construido como límite de una sucesión (monótona) de números racionales.}
+Por ejemplo, hemos definido el número $e$ como límite de la sucesión $(1+\frac1n)^n$.
+
+La representación decimal de los números, no es más que una forma de definir una sucesión de números racionales cuyo límite es el número deseado. Por ejemplo, si dividimos 1 entre 3, vamos generando una sucesión que sabemos convergente a~$\frac13$:
+\[
+0.3,\quad 0.33,\quad 0.333,\quad 0.3333,\quad\dots \to \dfrac13
+\]
+Algoritmos como el de la raíz cuadrada, tienen el mismo objetivo, generando dígito a dígito obtenemos la sucesión que converge a la raíz.
+Sin embargo, en general, no es posible describir fácilmente la sucesión de dígitos.
+
+En général, un \emph{método numérico} es un método para resolver un problema cuya solución consiste en dar uno o varios números.
+Por ejemplo, un método numérico para calcular una aproximación de la derivada $f'(x)$ sería calcular $f(x+h)$, $f(x-h)$, para un número $h$ ``pequeño'' y tomar
+\[
+f'(x)\approx \dfrac{f(x+h)-f(x-h)}{2h}
+\]
+
+Normalmente, querremos aproximar una solución a un problema dentro de un grado de \emph{precisión} o \emph{tolerancia}.
+El primer paso será encontrar un método numérico para determinar esa solución y después describir un algoritmo basado en este método, es decir, una secuencia finita de pasos necesarios para obtener la solución deseada con el grado de precisión deseado.
+
+Habitualmente, los métodos numéricos describen sucesiones numéricas convergentes a la solución deseada y el algoritmo consistirá en obtener términos de esta sucesión hasta lograr la precisión deseada.
+
+Si $\alpha\in\mathbb{R}$ es la solución exacta de un determinado problema y $r$ es un número racional que aproxima esta solución, la precisión o exactitud se expresa por un número $\varepsilon$ tal que
+\[
+|\alpha-r|\sle \varepsilon.
+\]
+Se introduce el valor absoluto porque la aproximación puede ser por \emph{exceso} o por \emph{defecto}.
+La forma más habitual para expresar este error será mediante números del tipo $10^{-\mathit d}$ para algún
+$\mathit d\in\mathbb{N}$, o incluso $\frac1210^{-\mathit{d}}$, ya que en este caso, por lo general, 
+la expresión decimal del número $\alpha$ esté redondeada correctamente
+en el $\mathit{d}$-ésimo decimal, es decir, los primeros $\mathit{d}$ decimales son \emph{significativos}.
+
+%El número $\sqrt2$ no es un número racional y, por lo tanto, solo podemos trabajar con él usando esta representación o bien utilizando alguna aproximación, como la que podemos obtener a partir de la sucesión del ejemplo anterior.
+%En lección siguiente, veremos cómo determinar otras sucesiones cuyo límite sea también $\sqrt2$ pero que sean más eficientes como método de aproximación para ese número.
+%
+%Hemos afirmado que $\sqrt2$ no es un número real, pero no hemos justificado esta afirmación.
+%Vamos a dar una demostración formal usando el método de reducción al absurdo, es decir, vamos a suponer que sí es racional para obtener una conclusión contradictoria.
+%Si $\sqrt2$ es racional, entonces existen dos naturales $p$ y $q$ ``primos entre sí''
+%y tales que  $2=\dfrac{p^2}{q^2}$; en tal caso,
+%\begin{equation}\label{raiz2-a}
+%p^2 = 2 q^2
+%\end{equation}
+%y 2 divide a $p^2$ y en consecuencia a $p$, pudiendo escribir $p=2k$; deducimos entonces que:
+%\[
+%4k^2 = 2 q^2\qquad\text{ y de ahí:}\qquad 2k^2 = q^2;
+%\]
+%por lo tanto, 2 divide a $q^2$ y en consecuencia a $q$, lo cual es contradictorio con la elección de $p$ y $q$ como números primos entre sí.
+
+%En el tema anterior aprendimos métodos para calcular de forma aproximada integrales definidas de funciones de una variable, a continuación
+Como ejemplo,  vamos a ver dos métodos para resolver de forma aproximada ecuaciones numéricas.
+Es decir, nos planteamos la resolución de ecuaciones
+\[
+f(x)=0
+\]
+en donde $f$ es una función continua; dicho de otra forma, buscamos métodos para calcular de forma aproximada los \emph{ceros} o \emph{raíces} de $f$.
+
+\paragraph{Método de las bisecciones.}
+El método más simple se deduce de un importante resultado sobre funciones continuas:
+
+\begin{teorema}[de Bolzano]
+Si $f$ es una función continua en el intervalo $[a,b]$ y
+$f(a)f(b)\sle 0$, entonces existe $c\in(a,b)$ tal que $f(c)=0$.
+\end{teorema}
+
+Este resultado se traduce en la característica gráfica más importante de las funciones continuas: su grafo, en un intervalo, se puede trazar ``sin levantar el bolígrafo''.
+El método de las bisecciones comienza localizando dos puntos sobre los cuales la función tome signos distintos y que por lo tanto nos dan una cota superior e inferior de la raíz;
+si tomamos después el punto medio, la función tomará en él un signo positivo o negativo y lo podremos utilizar para mejorar la cota superior o inferior de la raíz.
+%
+\begin{latexonly}
+\begin{center}
+\begin{tikzpicture}[x=8em,y=3em]
+\draw[-stealth] (-.1,0) -- (2.3,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1) -- (0,2) node[above] {$Y$};
+\draw[thick,domain=1:2] plot (\x,\x*\x-2);
+\draw (1,.1) -- (1,-.1) node[below]{$a$};
+\draw (2,.1) -- (2,-.1) node[below]{$b$};
+\draw (1.5,.1) -- (1.5,-.1) node[below]{$r_0$};
+\draw (1.25,-.1) -- (1.25,.1) node[above]{$r_1$};
+\draw (1.375,-.1) -- (1.375,.1) node[above]{$r_2$};
+%\draw (1.4142,.2) -- (1.4142,-.2) node[above] {$\alpha$};
+%\draw (4.3,-.2) node[below]{$a_0$};
+%\draw (2.382558139534884,-.2) node[below]{$a_1$};
+%\draw (1.61099600485773,-.2) node[below]{$a_2$};
+\end{tikzpicture}
+%\\[-3em]\rule{0pt}{0pt}
+\end{center}
+\end{latexonly}
+\begin{rawhtml}
+<div class="center">
+<img src="./T4/figuras/Tema4-fig1.svg" width="450">
+</div>
+\end{rawhtml}
+%
+Si dividimos sucesivamente por el punto medio del intervalo que contiene la raíz, determinamos una sucesión cuyo límite es esta raíz.
+Esta sucesión se define formalmente como sigue:
+\begin{align*}
+& r_0=a,\quad r_1=b,\\
+& r_{n+1}=\frac{r_n+r_m}2, \text{en donde $m\sle n$ es el mayor índice tal que $f(r_n)f(r_m)\sle 0$}
+\end{align*}
+%
+Por lo tanto, si $\alpha=\lim r_n$,
+\[
+|r_n-\alpha|\le \dfrac{b-a}{2^{n-1}}.
+\]
+%
+\begin{ejemplo}
+Vamos a construir los términos de la sucesión $r_n$ definida anteriormente hasta conseguir aproximar una solución de
+\[
+x^2-2=0
+\]
+con un error menor $\frac1210^{-2}$.
+Consideramos la función $f(x)=x^2-2$; elegimos $a=1$, $b=2$, ya que $f(1)=-1\sle 0$ y $f(2)=2>0$.
+De esta forma, necesitaremos determinar el término $r_9$ para conseguir el error deseado, ya que
+\[
+\dfrac{b-a}{2^{n-1}}=\dfrac1{2^{n-1}}\sle \frac1{200}\quad \Longleftrightarrow \quad
+2^{n-1}>200\quad \Longleftrightarrow \quad n\ge9
+\]
+Los 10 primeros términos de la sucesión son:
+\begin{align*}
+r_0 & =1,\quad f(1)\sle 0 \\
+r_1 & =2,\quad f(2)>0 \\
+r_2 & =\frac32,\quad f(3/2) >0 \\
+r_3 & =\frac{r_2+r_0}2=\frac54,\quad f(5/4)\sle 0 \\
+r_4 & =\frac{r_3+r_2}2=\frac{11}8,\quad f(11/8)\sle 0 \\
+r_5 & =\frac{r_4+r_2}2=\frac{23}{16},\quad f(23/16)>0 \\
+r_6 & =\frac{r_5+r_4}2=\frac{45}{32},\quad f(45/32)\sle 0 \\
+r_7 & =\frac{r_6+r_5}2=\frac{91}{64},\quad f(91/64)>0 \\
+r_8 & =\frac{r_7+r_6}2=\frac{181}{128},\quad f(181/128)\sle 0 \\
+r_9 & =\frac{r_8+r_7}2=\frac{363}{256}
+\end{align*}
+%Obsérvese que no es necesario escribir explícitamente las sucesiones $a_n$ y $b_n$;
+%cada término $r_{n+1}$ es la semisuma de $r_n$ y $r_m$, en donde $m\sle n$ es el mayor índice tal que
+%$f(r_n)f(r_m)\sle 0$.
+%
+Por lo tanto, $\dfrac{363}{256}$ nos da una aproximación hasta la segunda cifra decimal de la solución positiva de la ecuación, es decir, de $\sqrt2$,
+\[
+\sqrt2\approx \dfrac{363}{256}\approx 1.41\tag*{\fej}
+\]
+\end{ejemplo}
+
+\paragraph{Método de Newton.} El método de las bisecciones no es computacionalmente eficiente, es decir, son necesarios muchos términos de la sucesión para conseguir una buena precisión.
+El método de Newton que presentamos ahora construye una sucesión que, si es convergente, converge más rápidamente a la raíz de la función dada.
+
+%:Figura Newton
+\begin{latexonly}
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[x=4em,y=.6em]
+\draw[-stealth] (-.2,0) -- (5,0) node[right] {$X$}; 
+\draw[-stealth] (0,-2.4) -- (0,18.3) node[above] {$Y$};
+\draw[thick,domain=0:4.5] plot (\x,\x*\x-2);
+%plot[id=newton,samples=50]
+%function{x*x-2};
+\draw (1.4142,.2) -- (1.4142,-.2) node[above] {$\alpha$};
+\draw (4.3,0) --
+(4.3,16.49) --
+(2.382558139534884,0) --
+(2.382558139534884,3.676583288263926) --
+(1.61099600485773,0) --
+(1.61099600485773,.5953081276675669) --
+(1.426232006104009,0) --
+(1.426232006104009,.03413773523546482);
+\draw (4.3,-.2) node[below]{$a_0$};
+\draw (2.382558139534884,-.2) node[below]{$a_1$};
+\draw (1.61099600485773,-.2) node[below]{$a_2$};
+\end{tikzpicture}
+%\\[-3em]\rule{0pt}{0pt}
+\end{center}
+\caption{Representación gráfica del método de Newton.}\label{fig:newton}
+\end{figure}
+\end{latexonly}
+\begin{rawhtml}
+<div class="center">
+<img src="./T4/figuras/Tema4-fig2.svg" width="450">
+</div>
+\end{rawhtml}
+
+La figura~\ref{fig:newton} muestra gráficamente como se construye una sucesión que puede converger a un cero de $f$, es decir, $\lim a_n=\alpha$, siendo $f(\alpha)=0$.
+Dado un término $a_n$ de la sucesión, para construir el siguiente término, trazamos la recta tangente en el punto $(a_n,f(a_n))$,
+\begin{equation}\label{eq:newton}
+y-f(a_n) = f'(a_n)(x-a_n);
+\end{equation}
+el siguiente elemento de la sucesión es la abscisa del punto de corte de esta recta con el eje $OX$;
+por lo tanto, si hacemos $y=0$ en~\eqref{eq:newton}, entonces $x=a_{n+1}$, y podemos despejar $a_{n+1}$ para obtener la definición recursiva de $a_n$:
+\begin{equation}\label{MetNewton}
+a_{n+1}=a_n-\dfrac{f(a_n)}{f'(a_n)}
+\end{equation}
+
+\begin{ejemplo}\label{ej:raiz2-2}
+Para determinar una solución de la ecuación $x^2-2=0$, tomamos la función $f(x)=x^2-2$.
+\begin{align*}
+f(x) &= x^2-2 \\
+f'(x) &= 2x \\
+a_0 &= 2 \\
+a_{n+1} &= a_n - \dfrac{f(a_n)}{f'(a_n)}= a_n - \dfrac{a_n^2-2}{2a_n} 
+=\dfrac{a_n}{2}+\dfrac{1}{a_n},\quad n\ge 0
+\end{align*}
+Esta es la sucesión que estudiamos en el ejemplo~\ref{ej:raiz2} (página~\pageref{ej:raiz2}) y en él vimos que efectivamente es convergente a $\sqrt2$.
+Sin embargo, en general la sucesión~\eqref{MetNewton} puede no ser  convergente para algunas elecciones de~$a_0$; además, determinados valores podrían conducir a una sucesión mal definida si, tras $N$ iteraciones, $f'(a_N)=0$.
+En la práctica, mediante el método de las bisecciones, buscaremos un intervalo $[a,b]$ que contenga la raíz y lo suficientemente pequeño para que tanto $f'$ como $f''$ sean monótonas;
+en tal caso, la sucesión sí es convergente y el error dado por un termino de la sucesión está acotado como sigue
+\[
+|a_n-\alpha| \sle  \left|\frac{f(a_n)}m\right|
+\]
+en donde $m=\min\{|f'(a)|,|f'(b)|\}$.
+La función del ejemplo~\ref{ej:raiz2-2} verifica estas condiciones en el intervalo $[1,2]$,
+\begin{align*}
+a_0 &= 2 \\
+a_{n+1} &= \dfrac{a_n}{2}+\dfrac{1}{a_n},\quad n\ge 0
+\end{align*}
+Vamos a calcular los primeros términos y la estimación del error teniendo en cuenta que $m=\min\{|f'(1)|,|f'(2)|\}=\min\{2,4\}=2$.
+\[
+\begin{array}{ll}
+a_1=3/2 & \\
+\\
+a_2=\dfrac{17}{12}, & \varepsilon_2\sle \dfrac12(a_2^2-2)=\dfrac1{238}
+\sle  \dfrac12 10^{-2} \\
+\\
+a_3=\dfrac{577}{408}, & \varepsilon_3\sle \dfrac12(a_3^2-2)=\dfrac1{332928} \sle \dfrac12 10^{-5}
+\end{array}
+\]
+Por lo tanto, $a_2=\dfrac{17}{12}$ nos da dos decimales significativos, mientras que con el método de las bisecciones necesitamos 9 términos para conseguir la misma precisión.
+Con solo un término más, $a_3=\dfrac{577}{408}$, conseguimos cinco decimales significativos:
+\[
+\sqrt2\approx \dfrac{577}{408}\approx 1.41421\tag*{\fej}
+\]
+%El siguiente dígito de la división $577/408$ es 5, sin embargo debemos mantener en 1 el quinto dígito decimal, tal y como establece el método de Newton.
+%De hecho, el sexto dígito de $\sqrt2$ es 3, lo que prueba que efectivamente el quinto dígito debe mantenerse en 1.\fej
+\end{ejemplo}
+
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/JM6WIyFTbeY?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+\subsection{Infinitésimos e infinitos equivalentes}
+
+Una de las aplicaciones del cálculo de límites es el estudio de la equivalencia de funciones y sucesiones convergentes a 0 o a infinito.
+%
+\begin{definicion} 
+Dos funciones $f$ y $g$ son
+\emph{equivalentes en $a$} si 
+\[
+\lim_{x\to a}\dfrac{f(x)}{g(x)}=1;
+\]
+y lo escribimos más brevemente como ``$f(x)\sim g(x)$ en $x=a$''.
+\end{definicion}
+
+La equivalencia de funciones es realmente importante en los casos en que las dos funciones converge a 0 o divergen a $\pm\infty$, ya
+que en ellos la definición de equivalencia da indeterminaciones del tipo $\frac{0}{0}$ y 
+$\frac{\infty}{\infty}$ respectivamente. 
+%
+\begin{definicion-br}
+\begin{enumerate}
+\item
+Decimos que la función $f(x)$ es un infinitésimo en $a$ si $\lim_{x\to a}f(x)=0$ y $f(x)\not= 0$
+en un entorno
+%reducido
+de $a$. 
+\item
+Decimos que la función $f(x)$ es un infinito en $a$ si $\displaystyle\lim_{x\to a}f(x)=\infty$.
+\end{enumerate}
+\end{definicion-br}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}\label{ej:xsenx2}
+Para ver que $\operatorname{sen} x$ y $x$ son dos infinitésimos equivalentes necesitamos comprobar que 
+\begin{enumerate}
+\item efectivamente son infinitésimos:
+\[
+\lim_{x\to 0}\operatorname{sen} x = 0 \qquad\mbox{ y }\qquad \lim_{x\to 0}x=0;
+\]
+\item y que son equivalentes:
+\begin{equation}
+\lim_{x\to 0}\dfrac{\operatorname{sen} x}{x} \stackrel{(L'H)}{=}
+\lim_{x\to 0}\dfrac{\cos x}{1} = 1. \tag*{\fej}
+\end{equation}
+\end{enumerate}
+\end{ejemplo}
+
+\begin{ejemplo}
+Las funciones polinómicas son infinitos en $+\infty$ y $-\infty$ y son equivalentes al monomio de mayor grado:
+\[
+\lim_{x\to+\infty}
+\dfrac{a_nx^n+\cdots+a_1x+a_0}{a_nx^n}
+=\lim_{x\to+\infty}
+\left(1+\dfrac{a_{n-1}}x+\cdots+\frac{a_1}{x^{n-1}}+\frac{a_0}{x^n} \right)=1\tag*{\fej}
+\]
+\end{ejemplo}
+
+En el teorema siguiente vemos cómo se puede utilizar la equivalencia de funciones en el cálculo de límites de funciones.
+%
+\begin{teorema}
+Sean $f$ y $g$ dos infinitésimos (resp. infinitos) equivalentes en $a$
+y $h(x)$ otra función definida en un entorno de $a$. Entonces:
+$\displaystyle\lim_{x\to a}f(x)h(x)$ existe si y solo si $\displaystyle\lim_{x\to a}g(x)h(x)$ existe, y en tal caso coinciden.
+\end{teorema}
+
+Este teorema justifica la técnica que se conoce como \emph{sustitución de
+infinitésimos o infinitos equivalentes} ya que, en la práctica, las equivalencias dadas en el
+enunciado, se convierten en igualdades, de forma que, en las condiciones del teorema, escribimos:
+\[
+\lim_{x\to a}{h(x)}{f(x)}=\lim_{x\to a}{h(x)}{g(x)}
+%\lm{a}\dfrac{h(x)}{f(x)}=\lm{a}\dfrac{h(x)}{g(x)}
+\]
+Los infinitésimos e infinitos también pueden sustituirse si aparecen dividiendo al resto de la función y en general tendríamos que, en las condiciones del teorema anterior, y para cualquier $\alpha\in\mathbb{R}$:
+\[
+\lim_{x\to a}\dfrac{h(x)}{(f(x))^\alpha}=\lim_{x\to a}\dfrac{h(x)}{(g(x))^\alpha}
+\]
+No podemos sustituir infinitésimos o infinitos en cualquier situación y, en particular, no se pueden sustituir si aparecen como sumando.
+
+\begin{ejemplo}
+Demostramos a continuación las equivalencias más importantes;
+en el primero, usamos una equivalencia de infinitésimos y en el resto, usamos el teorema de L'Hôpital.
+\begin{enumerate}
+\item
+$\operatorname{tg} x  \sim  x$ en 0:
+\[
+\lim_{x\to 0}\dfrac{\operatorname{tg} x}x =
+\lim_{x\to 0}\dfrac{\operatorname{sen} x}{x\cos x} =
+\lim_{x\to 0}\dfrac{x}{x\cos x} =
+\lim_{x\to 0}\dfrac1{\cos x} = 1
+\]
+En la primera igualdad, hemos usado la equivalencia demostrada en el ejemplo~\ref{ej:xsenx2}.
+
+\item
+$1-\cos x \sim \dfrac{x^2}{2}$ en 0:
+\[
+\lim_{x\to 0}\dfrac{1-\cos x}{x^2/2} = \lim_{x\to 0}\dfrac{\operatorname{sen} x}{x} =1
+\]
+
+\item
+$\operatorname{arcsen} x \sim x$ en 0:
+\[
+\lim_{x\to 0}\dfrac{\operatorname{arcsen} x}{x} = v\dfrac1{\sqrt{1-x^2}} = 1
+\]
+
+\item
+$\operatorname{arctg} x \sim x$ en 0:
+\[
+\lim_{x\to 0}\dfrac{\operatorname{arctg} x}{x} = \lim_{x\to 0}\dfrac1{1+x^2} = 1
+\]
+
+\item
+$e^x-1 \sim x$ en 0:
+\[
+\lim_{x\to 0}\frac{e^x-1}x = \lim_{x\to 0} e^x = 1
+\]
+
+\item
+$\log (1+x) \sim x$ en 0:
+\[
+\lim_{x\to 0} \dfrac{\log (1+x)}x = \lim_{x\to 0}\dfrac1{1+x} = 1
+\]
+\end{enumerate}
+\end{ejemplo}
+
+El siguiente resultado nos permite construir otras equivalencias a partir de las demostradas en el ejemplo anterior.
+% 
+\begin{teorema}
+Sean $f$ y $g$ dos infinitésimos (resp. infinitos) equivalentes en $a$
+y sea $h(x)$ continua en $b$ y tal que $h(b)=a$. Entonces, $f\circ h$
+y $g\circ h$ son infinitésimos (resp. infinitos) equivalentes en $b$.
+\end{teorema}
+%
+En este enunciado, queda implícito que las composiciones se pueden realizar en un entorno de $b$.
+%%
+%\begin{proposicion}
+%Si $f$ y $g$ son infinitésimos (resp. infinitos) equivalentes en $a$ y $\lambda\in\mathbb{R}^\ast$,
+%entonces $\lambda f$ y $\lambda g$ también son infinitésimos (resp. infinitos) equivalentes en $a$.
+%\end{proposicion}
+\begin{ejemplo}
+Las siguientes equivalencias son deducibles a partir de las equivalencias básicas y el resultado anterior
+Con estos resultados se pueden deducir otras equivalencias:
+\begin{align*}
+\operatorname{tg} (x^2-1) & \sim x^2-1 \qquad\hbox{ en 1}\\
+a^x-1  & \sim x\log a \qquad\hbox{ en 0}\\
+\log x & \sim x-1 \qquad\hbox{ en 1}\tag*{\fej}
+\end{align*}
+\end{ejemplo}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}
+La continuidad de la función exponencial y la propiedad de sustitución de infinitésimos, nos permite deducir la siguiente regla para la resolución de indeterminaciones del tipo $(1^\infty)$.
+Si $\displaystyle\lim_{x\to a}f(x)=1$ y $\displaystyle\lim_{x\to a}g(x)=\pm\infty$, entonces
+\begin{multline*}
+\lim_{x\to a}f(x)^{g(x)} = \lim_{x\to a} \exp(g(x)\log f(x)) = \lim_{x\to a} \exp(g(x)(f(x)-1))=\\
+ = \exp\Big(\lim_{x\to a} g(x)(f(x)-1)\Big)\tag*{\fej}
+\end{multline*}
+\end{ejemplo}
+
+%%% fin de lo traído del tema 1
+
+Igual que para funciones, también podemos introducir la noción de equivalencia de infinitésimos e infinitos 
+en sucesiones.
+Estas equivalencias son una herramienta muy útil para el cálculo de límites y para el estudio de \emph{series numéricas} que veremos en la lección siguiente.
+%
+\begin{definicion-br}
+\begin{enumerate}
+\item
+Dos sucesiones $a_n$ y $b_n$, son equivalentes si $\lim\dfrac{a_n}{b_n}=1$.
+\item
+La sucesión $a_n$ es un \emph{infinitésimo} si $\lim a_n=0$ y $a_n\neq 0$ para todo $n\geq N$.
+\item
+La sucesión $a_n$ es un \emph{infinito} si $\lim a_n=+\infty$.
+\end{enumerate}
+\end{definicion-br}
+
+La caracterización secuencial de límite de función, permite convertir las equivalencias básicas entre funciones en equivalencias entre sucesiones.
+%
+\begin{itemize}
+\item
+$\operatorname{sen} x_n  \sim  x_n$ si $\lim x_n=0$.
+
+\item
+$\operatorname{tg} x_n  \sim  x_n$ si $\lim x_n=0$.
+
+\item
+$1-\cos x_n \sim \dfrac{x_n^2}{2}$ si $\lim x_n=0$.
+
+\item
+$\operatorname{arcsen} x_n \sim x_n$ si $\lim x_n=0$.
+
+\item
+$\operatorname{arctg} x_n \sim x_n$ si $\lim x_n=0$.
+
+\item
+$e^{x_n}-1 \sim x_n$ si $\lim x_n=0$.
+
+\item
+$\log x_n \sim x_n-1$ si $\lim x_n=1$.
+
+\end{itemize}
+
+Por ejemplo, la equivalencia
+\[
+\operatorname{sen}\dfrac{1}{n} \ \sim\ \dfrac{1}{n}
+\]
+es válida, ya que $\lim 1/n=0$.
+
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/9Sc4KFoAAWI?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+\begin{ejemplo}
+\begin{multline*}
+\lim\left(\dfrac{3n}{3n-1}\right)^{2n}
+ = \lim\exp\left(2n\log\dfrac{3n}{3n-1}\right) =\\
+ = \lim\exp\left(2n\left(\dfrac{3n}{3n-1}-1\right)\right) =\lim\exp \dfrac{2n}{3n-1} = e^{2/3}
+\tag*{\fej}
+\end{multline*}
+\end{ejemplo}
+
+%\begin{ejemplo}
+%*** Supongamos que $\lim x_n=+\infty$, entonces
+%\[
+%\lim \left(1+\frac{1}{x_n}\right)^{x_n} =e
+%\]
+%\end{ejemplo}
+
+%Aparte de las equivalencias deducidas de la equivalencias de funciones, disponemos de equivalencias específicas entre sucesiones.
+%%
+%\begin{teorema}[Formula de Stirling]
+%\[
+%\lim\dfrac{n^ne^{-n}\sqrt{2\pi n}}{n!}=1
+%\]
+%Es decir, las sucesiones $a_n=n!$ y $b_n=n^ne^{-n}\sqrt{2\pi n}$ son infinitos equivalentes.
+%\end{teorema}
+%
+%\begin{ejemplo}
+%Para calcular el límite de la sucesión $a_n=\dfrac{n!}{n^n}$ utilizamos la fórmula de Stirling, el criterio de Stöltz y algunas manipulaciones algebraicas:
+%\begin{align*}
+%\lim\frac{n!}{n^n} &= \lim\frac{n^ne^{-n}\sqrt{2\pi n}}{n^n}  \quad\text{(F. de Stirling)}\\
+%&= \lim \frac{\sqrt{2\pi n}}{e^n}\\
+%&= \lim \frac{\sqrt{2\pi(n+1)}-\sqrt{2\pi n}}{e^{n+1}-e^n} \quad\text{(Crit. de Stöltz)}\\
+%&= \lim \frac{(\sqrt{2\pi(n+1)}-\sqrt{2\pi n})(\sqrt{2\pi(n+1)}+\sqrt{2\pi n})}%
+%{e^{n}(e-1)(\sqrt{2\pi(n+1)}+\sqrt{2\pi n})} \\
+%&= \lim \frac{2\pi}%
+%{e^{n}(e-1)(\sqrt{2\pi(n+1)}+\sqrt{2\pi n})}= \left(\frac{2\pi}{\infty}\right)=0
+%\end{align*}
+%En la cuarta igualdad, hemos multiplicado numerador y denominador por la \emph{expresión conjugada} a la que aparecía en el numerador; el objetivo es eliminar las raíces y la indeterminación $(\infty-\infty)$.\fej
+%\end{ejemplo}
+%
+%\begin{ejemplo}\label{ej:euler2}
+%El cálculo hecho en el ejemplo~\ref{ej:euler} (página~\pageref{ej:euler}) demuestra que las sucesiones 
+%$1+\frac12+\dots+\frac{1}{n}$ y $\log n$ son equivalentes y, en particular, infinitos equivalentes.\fej
+%\end{ejemplo}
+
+Aunque habitualmente utilizamos las equivalencias para ``sustituir'' funciones arbitrarias por polinomios, en algunos ocasiones puede que necesitemos introducir otro tipo de funciones cuyas propiedades faciliten mejor las simplificaciones posteriores.
+Este es el caso de la función logaritmo, que puede ayudar a eliminar exponentes.
+Vamos a utilizar esta idea en el siguiente ejemplo.
+
+\begin{ejemplo}
+Una primera evaluación del límite que calculamos a continuación conduce a una indeterminación $(\infty-\infty)$, pero sacando factor común, la convertimos en una indeterminación $\infty\cdot 0$ y ya podemos utilizar equivalencia de infinitésimos.
+\begin{align*}
+\lim(\sqrt[3]{n+1}-\sqrt[3]n)
+&= \lim \sqrt[3]n\left(\sqrt[3]{\frac{n+1}{n}}-1\right) =\\
+&= \lim \sqrt[3]n\log\sqrt[3]{\frac{n+1}{n}}= \\
+&= \lim \frac13\sqrt[3]n\log\frac{n+1}{n} =\\
+&= \lim \frac13\sqrt[3]n\left(\frac{n+1}{n}-1\right) =\\
+&= \lim \frac13\sqrt[3]n \frac1{n} = \lim \frac1{3n^{2/3}} = \left(\dfrac1\infty\right)=0
+\end{align*}
+Tanto en la segunda como en la cuarta igualdad hemos utilizado la equivalencia 
+\[
+\log x\sim x-1,\quad\text{en }1;
+\]
+primero para poder ``eliminar'' el exponente $1/3$ y después para ``eliminar'' la función logaritmo.\fej
+\end{ejemplo}
+
+\newpage
+\section{Series numéricas}
+
+%En la lección anterior estudiábamos las sucesiones numéricas con el objetivo de determinar su convergencia y calcular su límite. En esta lección, el objetivo será estudiar la suma de los términos de una sucesión. 
+
+Estamos acostumbrados a sumar una cantidad finita de números (dos números, tres, cuatro,\dots) pero ¿es posible sumar un conjunto infinito de números? La intuición nos puede jugar una mala pasada, haciéndonos pensar que al sumar ``infinitos'' números se obtendrá ``infinito''. Y, aunque en algunas ocasiones sea así, también es posible que el resultado de sumar ``infinitos'' números sea un número real.
+
+Por ejemplo, supongamos que nos colocamos a un metro de distancia a un determinado punto y que nos acercamos a él dando pasos de la siguiente forma: cada paso tiene como longitud exactamente la mitad de la distancia que nos separa del destino. Si fuéramos capaces de dar pasos ``tan pequeños'', está claro que nunca llegaríamos a nuestro objetivo, es decir, por muchos pasos que demos, como mucho recorreríamos 1 metro. Si pudiésemos dar pasos indefinidamente, la distancia recorrida sería
+\[
+\dfrac12+\dfrac14+\dfrac18+\dots+\dfrac1{2^n}+\cdots
+\]
+y esta ``suma infinita'' valdría exactamente 1.
+
+Además de formalizar la noción de suma infinita, en esta lección nos vamos a plantear dos cuestiones. Por un lado, vamos a estudiar condiciones que debe cumplir una sucesión de números para poder afirmar que puede ser sumada; por otra parte, en aquellos casos en los que podamos obtener la suma, estudiaremos si es posible hallar el valor exacto o, en caso contrario, cómo aproximarla.
+
+Empezamos con una sección en la que repasamos algunas propiedades del operador sumatorio, que utilizaremos en el resto del tema.
+
+\subsection{Operador sumatorio}
+
+El operador $\displaystyle\sum$ o \emph{sumatorio} se utiliza para expresar sumas con un cantidad variable de sumandos:
+\[
+\sum_{k=m}^n f(k) = f(m)+f(m+1)+\dots+f(n)
+\]
+Los sumandos se expresan en función de una variable $k$ que tomará valores consecutivos entre dos números naturales $m$ y $n$ tales que $m\le n$.
+Este operador también es frecuente en los lenguajes de programación, en los que toma una sintaxis
+similar~a
+\[
+\mathtt{sum}(f(k),k,m,n)
+\]
+Este operador será usado en distintas asignaturas, por lo que es muy conveniente aprender a manejarlo correctamente.
+Vemos a continuación algunos ejemplos sencillos pero que ayudarán a entender algunas propiedades de este operador.
+%
+\begin{ejemplo-br}
+\begin{enumerate}
+\item
+La variable utilizada como \emph{índice} de cada sumando no influye en el resultado y podremos cambiarla por la letra que deseemos siempre que no interfiera en el resto del problema.
+Por ejemplo, en los sumatorios siguientes utilizamos índices distintos pero obtenemos el mismo resultado:
+\begin{align*}
+& \sum_{k=1}^{10}k=1+2+3+4+5+6+7+8+9+10 \\
+& \sum_{i=1}^{10}i=1+2+3+4+5+6+7+8+9+10
+\end{align*}
+\item
+Obtenemos un ejemplo curioso, pero bastante frecuente, cuando el índice no aparece en la expresión del sumatorio, por ejemplo, $\displaystyle\sum_{k=1}^{10}2$: esta expresión tiene 10 sumandos, pero ninguno depende de $k$, todos valen 2, y por lo tanto:
+\[
+\sum_{k=1}^{10}2=2+2+2+2+2+2+2+2+2+2=10\cdot 2
+\]
+\item
+Un sumatorio no es más que una suma, y por lo tanto le podemos aplicar las propiedades de esta operación.
+Por ejemplo, la siguiente igualdad no es más que la  aplicación de la propiedad asociativa:
+\begin{align*}
+ \sum_{k=1}^{8}k & = \left(\sum_{k=1}^{4}k\right) +\left(\sum_{k=5}^{8}k\right) \\
+1+2+3+4+5+6+7+8 & = (1+2+3+4)\ +\ (5+6+7+8)
+\end{align*}
+
+\item
+De la misma forma, si la expresión que hay dentro del sumatorio es también una suma, las propiedades de asociatividad y conmutatividad nos permitirán manipulaciones como la mostrada en el siguiente ejemplo:
+\begin{align*}
+\sum_{k=1}^{4}(k+1) & = \left(\sum_{k=1}^{4}k\right) +\left(\sum_{k=1}^{4}1\right) \\
+(1+1)+(2+1)+(3+1)+(4+1) & = (1+2+3+4)\ +\ (1+1+1+1)
+\end{align*}
+Usaremos la igualdad anterior de derecha a izquierda para unificar la suma de dos sumatorios.
+En tal caso, tendremos que asegurarnos de que el rango del índice es el mismo en los dos;
+una forma de conseguir esto, es `apartando' los sumandos que sea necesario:
+\begin{multline*}
+\left(\sum_{k=1}^{5}k\right) + \left(\sum_{k=2}^{6}k^2\right) =
+1+\left(\sum_{k=2}^{5}k\right) + \left(\sum_{k=2}^{5}k^2\right) + 36=\\
+=1+\left(\sum_{k=2}^{5}(k+k^2)\right) + 36
+=37+ \sum_{k=2}^{5}(k+k^2)
+\end{multline*}
+
+
+\item
+Otra propiedad asociada a la suma es la distributividad, que también admite una formulación muy útil en combinación con los sumatorios.
+\begin{align*}
+\sum_{k=1}^{5}2k & = 2 \sum_{k=1}^{5}k \\
+2\cdot 1+2\cdot 2+2\cdot 3+2\cdot 4+2\cdot 5 & = 2\cdot (1+2+3+4+5)\tag*{\fej}
+\end{align*}
+\end{enumerate}
+\end{ejemplo-br}
+
+Debemos asegurarnos de que todas las transformaciones que realicemos estén respaldadas por las propiedades de la suma y el producto, tal y como hemos hecho en los apartados del ejemplo anterior.
+En el ejemplo siguiente recogemos algunos errores bastante frecuentes en la manipulación de sumatorios.
+%
+%
+\begin{ejemplo}\ 
+
+\vspace{-.5em}
+\begin{enumerate}
+\item
+$\displaystyle\sum_{k=1}^{5}k^2 \ne \left(\sum_{k=1}^{5}k\right)^2$.
+Estas dos expresiones son distintas, ya que, en general, el cuadrado de una suma no es igual a la suma de los cuadrados
+\[
+1^2+2^2+3^3+4^2+5^2 \ne (1+2+3+4+5)^2
+\]
+\item
+Hemos visto anteriormente que gracias a la propiedad distributiva podemos sacar un factor común a todos los sumandos del sumatorio. Sin embargo:
+\[
+\sum_{k=1}^{5}k(k+1) \ne k\left(\sum_{k=1}^{5}(k+1)\right)
+\]
+La variable $k$ toma un valor distinto en cada sumando y por lo tanto no se puede considerar común a todos ellos.
+Debemos pensar siempre que la variable que funciona como índice solo tiene sentido dentro del sumatorio.\fej
+%Por esta misma razón, no tienen sentido expresiones como las siguientes
+%\[
+%\cancel{\sum_{k=1}^k \frac1k},\qquad \cancel{\sum_{k=2k}^{100} \frac1k}.\tag*{\fej}
+%\]
+\end{enumerate}
+\end{ejemplo}
+
+Para poder simplificar correctamente expresiones que involucran sumatorios, es conveniente saber modificar su índice.
+Recordemos que el índice sirve para generar una secuencia de números naturales consecutivos; por ejemplo, en el sumatorio $\displaystyle\sum_{k=1}^{10}f(k)$, el índice $k$ genera la lista 1, 2, 3, \dots, 10.
+Sin embargo, esta misma lista de números la podemos generar de otras formas, tal y como ilustramos en el ejemplo siguiente.
+%
+\begin{ejemplo}\label{ej:indices}
+%:ej:indices
+Consideremos la siguiente suma, en la cual $f$ puede ser cualquier función.
+\[
+S=f(1)+f(2)+f(3)+f(4)+f(5)+f(6)+f(7)+f(8)+f(9)+f(10)
+\]
+Las siguientes expresiones describen esa misma suma:
+\[
+S=\sum_{k=1}^{10} f(k)\ = \ 
+\sum_{k=0}^9 f(k+1)\ = \ 
+\sum_{k=2}^{11} f(k-1)\ = \ 
+\sum_{k=0}^{9} f(10-k)\]
+Partiendo de la primera, obtenemos las siguientes sustituyendo la variable $k$ por otra expresión que también genere la misma secuencia de números naturales consecutivos (creciente o decreciente), modificando adecuadamente el valor inicial y final del índice.\fej
+\end{ejemplo}
+
+Veamos un último ejemplo en el que utilizamos las propiedades anteriores para evaluar un sumatorio.
+%
+\begin{ejemplo}\label{ej:suma1n}
+%:ej:suma1n
+Vamos a calcular la suma de los $n$ primeros números naturales, es decir, vamos a evaluar la suma
+\[
+S = \sum_{k=1}^n k = 1+2+\dots+(n-1)+n
+\]
+Vamos a hacer la suma para $n=5$ para entender la idea que queremos utilizar.
+Si en lugar de sumar una vez la lista de números la sumamos dos veces, tendríamos lo siguiente:
+\[
+S=\frac12\big((1+2+3+4+5)+(1+2+3+4+5)\big)
+\]
+En lugar de sumarlos tal y como aparecen en esta expresión, vamos a reordenarlos y agruparlos como se muestra a continuación.
+\[
+\begin{array}{rcccl}
+S=\dfrac12\big((1&+2&+3&+4&+5)\\
+         +(5&+4&+3&+2&+1)\big)=\\
+\multicolumn{1}{c}{\rule{0pt}{0pt}\qquad=\dfrac12\big((1+5)}&+(2+4)&+(3+3)&+(4+2)&+(5+1)\big)=\\
+=\dfrac12(6&+6&+6&+6&+6)=\dfrac12\cdot5\cdot 6\\
+\end{array}
+\]
+Ahora, vamos a repetir el mismo proceso utilizando sumatorios y sus propiedades.
+\[
+S=\frac12\left(\sum_{k=1}^n k + \sum_{k=1}^n k\right)
+\]
+En primer lugar, cambiamos el orden de los sumandos del segundo sumatorio y lo hacemos con el siguiente cambio de índices: $k\to (n+1-k)$.
+\[
+S=\frac12\left(\sum_{k=1}^n k + \sum_{k=1}^n k\right) =
+\frac12\left(\sum_{k=1}^n k + \sum_{k=1}^n (n+1-k)\right)
+\]
+A continuación, unimos los dos sumatorios usando la propiedad asociativa:
+\[
+S=\frac12\left(\sum_{k=1}^n k + \sum_{k=1}^n (n+1-k)\right) =\frac12\left(\sum_{k=1}^n (k +(n+1-k))\right)
+\]
+Tras simplificar la expresión del sumatorio, obtenemos otra independiente del índice cuya suma es igual a la expresión por el número de sumandos.
+\[
+S=\frac12\left(\sum_{k=1}^n (k +(n+1-k))\right) =
+\frac12\left(\sum_{k=1}^n (n+1)\right) =\frac12n(n+1)\tag*{\fej}
+\]
+\end{ejemplo}
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/KMOW8t6Cg-c?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+\subsection{Series numéricas}
+
+\begin{definicion} Sea $a_n$ una sucesión de números reales.
+\begin{enumerate}
+\item
+La sucesión $S_n=a_1+\dots +a_n =\displaystyle\sum_{k=1}^na_k$
+se denomina \emph{serie numérica asociada a $a_n$} y se denota $\displaystyle\sum_{n=1}^\infty   a_n$.
+\item
+El número $a_n$ se denomina \emph{término $n$-ésimo de la serie} y el número
+$S_n$ es \emph{la $n$-ésima suma parcial de la serie}.
+\item
+Denominaremos \emph{suma de la serie} al límite, si existe, de la sucesión de sumas parciales y escribiremos
+\[
+\displaystyle\sum_{n=1}^\infty   a_n=\lim S_n 
+\]
+Si este límite es un número real, diremos que la serie es \emph{convergente} o que la sucesión $a_n$ es \emph{sumable}, en caso contrario diremos que la serie es \emph{divergente}.
+\enlargethispage{\baselineskip}
+\item
+La convergencia o divergencia de una serie se denomina \emph{carácter de la serie}.
+\end{enumerate}
+\end{definicion}
+
+
+En la definición anterior hemos considerado que el primer elemento de la suma es~$a_1$; 
+esto lo hacemos por simplicidad, pero en la práctica podremos iniciar la suma en cualquier término de la sucesión.
+En estos casos, debemos entender que suma parcial $S_n$ es la suma hasta el término $a_n$.
+Por otra parte, el sumando inicial repercute en el valor de la suma, pero como veremos más adelante, no influye en el carácter de la serie.
+
+
+\begin{ejemplo}\label{ej:telesc}
+La serie $\displaystyle\sum_{n=1}^\infty   \dfrac1{n(n+1)}$ es convergente. Vamos a calcular su suma utilizando la descomposición en funciones racionales simples que aprendimos en el tema anterior:
+\begin{multline*}
+\displaystyle\sum_{n=1}^\infty   \dfrac1{n(n+1)} = \displaystyle\sum_{n=1}^\infty   \Big(\dfrac1n-\dfrac1{n+1}\Big) = \lim S_n = \\
+= \lim
+\Big(1-\cancel{\frac12}\Big) +
+\Big(\cancel{\frac12}-\cancel{\frac13}\Big) +
+\Big(\cancel{\frac13}-\cancel{\frac14}\Big) +
+\dots + \Big(\cancel{\frac1n}-\frac1{n+1}\Big) =\\
+= \lim\Big(1 -\frac1{n+1}\Big) = 1\tag*{\fej}
+\end{multline*}
+\end{ejemplo}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}\label{ej:telesc2}
+Como hemos visto en el ejemplo anterior, en algunos ocasiones será suficiente con simplificar la expresión de $S_n$ reescribiéndola de forma adecuada.
+En este tipo de procedimientos, un error muy común es ignorar que $S_n$ es una suma finita y olvidarse de los últimos sumandos:
+\begin{multline*}
+\displaystyle\sum_{n=2}^\infty   \log\dfrac{n+1}{n} = \displaystyle\sum_{n=2}^\infty   (\log(n+1)-\log n) = \\
+= (\cancel{\log3}-\log2)+(\cancel{\log4}-\cancel{\log3})+(\cancel{\log5}-\cancel{\log4})+\dots
+\end{multline*}
+Aparentemente, se simplifican ``todos'' los sumandos excepto $-\log2$, por lo que podríamos concluir que esta es la suma de la serie.
+Ese resultado no es correcto, tal y como podemos comprobar si escribimos correctamente la suma parcial:
+%
+\begin{multline*}
+\displaystyle\sum_{n=2}^\infty   \log\dfrac{n+1}{n} =
+\displaystyle\sum_{n=2}^\infty   (\log(n+1)-\log n) = \lim S_n = \\
+= \lim (\cancel{\log3}-\log2) + (\cancel{\log4}-\cancel{\log3})  +(\cancel{\log5}-\cancel{\log4}) + \\
+ +\dots + (\cancel{\log(n)}-\cancel{\log (n-1)}) + (\log(n+1)-\cancel{\log n}) =\\
+= \lim\Big(-\log 2 +\log(n+1)\Big) = +\infty\tag*{\fej}
+\end{multline*}
+\end{ejemplo}
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/5yaFcHMbZXQ?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+\begin{ejemplo}\label{ej:geom12}
+Consideremos la sucesión $a_n=\dfrac1{2^n}$, $n\ge 0$.
+La sucesión de sumas parciales de la serie $\displaystyle\sum_{n=0}^\infty  \dfrac1{2^n}$ es
+\begin{equation}\label{ec-geom-1}
+S_n=1+\frac12+\dots+\frac1{2^n}
+\end{equation}
+Para simplificar esta expresión, vamos a seguir el siguiente proceso.
+En primer lugar, multiplicamos la sucesión de sumas parciales por $\dfrac12$:
+\begin{equation}\label{ec-geom-2}
+\dfrac12S_n=\frac12+\dots+\frac1{2^n}+\frac1{2^{n+1}}
+\end{equation}
+Vemos que la expresión de la derecha contiene ``casi'' los mismos sumandos que la expresión de $S_n$.
+A continuación, restamos las igualdades~\eqref{ec-geom-1} y~\eqref{ec-geom-2} miembro a miembro:
+\begin{align*}
+S_n-\dfrac12S_n & =1+\cancel{\frac12}+\dots+\cancel{\frac1{2^n}} -\Big(\cancel{\frac12}+\dots+\cancel{\frac1{2^n}}+\frac1{2^{n+1}}\Big) \\
+\dfrac12S_n&=1-\frac1{2^{n+1}}\\
+S_n&=2-\frac1{2^{n}}\\
+\displaystyle\sum_{n=0}^\infty  \dfrac1{2^n} = \lim S_n &=\lim \Big(2-\frac1{2^{n}}\Big)=2\tag*{\fej}
+\end{align*}
+%, por lo que, si restamos ambas expresiones, conseguiremos simplificar 
+%
+%Utilizando los métodos de la lección anterior, concretamente el criterio de Stöltz, podemos estudiar la convergencia de la serie:
+%\begin{align*}
+%\lim S_n &= \lim \left(1+\frac12+\dots+\frac1{2^n}\right) \\
+%&= \lim \frac{2^n+2^{n-1}+\dots+2+1}{2^n} \\
+%&= \lim \frac{(2^{n+1}+2^n+2^{n-1}+\dots+2+1)-(2^n+2^{n-1}+\dots+2+1)}{2^{n+1}-2^n} \\
+%&= \lim \frac{2^{n+1}}{2^{n+1}-2^n} =\lim \frac{2}{2-1} = 2
+%\end{align*}
+%Por lo tanto, podemos escribir: $\displaystyle\sum_{n=0}^\infty  \dfrac1{2^n}=2$.\fej
+\end{ejemplo}
+
+Generalizamos a continuación la serie del ejemplo anterior.
+
+\begin{teorema}[Serie Geométrica]
+La serie $\displaystyle\sum_{n=N}^\infty a_n$ se dice que es \emph{geométrica} de \emph{razón} $r$, si $\dfrac{a_{n+1}}{a_n}=r\in\mathbb{R}$ para todo $n$ (es decir, el cociente se puede simplificar hasta obtener una constante).
+Esta serie converge si y solo si $|r|\sle 1$ y en tal caso
+\[\displaystyle\sum_{n=N}^\infty a_n = \dfrac{a_N}{1-r}\]
+\end{teorema}
+
+No es difícil observar que todas las series geométricas se pueden escribir de la siguiente forma:
+\[
+\displaystyle\sum_{n=0}^\infty   ar^n=a+ar+ar^2+\dots
++ar^n+\dots,
+\]
+en donde $a\ne 0$ coincide con el primer sumando.
+%El número $r$ se denomina \emph{razón} y puede ser cualquier número real, positivo o negativo.
+
+Para obtener la suma que aparece en el resultado anterior, basta seguir el método que hemos visto en el último ejemplo;  si $r\ne 1$
+\[
+\begin{array}{rcccccccccccc}
+S_n  		& = & a &+& ar &+& ar^2 &+& \dots &+& ar^{n} \\ 
+-rS_n 	& = &   &-& ar &-& ar^2 &-& \dots &-& ar^{n} &-& ar^{n+1} \\
+\hline
+(1-r)S_n& = & a &&&&&&&&&-&ar^{n+1} 
+\end{array}
+\]
+La igualdad que aparece debajo de la línea se obtiene sumando miembro a miembro las dos anteriores.
+La misma igualdad se puede obtener trabajando con el operador sumatorio y sus propiedades, tal y como hemos visto en la sección anterior.
+%
+\begin{multline*}
+S_n-r\cdot S_n=
+\sum_{k=0}^{n} ar^k - r\sum_{k=0}^{n} ar^k =
+\sum_{k=0}^{n} ar^k - \sum_{k=0}^{n} ar^{k+1} =\\
+=\sum_{k=0}^{n} ar^k - \sum_{k=1}^{n+1} ar^k =
+a+\cancel{\sum_{k=1}^{n} ar^k} - \cancel{\sum_{k=1}^n ar^k} -ar^{n+1}=
+a - ar^{n+1}
+\end{multline*}
+%
+Por lo tanto
+\[
+S_n=\dfrac{a-ar^{n+1}}{1-r},
+\]
+y esta sucesión solo converge si $|r|\sle 1$ y, en tal caso:
+\[
+\displaystyle\sum_{n=0}^\infty   ar^n= \lim S_n=\lim \dfrac{a-ar^{n+1}}{1-r} = \dfrac{a}{1-r}
+\]
+%
+\begin{ejemplo} Estudiamos las siguientes series geométricas
+\begin{itemize}
+\item
+$\displaystyle\sum_{n=1}^\infty   \dfrac{1}{3^{n+2}}$:\qquad Como $\dfrac{a_{n+1}}{a_n}=\dfrac{3^{n+2}}{3^{n+3}}=\dfrac13$, entonces la serie es
+geométrica de razón $\frac{1}{3}$ y primer término $\frac{1}{27}$; por tanto, la serie es
+convergente y su suma es $\frac{1}{18}$.
+\item
+$\displaystyle\sum_{n=1}^\infty   \dfrac{2^{3n}}{7^n}$:\qquad Como $\dfrac{a_{n+1}}{a_n}=\dfrac{2^{3n+3}7^n}{7^{n+1}2^{3n}}=\dfrac{8}{7}$, entonces la serie es geométrica de razón $\frac{8}{7}$ y en consecuencia divergente a $+\infty$.
+\item
+$\displaystyle\sum_{n=1}^\infty   \dfrac{(-1)^{n+1}}{5^{n-1}}$:\qquad Como $\dfrac{a_{n+1}}{a_n}=\dfrac{-1}{5}$, entonces la serie
+es geométrica de razón $\frac{-1}{5}$ y primer término $1$; por tanto, la serie es
+convergente y su suma es~$\frac{5}{6}$.\newline\fej
+\end{itemize}
+\end{ejemplo}
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/GAVuZ26WJoE?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+\begin{proposicion}\label{T-modif} Si la sucesión $b_n$ se obtiene a partir de la sucesión $a_n$ añadiendo, eliminando o modificando
+un conjunto finito de términos, entonces las series asociadas tienen el mismo carácter.
+\end{proposicion}
+
+Esta propiedad es de gran utilidad, pues nos dice que, al igual que ocurre con las sucesiones, cuando estudiamos la convergencia de una serie, podemos prescindir de los primeros términos (cualquier conjunto finito de términos);
+por ejemplo, las series $\displaystyle\sum_{n=1}^\infty a_n$ y
+$\displaystyle\sum_{n=5}^\infty a_n$ tienen el mismo carácter.
+Sin embargo, debemos tener en cuenta que, aunque el carácter sea el mismo, la suma de serie será, por lo general, distinta.
+
+\begin{teorema}\label{T-lineal} Si $\displaystyle\sum_{n=1}^\infty   a_n=a$ y $\displaystyle\sum_{n=1}^\infty   b_n=b$, entonces se verifica que 
+\begin{enumerate}
+\item $\displaystyle\sum_{n=1}^\infty   (a_n+b_n)=a+b$, y 
+\item $\displaystyle\sum_{n=1}^\infty   c\cdot a_n=c\cdot a$, para todo $c\in\mathbb{R}$.
+\end{enumerate}
+\end{teorema}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{teorema}[Condición Necesaria] Si una serie $\displaystyle\sum_{n=1}^\infty   a_n$
+es convergente, entonces $\lim a_n=0$.
+\end{teorema}
+
+La demostración de esta propiedad se basa en la siguiente relación entre el término $n$-ésimo de la serie y la sucesión de sumas parciales:
+\[
+S_n = S_{n-1} + a_n
+\]
+Si $S_n$ es convergente, $S_{n-1}$ es convergente y tiene el mismo límite; por lo tanto, necesariamente $\lim a_n=0$.
+
+El resultado anterior se denomina \emph{condición necesaria de convergencia} por que establece que es ``necesario'' que la sucesión converja a 0 para que sea sumable.
+Sin embargo, esta condición no es suficiente.
+Por ejemplo, la sucesión $a_n=\log\frac{n+1}n$ no es sumable, tal y como vimos en el ejemplo~\ref{ej:telesc2}, y sin embargo
+\[
+\lim\log\frac{n+1}n=\log 1 =0
+\]
+Por esta razón, la condición necesaria se utiliza como método de refutación en el estudio de la convergencia de una serie.
+%
+\begin{corolario}
+Si $\lim a_n\neq 0$, entonces $\displaystyle\sum_{n=1}^\infty    a_n$ es divergente.
+\end{corolario}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}
+Aplicando la condición necesaria, deducimos la divergencia de la serie $\displaystyle\sum_{n=1}^\infty  \dfrac{n}{n+1}$, pues $\lim\dfrac{n}{n+1}=1\ne0$. 
+\fej\end{ejemplo}
+
+%Es importante observar que la condición necesaria no es una caracterización y que por tanto, si el término general de una serie tiende a 0, entonces este resultado no dice nada sobre la convergencia. Por ejemplo, la sucesión $\frac{1}{n}$ tiende a 0 y la condición necesaria no aporta información sobre el carácter de la serie $\sum\frac{1}{n}$; que, como sabemos, es divergente.
+
+Una familia de series de gran importancia en el estudio de este tema son las conocidas como \emph{series $p$-armónicas} o \emph{$p$-series}, es decir, las series de la forma
+\[
+\displaystyle\sum_{n=1}^\infty  \dfrac{1}{n^p},
+\]
+en donde $p$ es cualquier número real positivo.
+Para $p=1$, la serie es $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{n}$ y se denomina simplemente \emph{serie armónica}.
+%
+\begin{teorema}[Series $p$-armónicas]\label{teo:armonica}
+Si $p>1$, la serie $p$-armónica converge y si $p\le 1$, la serie $p$-armónica diverge.
+\end{teorema}
+
+Por lo general, no es sencillo obtener la suma de las series $p$-armónicas convergentes, y los métodos que permiten sumar algunas de ellas quedan fuera de los objetivos de este curso.
+Sin embargo, sí veremos más adelante, resultados que nos permiten probar el resultado anterior.
+
+\begin{ejemplo}
+La serie $\displaystyle\sum_{n=1}^\infty  \left(\dfrac1n+\dfrac1{2^n}\right)$ es divergente.
+Para demostrarlo, vamos a razonar por \emph{reducción al absurdo}.
+
+Si la serie $\displaystyle\sum_{n=1}^\infty  \left(\dfrac1n+\dfrac1{2^n}\right)$ fuera convergente, entonces, por el teorema~\ref{T-lineal}, la siguiente serie también lo sería:
+\[
+\displaystyle\sum_{n=1}^\infty  \left(\dfrac1n+\dfrac1{2^n}\right)-\dfrac1{2^n} = \displaystyle\sum_{n=1}^\infty  \dfrac1n,
+\]
+Sin embargo, esto no es cierto, según establece el teorema de las series $p$-armónicas.\hfill$\Box$
+\end{ejemplo}
+
+Terminamos esta sección introduciendo otros tipos de series fácilmente sumables.
+
+\begin{teorema}[Serie Aritmético-Geométrica] Las series del tipo  
+\[
+\displaystyle\sum_{n=N}^\infty(an+b)r^n,\quad a\ne0,
+\]
+se denominan series aritmético-geométricas y convergen si y solo si $|r|\sle 1$.
+\end{teorema}
+
+En el caso de que sean convergentes, las series aritmético-geométricas se suman aplicando un proceso similar al utilizado en las series geométricas. 
+Concretamente, repitiendo dos veces el mismo proceso para llegar a una expresión simplificada 
+de~$S_n$.
+
+\begin{ejemplo}\label{ej:arit-geom}
+La serie $\displaystyle\sum_{n=0}^\infty\dfrac{n+3}{2^n}$ es una serie aritmético geométrica de razón $\frac12$ y, por lo tanto, convergente.
+%Estas series se suman aplicando el mismo método que para las series geométricas; sin embargo, necesitaremos aplicarlo dos veces o bien utilizar la expresión de las sumas parciales de las series geométricas obtenida anteriormente.
+En este ejemplo, vamos a utilizar las propiedades del operador sumatorio en lugar de los puntos suspensivos.
+En primer lugar, multiplicamos la sucesión $S_n$ por la razón de la serie aritmético-geométrica.
+\begin{align*}
+S_n &=\sum_{k=0}^n \frac{k+3}{2^{k}} \\
+\frac12 S_n	&=\frac12\sum_{k=0}^n \frac{k+3}{2^{k}}
+=\sum_{k=0}^n \frac{k+3}{2^{k+1}}
+\end{align*}
+A continuación restamos los dos sumatorios, pero sin juntarlos
+\[
+S_n-\frac12S_n =\frac12S_n =
+\sum_{k=0}^n \frac{k+3}{2^{k}}-\sum_{k=0}^n \frac{k+3}{2^{k+1}}
+\]
+Cambiamos el índice del segundo sumatorio para conseguir que el exponente de 2 dentro de cada sumatorio sea el mismo:
+\[
+\frac12S_n =
+\sum_{k=0}^n \frac{k+3}{2^{k}} -\sum_{k=1}^{n+1} \frac{k+2}{2^{k}}
+\]
+A continuación, apartamos los sumandos necesarios para que los dos sumatorios tengan los mismos extremos y así poder juntarlos:
+\begin{align*}
+\frac12S_n &=3-\frac{n+3}{2^{n+1}}
++\sum_{k=1}^n \frac{k+3}{2^{k}} -\sum_{k=1}^{n} \frac{k+2}{2^{k}}
+\\
+\frac12S_n &=3-\frac{n+3}{2^{n+1}}
++\sum_{k=1}^n \left(\frac{k+3}{2^{k}}-\frac{k+2}{2^{k}}\right)
+\end{align*}
+Tras simplificar, podemos despejar $S_n$, en cuya expresión quedará la suma parcial de una serie geométrica, cuyo límite ya sabemos calcular:
+\begin{align*}
+\frac12S_n &=3-\frac{n+3}{2^{n+1}}
++\sum_{k=1}^n \frac{1}{2^{k}}\\
+S_n &=6-\frac{n+3}{2^{n}}
++2\sum_{k=1}^n \frac{1}{2^{k}}\\
+\sum_{n=0}^\infty\dfrac{n+3}{2^n}=\lim S_n &=6-\lim\frac{n+3}{2^{n}}
++2\sum_{k=1}^\infty \frac{1}{2^{k}}=6-0+2=8
+\end{align*}
+Obsérvese que en el cálculo del límite hemos utilizado que $\lim\dfrac{n}{2^n}=0$, 
+tal y como hemos demostrado en el ejemplo~\ref{ej:ndiv2n} de la página~\pageref{ej:ndiv2n}.\fej 
+\end{ejemplo} 
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/VZabWwvDR6s?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+\begin{definicion}
+Se dice que la serie $\displaystyle\sum_{n=1}^\infty  a_n$ es \emph{hipergeométrica} si $a_n>0$ para todo $n$ y
+\[
+\frac{a_{n+1}}{a_n} = \dfrac{\alpha n+\beta}{\alpha n+\gamma}
+\]
+\end{definicion}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{teorema}[Serie hipergeométrica] Una serie $\displaystyle\sum_{n=1}^\infty  a_n$ hipergeométrica con $\dfrac{a_{n+1}}{a_n} = \dfrac{\alpha n+\beta}{\alpha n+\gamma}$ es convergente si y sólo si $\gamma>\alpha+\beta$.
+%; en tal caso, además $\lim na_n=0$.
+\end{teorema}
+
+En el caso de que sean convergentes, las series hipergeométricas se suman aplicando el siguiente proceso:
+(1) Escribimos por filas la igualdad $a_{k+1}(\alpha k+\gamma) = a_k(\alpha k+\beta)$ para $k=1$, $k=2$,\dots,$k=n$;
+(2) sumamos todos los miembros derechos y todos los miembros izquierdos;
+(3) operamos para obtener una expresión de $S_n$ lo más simplificada posible para poder calcular su límite.
+En el siguiente ejemplo utilizamos el operador sumatorio para representar este proceso.
+
+\begin{ejemplo}\label{ej:hipergeom}
+La serie $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{n(n+1)}$ es hipergeométrica y convergente, ya que
+$\dfrac{a_{n+1}}{a_n}=\dfrac{n}{n+2}$ y $\gamma=2>1+0=\alpha+\beta$.
+De la primera igualdad deducimos que $(n+2)a_{n+1}-n a_n=0$ para todo $n$ y de ahí:
+\[
+\sum_{k=1}^n((k+2)a_{k+1}- k a_k)=0
+\]
+A continuación, dividimos el sumatorio por la diferencia y cambiamos el índice para que las sucesiones que aparecen dentro del sumatorio tengan el mismo subíndice.
+\begin{align*}
+\sum_{k=1}^n(k+2)a_{k+1}-\sum_{k=1}^n k a_k&=0 \\
+\sum_{k=2}^{n+1}(k+1)a_{k}-\sum_{k=1}^n k a_k&=0
+\end{align*}
+Ahora, separamos los sumandos necesarios para que los límites de los dos sumatorios coincidan y poder juntarlos otra vez.
+\begin{align*}
+(n+2)a_{n+1}-a_1+\sum_{k=2}^{n}(k+1)a_{k}-\sum_{k=2}^n k a_k&=0 \\
+(n+2)a_{n+1}-a_1+\sum_{k=2}^{n}((k+1)a_{k}- k a_k)&=0 \\
+(n+2)a_{n+1}-a_1+\sum_{k=2}^{n}a_k&=0
+\end{align*}
+Tras simplificar nos ha quedado un sumatorio que coincide ``casi'' con la suma parcial de la serie; añadimos el sumando que falta y lo restamos fuera de él para poder despejar finalmente la suma parcial.
+\begin{align*}
+(n+2)a_{n+1}-a_1-a_1+\sum_{k=1}^{n}a_k&=0 \\
+(n+2)a_{n+1}-2a_1+S_n&=0 \\
+S_n&=2a_1-(n+2)a_{n+1}\\
+S_n &= 2\dfrac12 - \dfrac{n+2}{(n+1)(n+2)} \\
+\displaystyle\sum_{n=1}^\infty  \dfrac{1}{n(n+1)} = \lim S_n & = \lim\left(1 - \dfrac{n+2}{(n+1)(n+2)}\right) = 1\tag*{\fej}
+\end{align*}
+\end{ejemplo}
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/vyEz6CPoJ1g?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+\subsection{Criterios de convergencia}
+
+Estudiar la convergencia de una serie utilizando las sumas parciales no siempre será
+sencillo y encontrar una expresión para las sumas parciales que permita calcular su
+límite es, en general, un problema bastante difícil. Por esta razón, el estudio de las
+series se hará en dos etapas: en primer lugar, se estudiará solamente el carácter de la serie;
+en segundo lugar, si la serie es convergente, afrontaremos el cálculo de su suma o bien
+aproximaremos su valor.
+
+En esta sección, vamos a estudiar algunos resultados que establecen condiciones que permiten deducir la convergencia de una serie.
+Estos resultados se conocen como \emph{criterios de convergencia} y en  su aplicación es muy importante comprobar todas las condiciones exigidas.
+
+Aunque en los resultados que vemos en esta sección escribimos series con $n=1$ como primer sumando, las conclusiones son válidas independientemente de cual sea el primer sumando, tal y como hemos visto anteriormente.
+Por otra parte, los primeros resultados que veremos son aplicables solamente a series cuyos términos (todos, o a partir de uno dado) son positivos; estas series verifican la siguiente propiedad.
+
+\begin{proposicion} Si $a_n$ es una sucesión
+de términos positivos, la sucesión de sumas parciales asociada
+a ella es creciente y en consecuencia, la serie $\displaystyle\sum_{n=1}^\infty  a_n$ es
+o bien convergente o bien divergente a $+\infty$.
+\end{proposicion}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{teorema}[Criterio de comparación] Sean $\displaystyle\sum_{n=1}^\infty  a_n$,
+$\displaystyle\sum_{n=1}^\infty  b_n$ dos series tales que $0\leq a_n\leq b_n$ para todo
+$n\in\mathbb{N}$. 
+\begin{enumerate}
+\item Si $\displaystyle\sum_{n=1}^\infty  b_n$ converge entonces $\displaystyle\sum_{n=1}^\infty  a_n$
+también converge.
+\item Si $\displaystyle\sum_{n=1}^\infty  a_n$ diverge entonces $\displaystyle\sum_{n=1}^\infty  b_n$
+también diverge.
+\end{enumerate}
+\end{teorema}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}
+La serie $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{2^n+n}$ es convergente ya que 
+\[
+\dfrac{1}{2^n+n}\leq \dfrac{1}{2^n}
+\]
+y la serie $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{2^n}$ es convergente (geométrica de razón $\frac12$).
+\fej\end{ejemplo}
+
+No siempre podremos probar de esta forma que dos series ``parecidas'' tengan el mismo criterio;
+por ejemplo, la serie $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{2^n-n}$ es ``parecida'' a la del ejemplo anterior e intuimos que también será convergente, sin embargo, no podemos utilizar el criterio de comparación.
+El siguiente resultado, permite hacer la comparación mediante límites.
+
+\begin{teorema}[Comp. por paso al lí\-mi\-te] 
+Sean $\displaystyle\displaystyle\sum_{n=1}^\infty  a_n$ y
+$\displaystyle\displaystyle\sum_{n=1}^\infty  b_n$ dos series de términos positivos, tal que $b_n\neq 0$
+para todo $n$. Si $\ell=\lim\dfrac{a_n}{b_n}$ entonces se verifica:
+\begin{enumerate}
+\item Si $\ell >0$ ambas series tienen el mismo carácter.
+\item Si $\ell =0$ y $\displaystyle\sum_{n=1}^\infty  b_n$ converge, entonces $\displaystyle\sum_{n=1}^\infty  a_n$
+también converge.
+Equivalentemente, si $\ell =0$ y $\displaystyle\sum_{n=1}^\infty  a_n$ es divergente, entonces $\displaystyle\sum_{n=1}^\infty  b_n$
+también también es divergente.
+\item Si $\ell =+\infty$ y $\displaystyle\sum_{n=1}^\infty  a_n$ converge, entonces $\displaystyle\sum_{n=1}^\infty  b_n$
+también converge.
+Equivalentemente, si $\ell =+\infty$ y $\displaystyle\sum_{n=1}^\infty  b_n$ es divergente, entonces $\displaystyle\sum_{n=1}^\infty  a_n$
+también también es divergente.
+\end{enumerate}
+\end{teorema}
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/MLRaZEITA8s?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+\begin{ejemplo}\label{ej:comparacion} Veamos varios ejemplos:
+\begin{enumerate}
+\item La serie $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{2^n-n}$ es convergente ya que $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{2^n}$ es convergente y
+\[
+\lim \dfrac{\dfrac{1}{2^n}}{\dfrac{1}{2^n-n}}=\lim \left(1-\dfrac{n}{2^n}\right)=1
+\]
+\item La serie $\displaystyle\sum_{n=1}^\infty  n\operatorname{sen}\dfrac{1}{n^2}$ es divergente pues $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{n}$ diverge y  
+\[
+\lim \dfrac{n\operatorname{sen}\dfrac{1}{n^2}}{1/n}=\lim\dfrac{\operatorname{sen}\dfrac{1}{n^2}}{1/n^2}=1
+\]
+%\item La serie $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{n^n}$ es convergente ya que $\sum\dfrac{1}{n!}$ es convergente y
+%$$
+%\lim \dfrac{\frac{1}{n^n}}{\frac{1}{n!}}=\lim \dfrac{n!}{n^n} = 0
+%$$
+\item
+\label{ej:logn}
+La serie $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{\log n}$ es divergente pues $\displaystyle\sum_{n=1}^\infty  \dfrac{1}{n}$ es divergente y
+\[
+\lim \dfrac{\dfrac{1}{n}}{\dfrac{1}{\log n}}=\lim \dfrac{\log n}{n} = 0
+\]
+El último límite está demostrado en el ejemplo~\ref{ej:logndivn} de la página~\pageref{ej:logndivn}.\fej
+\end{enumerate}
+\end{ejemplo}
+
+%:curso1920
+%\textcolor{red}{
+%\begin{ejemplo}
+%Comparar $\log n/n^(1+a)$ con $1/n^(1+a/2)$ 
+%\enhlo}}
+
+El criterio de comparación por paso al límite se utiliza frecuentemente para eliminar expresiones ``despreciables'' en el término general de una serie, antes de aplicar otro criterio, con el fin de que los cálculo sean más sencillos. 
+
+\begin{ejemplo}
+En el denominador de la expresión $\dfrac{3n-1}{2^n+5n+\log n}$ el término $5n+\log n$ es ``despreciable'' frente a $2^n$ para valores ``grandes'' de $n$.
+Estas afirmaciones las comprobamos comparando la expresión $\dfrac{3n-1}{2^n}$ con la original
+\[
+\lim \dfrac{\dfrac{3n-1}{2^n}}{\dfrac{3n-1}{2^n+5n+\log n}}=
+\lim \dfrac{2^n+5n+\log n}{2^n} =
+\lim \left(1+\dfrac{5n}{2^n}+\dfrac{\log n}{2^n}\right) = 1
+\]
+Omitimos los detalles del cálculo del último límite, que puede hacerse con la caracterización secuencial y la regla de L'Hôpital.
+Aplicando el criterio de comparación por paso al límite se deduce que las series
+\[
+\displaystyle\sum_{n=1}^\infty  \dfrac{3n-1}{2^n+5n+\log n},\qquad \displaystyle\sum_{n=1}^\infty  \dfrac{3n-1}{2^n}
+\]
+tienen el mismo carácter.
+Dado que $\displaystyle\sum_{n=1}^\infty  \dfrac{3n-1}{2^n}$ es aritmético-geométrica de razón $\frac12$, es convergente y podemos afirmar que $\displaystyle\sum_{n=1}^\infty  \dfrac{3n-1}{2^n+5n+\log n}$ también es convergente.\newline
+\rule{10pt}{0pt}\hfill\fej\end{ejemplo}
+
+Para buscar series con las que comparar una serie dada, podemos ayudarnos de las equivalencias de infinitésimos: si una sucesión es sumable, entonces es un infinitésimo, y si dos sucesiones son equivalentes, por el criterio de comparación, la series asociadas tienen el mismo carácter.
+Estas observaciones constituyen la demostración del siguiente resultado.
+
+\begin{corolario}
+Sean $a_n$ y $b_n$ dos sucesiones positivas e infinitésimos equivalentes; entonces las series $\displaystyle\sum_{n=1}^\infty  a_n$, $\displaystyle\sum_{n=1}^\infty  b_n$ tienen el mismo carácter.
+\end{corolario}
+
+Es conveniente tener en cuenta que el criterio de comparación solo permite concluir que dos series tienen el mismo carácter, pero no establece ninguna relación entre las sumas.
+Por ejemplo, las series $\displaystyle\sum_{n=1}^\infty  \dfrac1{n^2}$ y $\displaystyle\sum_{n=1}^\infty  \dfrac1{n^2+n}$ tienen el mismo carácter,
+\[
+\lim\dfrac{\dfrac1{n^2}}{\dfrac1{n^2+n}}=
+\lim\dfrac{n^2+n}{n^2}=1;
+\]
+sin embargo $\displaystyle\sum_{n=1}^\infty  \dfrac1{n^2+n}=1$ (ver ejemplos~\ref{ej:telesc} y~\ref{ej:hipergeom}) y
+$\displaystyle\sum_{n=1}^\infty  \dfrac1{n^2}=\dfrac{\pi^2}6$, aunque la demostración de esta igualdad requiere métodos que quedan fuera de este curso.
+
+La siguiente propiedad se deduce fácilmente aplicando el criterio de comparación a las sucesiones $a_n$ y $1/n$, y es útil para el cálculo de algunos límites y la suma de algunas series.
+
+\begin{corolario}\label{cor:limnan}
+Sea $\displaystyle\displaystyle\sum_{n=1}^\infty  a_n$ una serie de términos positivos y convergente.
+Entonces, si existe, el límite $\lim n\, a_n$ es igual a $0$.
+\end{corolario}
+
+La demostración es inmediata usando reducción al absurdo: si el límite existiera pero fuera distinto de cero,
+\[
+0\ne \lim na_n=\lim \dfrac{a_n}{1/n},
+\]
+entonces la serie tendría el mismo carácter que $\displaystyle\sum_{n=1}^\infty  \dfrac1n$, que es divergente.
+
+Vamos a utilizar este resultado en el siguiente ejemplo en el que sumamos una serie hipergeométrica.
+%
+\begin{ejemplo}
+Vamos a sumar la serie
+\[
+\displaystyle\sum_{n=2}^\infty   \frac{1\cdot 3\cdot 5\cdots (2n-3)}{2^nn!}
+\]
+Para ello, vamos a comprobar que es hipergeométrica y aplicaremos el método aprendido anteriormente en el ejemplo~\ref{ej:hipergeom} de la página~\pageref{ej:hipergeom}.
+La series es hipergeométrica, ya que
+\begin{multline}
+\dfrac{a_{n+1}}{a_n}=
+\frac{\cancel{1\cdot 3\cdot 5\cdots (2n-3)}(2n-1)2^{n}n!}{2^{n+1}(n+1)!\cancel{1\cdot 3\cdot 5\cdots (2n-3)}}=\\
+=\frac{(2n-1)\cancel{2^{n}}\cancel{n!}}{2\cdot\cancel{2^{n}}(n+1)\cancel{n!}}
+=\frac{2n-1}{2n+2}=\dfrac{\alpha n+\beta}{\alpha n+\gamma}\label{ej:hiper2}
+\end{multline}
+Ademas, es convergente ya que
+\[
+\gamma = 2 > 1= 2-1=\alpha+\beta
+\]
+Multiplicando en cruz en la igualdad~\eqref{ej:hiper2}, obtenemos  $(2n+2)a_{n+1}-(2n-1)a_n=0$ para todo $n$ y de ahí:
+\[
+\sum_{k=2}^n\big((2k+2)a_{k+1}-(2k-1)a_k\big)=0
+\]
+Separamos el sumatorio por la diferencia y cambiamos el índice para que el termino de la sucesión que estamos sumando, y que aparecen dentro de los sumatorios, tengan el mismo subíndice.
+\begin{align*}
+\sum_{k=2}^n(2k+2)a_{k+1}-\sum_{k=2}^n (2k-1)a_k&=0 \\
+\sum_{k=3}^{n+1}2ka_{k}-\sum_{k=2}^n (2k-1)a_k&=0
+\end{align*}
+Sacamos los sumandos necesarios para que los límites de los dos sumatorios coincidan y poder juntarlos otra vez.
+\begin{align*}
+2(n+1)a_{n+1}+\sum_{k=3}^{n}2ka_{k}-\sum_{k=3}^n (2k-1)a_k -3a_2&=0 \\
+2(n+1)a_{n+1}+\sum_{k=3}^{n}\big(2ka_{k}-(2k-1)a_k) -3a_2&=0 \\
+2(n+1)a_{n+1}+\sum_{k=3}^{n}a_{k} -3a_2&=0 \\
+2(n+1)a_{n+1}+S_n-a_2 -3a_2&=0 \\
+2(n+1)a_{n+1}+S_n-4a_2&=0 \\
+S_n&=4a_2-2(n+1)a_{n+1}
+\end{align*}
+Dado que la serie es convergente, la sucesión $S_n$ es convergente, y por lo tanto, necesariamente $(n+1)a_{n+1}=\frac12(S_n-4a_2)$ también es convergente;
+además, por el corolario~\ref{cor:limnan}, $\lim (n+1)a_{n+1}=0$, lo que nos permite completar el cálculo de la suma de la serie.
+%
+\begin{align*}
+\displaystyle\sum_{n=2}^\infty   \frac{1\cdot 3\cdot 5\cdots (2n-3)}{2^nn!} = \lim S_n & =
+ \lim\big(4a_2-2(n+1)a_{n+1}\big) = 4a_2 \\
+\displaystyle\sum_{n=2}^\infty   \frac{1\cdot 3\cdot 5\cdots (2n-3)}{2^nn!} & =
+ 4a_2=4\frac{1}{2^2\cdot 2}=\frac12\tag*{\fej}
+ \end{align*}
+\end{ejemplo}
+
+Los criterios que estudiamos en el resto de la sección establecen condiciones sobre el término general para deducir su carácter.
+
+\begin{corolario}[Criterio del cociente]\label{T-cociente}
+Sea $\displaystyle\sum_{n=1}^\infty  a_n$ una serie de términos positivos y
+consideremos el límite $\ell=\lim\dfrac{a_{n+1}}{a_n}$; entonces:
+\begin{enumerate}
+\item Si $\ell \sle 1$ la serie converge.
+\item Si $\ell >1$ la serie diverge.
+\end{enumerate}
+\end{corolario}
+
+El caso $\lim\dfrac{a_{n+1}}{a_n} =1$ queda fuera del teorema anterior, ya que a partir de él no podemos deducir nada: $\displaystyle\sum_{n=1}^\infty   \dfrac{1}{n}$ y $\displaystyle\sum_{n=1}^\infty   \dfrac{1}{n^2}$ verifican que el límite de la condición vale 1 para ambas series y, sin embargo, la primera es divergente y la segunda es convergente.
+
+Una de las características del criterio del cociente es que también nos da información para estimar errores, ya que es consecuencia del siguiente resultado.
+
+\begin{lema}\label{T-coc-aprox}
+Supongamos que $\displaystyle\sum_{n=1}^\infty  a_n=S\in\mathbb{R}$. Sea $S_n$ su sucesión de sumas parciales y $N\in\mathbb{N}$.
+Si existe $r$ tal que $0\le\dfrac{a_{n+1}}{a_n}\le r \sle 1$ para todo $n\ge N$, entonces:
+\[
+S-S_N\leq \dfrac{a_{N+1}}{1-r}
+\]
+\end{lema}
+
+Si $a_n$ es positiva a partir de un término, y $\lim\dfrac{a_{n+1}}{a_n}$ es estrictamente menor que~1, existe un término de la sucesión a partir del cual todos estarán acotados entre 0 y un número estrictamente menor que 1, por lo que podremos aplicar el lema anterior.
+Entonces, para acotar el error cometido al tomar una suma parcial en lugar de la suma exacta, necesitamos determinar los números $N$ y $r$ adecuados.
+En la mayoría de los casos, será suficiente estudiar la monotonía de la sucesión $\dfrac{a_{n+1}}{a_n}$, tal y como vemos en los siguientes ejemplos.
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/mbQKwNGvqjo?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+\begin{ejemplo}
+Aplicamos los resultados anteriores a la serie $\displaystyle\sum_{n=0}^\infty   \dfrac1{n!}$ para demostrar que es convergente y determinar la suma parcial que estima su suma con un error menor que $\frac1210^{-3}$:
+\[
+\lim\dfrac{a_{n+1}}{a_n}=\lim\dfrac{1/(n+1)!}{1/n!} = \lim \dfrac{1}{n+1} =0
+\]
+Entonces, por el criterio del cociente, la serie es convergente. Además, dado que $\dfrac{a_{n+1}}{a_n}=\dfrac1{n+1}$ es decreciente, para todo $N\ge1$ y todo $n\ge N$,
+\[
+\dfrac{a_{n+1}}{a_n}=\dfrac1{n+1} \sle \dfrac1{N+1} \sle 1
+\]
+Entonces, para cada $N$ podemos tomar $r=\dfrac1{N+1}$ en el lema~\ref{T-coc-aprox};
+por lo tanto, si $S$ es la suma de la serie, $S_n$ la sucesión de sumas parciales
+y~$N\ge1$:
+\[
+S-S_N \sle \dfrac{a_{N+1}}{1-r}=\dfrac{1/(N+1)!}{1-\dfrac1{N+1}} = \dfrac1{N\cdot N!} 
+\]
+Si queremos que este error sea menor que $\frac1210^{-3}$, basta considerar $N=6$:
+\[
+\displaystyle\sum_{n=0}^\infty   \dfrac1{n!}\approx\sum_{n=0}^{6} \dfrac1{n!} =\dfrac{1957}{720}\approx 2.718
+\]
+Más adelante, veremos que la suma de esta serie es el número $e$ y el valor aproximado que nos da cualquier calculadora es $2.718281828$.
+\fej\end{ejemplo}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}
+Para la serie $\displaystyle\sum_{n=1}^\infty   \dfrac1{n2^n}$ podemos utilizar los mismos resultados:
+\[
+\lim\dfrac{a_{n+1}}{a_n}=
+\lim\dfrac{\dfrac1{(n+1)2^{n+1}}}{\dfrac1{n2^n}} = \lim \dfrac{n}{2(n+1)} =\dfrac12
+\]
+y por el criterio del cociente, la serie es convergente.
+
+Vamos a aproximar su suma con un error menor $\frac1210^{-3}$.
+Para aplicar el lema~\ref{T-coc-aprox}, analizamos en primer lugar la monotonía de $x_n=\dfrac{a_{n+1}}{a_n}=\dfrac{n}{2(n+1)}$:
+\[
+\dfrac{x_{n+1}}{x_n} 
+= \dfrac{n+1}{2(n+2)}\cdot\dfrac{2(n+1)}{n}
+= \dfrac{2(n+1)^2}{2n(n+2)} = \dfrac{2n^2+4n+2}{2n^2+4n}>1
+\]
+Deducimos entonces que $x_n=\dfrac{a_{n+1}}{a_n}$ es creciente;
+por lo tanto, para cada $n\ge 1$
+\[
+\dfrac{a_{n+1}}{a_n} \sle \lim \dfrac{a_{n+1}}{a_n} =\frac12 \sle 1
+\]
+y podemos considerar $r=\frac12$ para cada $N$ en el lema~\ref{T-coc-aprox}.
+Es decir, si $S$ es la suma de la serie y $S_n$ la sucesión de sumas parciales:
+\[
+S-S_N \sle \dfrac{a_{N+1}}{1-r}=\dfrac{\dfrac1{(N+1)2^{N+1}}}{1-\frac12} = \dfrac1{(N+1)2^{N}}
+\]
+Si queremos que este error sea menor que $\frac1210^{-3}$, basta considerar $N=8$:
+\[
+\displaystyle\sum_{n=1}^\infty   \dfrac1{n2^n}\approx\sum_{n=1}^{8} \dfrac1{n2^n} =\dfrac{148969}{215040} \approx 0.693
+%2\widehat{190476}
+\]
+Más adelante, veremos que la suma de esta serie es $\log 2$ y la aproximación que nos da cualquier calculadora es $0.6931471805$.
+\fej\end{ejemplo}
+
+Los teoremas vistos hasta ahora son válidos solamente para series de términos positivos. A continuación, vamos a ver dos resultados que permiten estudiar algunas series con términos de signo arbitrario.
+
+\begin{definicion} Decimos que una serie $\displaystyle\sum_{n=1}^\infty  a_n$ es
+\emph{absolutamente convergente} si la serie $\displaystyle\sum_{n=1}^\infty  |a_n|$ es
+convergente.
+\end{definicion}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{teorema} Toda serie absolutamente convergente es
+convergente.
+\end{teorema}
+
+Una serie convergente que no sea absolutamente convergente se dice \emph{condicionalmente convergente}.
+
+\begin{definicion} Una serie $\displaystyle\sum_{n=1}^\infty  a_n$ se dice \emph{alternada} si para todo $n$
+se verifica que $\dfrac{a_n}{a_{n+1}}\sle 0$; es decir, su término general es
+de la forma $(-1)^nb_n$ o $(-1)^{n+1}b_n$, en donde $b_n>0$ para todo $n$.
+\end{definicion}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{teorema}[Criterio de Leibniz]
+Si $a_n>0$, $\lim a_n=0$ y $a_n$ es decreciente, entonces $\displaystyle\sum_{n=1}^\infty  (-1)^na_n$ es convergente. \end{teorema}
+
+La condición $\lim a_n = 0$ es necesaria para la convergencia de cualquier serie, el criterio de Leibniz establece que es suficiente que $a_n$ sea decreciente para que la serie
+$\displaystyle\sum_{n=1}^\infty  (-1)^na_n$ sea convergente.
+
+%una serie tal
+%que 
+%\begin{enumerate}
+%\item la sucesión $a_n$ es decreciente y $a_n>0$,
+%\item $\lim a_n=0$,
+%\end{enumerate}
+%entonces, la serie es 
+
+\begin{proposicion}
+\label{P-error-leibniz} Sea $\displaystyle\sum_{n=1}^\infty   a_n$ una serie en las
+condiciones del criterio de Leibniz, $S_n$ su sucesión de sumas
+parciales y $S$ su suma; entonces:
+\[
+|S_N-S| \le |a_{N+1}|
+\]
+\end{proposicion}
+
+En la acotación del error tenemos que usar el valor absoluto, ya que en este caso el error puede ser por exceso o por defecto.
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/G_-rTCYHFA4?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+\begin{ejemplo}
+Por el criterio de Leibniz, la serie $\displaystyle\sum_{n=1}^\infty  \dfrac{(-1)^{n+1}}{n}$ es convergente, ya que $\dfrac1n$ es decreciente y convergente a 0.
+Vamos a estimar su suma con un error menor que $\frac1210^{-3}$.
+
+Por la proposición anterior, si $S$ es la suma de la serie y $S_n$ la sucesión de sumas parciales:
+\[
+|S_N-S| \le \frac1{N+1}
+\]
+Si queremos que este error sea menor que $\frac1210^{-3}$, basta considerar $N=2000$.
+Más adelante, calcularemos la suma exacta de esta serie y demostraremos que $S=\log 2$.
+Si utilizamos un ordenador para calcular la suma parcial, obtendremos que:
+\[
+\displaystyle\sum_{n=1}^\infty  \dfrac{(-1)^n}{n+1}\approx\sum_{n=1}^{2000}\frac{(-1)^{n+1}}n \approx 0.693
+\]
+mientras que el valor aproximado de $\log 2$ que nos da cualquier calculadora  es $0.6931471805$.
+\fej\end{ejemplo}
+
+\subsection{Resumen de técnicas}
+
+En esta sección vamos a presentar algunas estrategias para abordar el estudio de la convergencia de series numéricas.
+%
+%Se trata de unas sencillas recomendaciones fruto de la experiencia.
+%\subsubsection{Determinación del carácter}
+%
+El siguiente esquema resume los criterios que hemos introducido en el orden 
+más adecuado para su aplicación.
+
+\begin{enumerate}
+\item
+Comprobar si es una serie conocida: geométrica, armónica,
+cociente de polinomios, \dots
+% (A lo largo de este tema y el siguiente, se
+% estudian distintos tipos de series; tener en cuenta las series
+% ya conocidas puede ahorrar mucho trabajo).
+
+\item
+Condición necesaria. Si el límite es fácil de calcular, esta es la primera comprobación que debe hacerse.
+
+\item
+Si la serie es de términos positivos, probaremos con el criterio del cociente.
+
+
+\item
+Si la serie es de términos positivos y el criterio del cociente no es concluyentes, intentaremos buscar una serie conocida con la que poder compararla.
+La equivalencia de infinitésimos y de infinitos nos ayudará a buscar estas series.
+
+\item
+Si la serie es alternada, estudiaremos en primer lugar la convergencia absoluta, utilizando los puntos anteriores.
+Si la serie no es absolutamente convergente intentaremos aplicar el criterio de Leibniz.
+
+\end{enumerate}
+
+\paragraph{El cociente \mathversion{bold}$a_{n+1}/a_n$\mathversion{normal}.}
+Como ya se habrá comprobado, el estudio del cociente $\dfrac{a_{n+1}}{a_n}$ es de gran
+utilidad al trabajar con  series.
+%A continuación, recogemos toda la información que puede obtenerse de dicho cociente;
+%dentro del esquema de la sección anterior, el estudio de este cociente se incluirá en
+%el primer paso.
+\begin{enumerate}
+\item Si $\dfrac{a_{n+1}}{a_n}=r\in\mathbb{R}$ (no depende de $n$) entonces la serie es una
+serie geométrica de razón~$r$.
+\item Si $\dfrac{a_{n+1}}{a_n}=\dfrac{\alpha n+\beta}{\alpha
+n+\gamma}$ con $\alpha ,\beta ,\gamma\in\mathbb{R}$, la serie es
+hipergeométrica. 
+\item Si $a_n>0$ y $\dfrac{a_{n+1}}{a_n}>1$ para todo $n>N$, la
+sucesión $a_n$ es creciente y por tanto su límite no puede
+ser 0: \emph{la serie es divergente}.
+\item Si $a_n>0$ y $\dfrac{a_{n+1}}{a_n}\sle 1$ para todo $n>N$, la
+sucesión $a_n$ es decreciente, lo que permitirá aplicar algunos resultados, como el criterio de Leibniz.
+\end{enumerate}
+
+\paragraph{Sucesiones decrecientes.}
+Algunos resultados, como el criterio de Leibniz incluyen, entre sus condiciones, el decrecimiento de una sucesión.
+Repasamos a continuación los distintos métodos que hemos visto y utilizado para demostrar que una
+sucesión es decreciente:
+\begin{enumerate}
+\item Si $a_n-a_{n+1}>0$, entonces $a_n$ es decreciente.
+\item Si $\dfrac{a_{n+1}}{a_n} \sle  1$, entonces $a_n$ es decreciente.
+\item Si $f\colon [N,+\infty)\to \mathbb{R}$ es una función decreciente tal que $f(n)=a_n$ para
+todo $n\geq N$, entonces $a_n$ es una sucesión decreciente a partir de $N$ (para determinar si
+una función es decreciente podemos utilizar su derivada).
+\item Por último, podemos utilizar las propiedades algebraicas de la relación de orden para deducir algunas propiedades sobre monotonía de sucesiones y
+funciones como por ejemplo:
+\begin{enumerate}
+\item Si $f$ y $g$ son funciones crecientes, entonces $f+g$ creciente.
+\item Si $f$ y $g$ son funciones crecientes y positivas, entonces $f\cdot g$ es creciente.
+\item $f$ es creciente si y solo si $-f$ es decreciente.
+\item Si $f$ es  positiva, entonces $f$ es creciente si y solo si $1/f$ es decreciente.
+\item Si $f$ y $g$ son funciones crecientes, entonces $f\circ g$ es creciente.
+%\item Si $f$ es una función creciente y $h$ es decreciente, entonces $f\circ h$ es una función decreciente.
+%\item Si $f$ es una función creciente y $c_n$ es una sucesión creciente, entonces $f(c_n)$ es una sucesión creciente.
+\item Si $f$ es una función creciente y $\mathit{d}_n$ es una sucesión decreciente, entonces $f(\mathit{d}_n)$ es una sucesión decreciente.
+%\item Si $h$ es una función decreciente y $c_n$ es una sucesión creciente, entonces $f(c_n)$ es una sucesión decreciente.
+\item Si $h$ es una función decreciente y $\mathit{d}_n$ es una sucesión decreciente, entonces $f(\mathit{d}_n)$ es una sucesión creciente.
+\end{enumerate}
+\end{enumerate}
+
+\subsection{Series de potencias} 
+
+Algunas de las series que hemos estudiado hasta ahora contenían parámetros en su término general, incluso hemos podido sumar alguna de ellas dando su suma en función de ese parámetro:
+\[
+\displaystyle\sum_{n=0}^\infty   x^n =\frac1{1-x}, \quad |x|\sle 1
+\]
+Como hemos podido comprobar, no siempre es asequible sumar una serie, pero aún así podemos estar interesados en estudiar las propiedades de la serie e incluso la relación de dependencia de la serie respecto de ese parámetro.
+
+En esta sección y en la siguiente, vamos a estudiar funciones definidas usando series cuyo término general depende de la variable de la función: las series de potencias.
+%
+\begin{definicion}
+Una \emph{serie de potencias} es una función definida por una expresión de la forma:
+\[
+f(x)=\sum_{n=n_0}^\infty a_n(x-a)^n,\qquad a,a_n\in\mathbb{R}
+\]
+%
+La constante $a$ se denomina \emph{centro} de la serie y la sucesión de \emph{coeficientes},
+$a_n$ no puede incluir la variable~$x$.
+\end{definicion}
+%
+\begin{ejemplo}\rule{0pt}{0pt}
+\begin{enumerate}
+\item
+$\displaystyle\sum_{n=1}^\infty   \dfrac{(x-1)^n}n$ es una serie de potencias centrada en 1; en este caso,~$a_n=\dfrac1n$.
+\item
+$\displaystyle\sum_{n=0}^\infty   \operatorname{sen}^nx$ no es una serie de potencias.
+\item
+$\displaystyle\sum_{n=1}^\infty   \dfrac{(x-3)^{2n}}{n^3}$ es una serie de potencias centrada en 3.\fej
+\end{enumerate}
+\end{ejemplo}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{teorema}
+Dada la serie de potencias $\displaystyle\sum_{n=1}^\infty  a_n(x-a)^n$, existe un intervalo $I$ tal que:
+\begin{itemize}
+\item
+La serie converge si y solo si $x\in I$
+\item
+O bien $I=\mathbb{R}$, o bien $(a-R,a+R)\subset I\subset [a-R,a+R]$, para algún $R\in\mathbb{R}$.
+En el segundo caso, el número $R$ se denomina \emph{radio de convergencia} de la serie.
+\end{itemize}
+\end{teorema}
+
+El intervalo $I$ se denomina \emph{campo de convergencia} de la serie y es el dominio de la función determinada por la serie de potencias.
+Por las características de la expresión de una serie de potencias, bastará con aplicar el criterio del cociente para hallar el radio de convergencia.
+Sin embargo, necesitaremos trabajar algo más para estudiar la convergencia de la serie en los dos extremos del campo.
+%
+\begin{ejemplo}
+Para hallar el campo de convergencia de $\displaystyle\sum_{n=2}^\infty  \dfrac{(x-1)^n}{\log n}$, aplicamos el criterio del cociente a la sucesión de valores absolutos:
+\[
+\lim\dfrac{|x-1|^{n+1}}{\log(n+1)}\cdot\dfrac{\log n}{|x-1|^n} = |x-1|\lim\dfrac{\log n}{\log(n+1)}=|x-1|
+\]
+Por lo tanto, la serie converge si $|x-1|\sle 1$.
+Por el teorema anterior, solo tenemos que analizar la convergencia de la serie para $|x-1|=1$, es decir, para $x=0$ y $x=2$.
+%para determinar completamente el campo de convergencia.
+Para $x=0$, la serie resultante es $\displaystyle\sum_{n=2}^\infty  \dfrac{(-1)^n}{\log n}$ cuya convergencia podemos deducir con el criterio de Leibniz.
+Para $x=2$, la serie resultante es $\displaystyle\sum_{n=2}^\infty  \dfrac{1}{\log n}$, cuya divergencia podemos deducir con el criterio de comparación (ver apartado~\ref{ej:logn}
+del ejemplo~\ref{ej:comparacion}, en la página~\pageref{ej:logn}).
+Por lo tanto, el campo de convergencia de la serie es $[0,2)$.\fej
+\end{ejemplo}
+
+El siguiente resultado establece la continuidad y derivabilidad de las funciones definidas por series de potencias y extiende la propiedades algebraicas de la derivación e integración a series.
+
+\begin{teorema}\label{th:prop-serpot}
+Para la serie de potencias $S(x)=\displaystyle\sum_{n=1}^\infty  a_n(x-a)^n$ se verifica que:
+\begin{enumerate}
+\item\label{th:abel}
+(Teorema de Abel) la función $S$ es continua en su campo de convergencia.
+\item
+$S$ es una función derivable en el interior del campo de convergencia y su derivada se obtiene ``derivando término a término la serie'':
+\[
+\dfrac{d}{dx}\left(\displaystyle\sum_{n=1}^\infty   a_n(x-a)^n\right)=\displaystyle\sum_{n=1}^\infty   na_n(x-a)^{n-1}
+\]
+Además, el radio de convergencia de la derivada coincide con el radio de $S$.
+\item\label{th:prop-serpot-prim}
+Una primitiva de la función $S$ se obtiene 
+``integrando término a término la serie'':
+\[
+\int\left(\displaystyle\sum_{n=1}^\infty   a_n(x-a)^n\right)dx =\displaystyle\sum_{n=1}^\infty   \dfrac{a_n}{n+1}(x-a)^{n+1}
+\]
+Además, el radio de convergencia de la primitiva coincide con el radio de $S$.
+\end{enumerate}
+\end{teorema}
+
+En los dos últimos puntos del teorema anterior se afirma la coincidencia de los ``radios'' de
+convergencia, pero no de los ``campos'' de convergencia, es decir, la convergencia en los extremos
+del campo puede variar al derivar o integrar.
+
+\begin{ejemplo}
+El campo de convergencia de la serie de potencias $\displaystyle\sum_{n=1}^\infty  \dfrac{x^n}{n^2}$ es $[-1,1]$, sin embargo, la serie de las derivadas, $\displaystyle\sum_{n=1}^\infty  \dfrac{x^{n-1}}{n}$, converge en $x=-1$ pero no converge en $x=1$ y por lo tanto su campo de convergencia es $[-1,1)$.\fej
+\end{ejemplo}
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/5aY4MNt_aSM?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+Las propiedades de derivación e integración de series de potencias constituyen una herramienta fundamental para sumar series, tal y como vemos en el ejemplo siguiente.
+
+\begin{ejemplo}\label{ej:log}
+En la sección anterior hemos probado que:
+\[
+\displaystyle\sum_{n=0}^\infty   x^n =\dfrac1{1-x},\quad \text{ si } |x|\sle 1.
+\]
+Aplicando el apartado~\ref{th:prop-serpot-prim} del teorema~\ref{th:prop-serpot}, obtenemos:
+\[
+\displaystyle\sum_{n=0}^\infty   \dfrac{x^{n+1}}{n+1} =-\log|1-x| +C=-\log(1-x) +C,\quad  \text{ si } |x|\sle 1.
+\]
+Evaluando ambas expresiones en $x=0$, deducimos que $C=0$. Además, para $x=-1$, la serie converge (criterio de Leibniz) y por el Teorema de Abel~(Teorema~\ref{th:prop-serpot}(\ref{th:abel})), la igualdad también se verifica en ese punto. Por lo tanto:
+\begin{equation}
+\displaystyle\sum_{n=0}^\infty   \dfrac{x^{n+1}}{n+1} =-\log(1-x),\quad  \text{ si } -1\le x\sle 1.\tag*{\fej}
+\end{equation}
+\end{ejemplo}
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/hJhxmOnhm6s?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+\subsection{Series de Taylor}
+
+Las funciones expresadas mediante series de potencias se comportan esencialmente como polinomios, por esta razón, nos planteamos en esta sección expresar cualquier función como serie de potencias. Vamos a ver que, en particular, todas las funciones elementales pueden representarse de esta forma.
+
+Aunque en algunos casos, el método seguido en el ejemplo~\ref{ej:log} permitirá expresar una función como series de potencias, en la mayoría de los casos necesitaremos construirla a partir de su polinomio de Taylor.
+
+\subsubsection{Polinomios de Taylor}
+
+Los polinomios son las funciones elementales más simples, ya que solo hacen uso de las operaciones suma, resta y producto.
+La situación ideal sería que el resto de las funciones elementales se pudieran convertir en polinomios, pero esto no es cierto en ningún caso.
+Sin embargo, sí es posible ``aproximar'' cualquier función elemental con polinomios, así como cualquier función que se pueda construir a partir de ellas en determinadas condiciones.
+Como veremos más detalladamente en el último tema, para establecer un método de aproximación adecuado, debemos saber construir una aproximación de una función dada y también debemos poder mejorar la aproximación cuanto deseemos.
+En esta sección, solo vamos a aprender a construir los polinomios aproximantes, y será en el último tema cuando aprendamos a controlar los errores de este método de aproximación.
+%
+\begin{definicion}
+El polinomio de Taylor de orden~$n$ (o~$n$-ésimo polinomio de Taylor) de la
+función $f$ en el punto $x_0$ es un polinomio $T$, de grado
+menor o igual que $n$ tal que su valor en $x_0$ y el valor de las
+$n$ primeras derivadas coinciden con los de~$f$:
+\[
+T^{(n)}(x_0)=f^{(n)}(x_0)
+\]
+\end{definicion}
+
+Usando identificación de coeficientes, es fácil deducir la siguiente expresión para el polinomio de Taylor, como un polinomio \emph{centrado en $a$}
+%
+\begin{corolario}
+El polinomio de Taylor de la definición anterior, es único y viene dado por:
+\begin{multline*}
+T(x)=f(x_0)+f'(x_0)(x-x_0)+\dfrac{f''(x_0)}{2}(x-x_0)^2+\dots\\
+\dots +\dfrac{f^{(n)}(x_0)}{n!}(x-x_0)^n=
+\sum^n_{k=0}\dfrac{f^{(k)}(x_0)}{k!}(x-x_0)^k
+\end{multline*}
+\end{corolario}
+
+\noindent
+El polinomio de Taylor en $x_0=0$ se denomina igualmente polinomio de McLaurin.
+
+\begin{latexonly}
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[x=6em,y=2em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-2.2,0) -- (2.2,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1) -- (0,7.3)node[right] {$Y$};
+\draw[dashed,domain=-2:2]
+%plot[id=exp,samples=100]
+%function{exp(x)};
+plot file {T1/figs/Calc1.exp.table};
+\draw[thick] (-2,-1)--(2,3);
+\draw (-1,0) node[below]{\small $-1$};
+\draw (0,.8) node[right]{\small $1$};
+\draw (.75,5) node[right]{\small $f(x)=e^x$};
+\draw (.5,1) node[right]{\small $T_1(x)=1+x$};
+\end{tikzpicture}\\
+\begin{tikzpicture}[x=6em,y=2em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-2.2,0) -- (2.2,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1) -- (0,7.3)node[right] {$Y$};
+\draw[dashed,domain=-2:2]
+%plot[id=exp,samples=100]
+%function{exp(x)};
+plot file {T1/figs/Calc1.exp.table};
+\draw[thick,domain=-2:2]
+%plot[id=expt2,samples=100]
+%function{1+x+.5*x*x};
+plot file {T1/figs/Calc1.expt2.table};
+\draw (-1,0) node[below]{\small $-1$};
+\draw (0,.8) node[right]{\small $1$};
+\draw (.75,5) node[right]{\small $f(x)=e^x$};
+\draw (.5,1) node[right]{\small $T_2(x)=1+x+\dfrac{x^2}2$};
+\end{tikzpicture}
+\\
+\begin{tikzpicture}[x=6em,y=2em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-2.4,0) -- (2.2,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1) -- (0,7.3)node[right] {$Y$};
+\draw[dashed,domain=-2:2]
+%plot[id=exp,samples=100]
+%function{exp(x)};
+plot file {T1/figs/Calc1.exp.table};
+\draw[thick,domain=-2:2]
+%plot[id=expt4,samples=100]
+%function{1+x+.5*x*x+(x**3)/6+(x**4)/24};
+plot file {T1/figs/Calc1.expt4.table};
+\draw (-1,0) node[below]{\small $-1$};
+\draw (0,.8) node[right]{\small $1$};
+\draw (.75,5) node[right]{\small $f(x)=e^x$};
+\draw (.5,1) node[right]{\small $T_4(x)=1+x+\dfrac{x^2}2+\dfrac{x^3}6+\dfrac{x^4}{24}$};
+\end{tikzpicture}
+\end{center}
+\caption{Función exponencial y algunos polinomios de Taylor.}\label{ej:taylor-exp}
+\end{figure}
+\end{latexonly}
+\begin{rawhtml}
+<div class="center">
+<img src="./T4/figuras/Tema4-fig3.svg" width="550">
+</div>
+<div class="center">
+<img src="./T4/figuras/Tema4-fig4.svg" width="550">
+</div>
+<div class="center">
+<img src="./T4/figuras/Tema4-fig5.svg" width="550">
+</div>
+\end{rawhtml}
+
+\begin{ejemplo}\label{ej:exp}
+Para la función $f(x)=e^x$, se verifica que $f^{(n)}(x)=e^x$ y por tanto, $f^{(n)}(0)=e^0=1$ para todo $n$. Por lo tanto, el polinomio de Taylor de orden $n$ de la función exponencial en el punto 0 es:
+\[
+T(x)=1+x+\frac{x^2}{2}+\dots+\frac{x^n}{n!}
+\]
+En la figura~\ref{ej:taylor-exp}, aparecen representadas la función exponencial y los polinomios de Taylor de orden 1, 2 y 4. En primer lugar, apreciamos el parecido de la función y sus polinomios, mayor cuanto mayor es el orden y cuanto más cerca estamos del punto $x_0=0$. Además, para el caso $n=1$, observamos que la recta obtenida en su representación coincide con la recta tangente en el punto $x_0=0$.\fej 
+%
+\end{ejemplo}
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/ocdFpppR1WI?list=PL2rtpLKW91qZNoOySJeDAVR8zwWNGsvIA" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+Los polinomios de Taylor pueden evaluarse en cualquier punto, pero debemos tener en cuenta las siguientes consideraciones:
+\begin{itemize}
+\item
+Si queremos utilizarlos para aproximar magnitudes, solo tiene sentido usar los polinomios en los puntos para los cuales los coeficientes obtenidos sean números racionales, ya que el objetivo es estimar magnitudes reales con magnitudes racionales; esto será analizado con más detalle en el último tema.
+\item
+Solo tendremos la posibilidad de controlar los errores cometidos para las funciones elementales y para algunas funciones construidas a partir de ellas.
+%Por lo tanto, nos limitaremos a calcular los polinomios de Taylor de este tipo de funciones.
+\item
+Sí trabajaremos con funciones arbitrarias cuando utilicemos los polinomios para deducir \emph{propiedades locales} de la funciones, es decir, para estudiar qué es lo que ocurre en un entorno ``muy pequeño'' alrededor de un punto.
+Por ejemplo, todos los resultados de clasificación de puntos críticos en los problemas de optimización, se basan en los desarrollos de Taylor.
+\end{itemize}
+
+\begin{ejemplo}
+Vamos a calcular el polinomio de Taylor de la función $\log x$ (logaritmo neperiano) en $x_0=1$. No podemos elegir a 0 como centro, ya que ese punto no está en el dominio;
+además, el número 1 es el único punto del dominio tal que el valor de la función en ese punto y sus derivadas sucesivas son números racionales.
+Empezamos calculando las primeras derivadas sucesivas de la función $f(x)= \log x$, $x>0$:
+
+\begin{align*}
+f'(x) &= x^{-1} \\
+f''(x) &= -x^{-2} \\
+f'''(x) &= 2x^{-3} \\
+f^{(4)}(x) &= -3\cdot2x^{-4}\\
+f^{(5)}(x) &= 4\cdot 3\cdot2x^{-5}
+\end{align*}
+
+\begin{latexonly}
+\begin{figure}[p]
+\begin{center}
+\begin{tikzpicture}[x=5em,y=5em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-.2,0) -- (3.2,0) node[right] {$X$}; 
+\draw (6,0) node{\ };
+\draw[-stealth] (0,-2) -- (0,1)node[right] {$Y$};
+\draw[thick,dashed,domain=.1:3,samples=50,variable=\x] plot (\x,{ln(\x)});
+\draw[thick] (-.2,-1.2)--(2,1);
+%\draw (-1,0) node[below]{\small $-1$};
+%\draw (0,.8) node[right]{\small $1$};
+\draw (3,1) node[right]{\small $f(x)=\log x$};
+\draw (1.3,1.2) node[right]{\small $T_1(x)=(x-1)$};
+\end{tikzpicture}\\[-2em]
+\begin{tikzpicture}[x=5em,y=5em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-.2,0) -- (3.2,0) node[right] {$X$}; 
+\draw (-1.5,0) node{\ };
+\draw[-stealth] (0,-2) -- (0,1)node[right] {$Y$};
+\draw[thick,dashed,domain=.1:3,samples=50,variable=\x] plot (\x,{ln(\x)});
+\draw[thick,domain=.1:3,samples=50,variable=\x] plot (\x,{-.5*\x*\x+2*\x-1.5});
+%\draw[thick] (-.2,-1.2)--(2,1);
+%\draw (-1,0) node[below]{\small $-1$};
+%\draw (0,.8) node[right]{\small $1$};
+\draw (3,1) node[right]{\small $f(x)=\log x$};
+\draw (2.8,.3) node[right]{\small $T_2(x)=(x-1)-\dfrac{(x-1)^2}2$};
+\end{tikzpicture}\\[-2em]
+\begin{tikzpicture}[x=5em,y=5em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-.2,0) -- (3.2,0) node[right] {$X$}; 
+\draw (-2.5,0) node{\ };
+\draw[-stealth] (0,-2) -- (0,1.8)node[right] {$Y$};
+\draw[dashed,thin] (2,1.5)--(2,0) node[below]{$2$};
+\draw[thick,dashed,domain=.15:3,samples=50,variable=\x] plot (\x,{ln(\x)});
+\draw[thick,domain=.1:2.6,samples=50,variable=\x]
+plot (\x,{.2*pow(\x,5)-1.25*pow(\x,4)+3.333333*pow(\x,3)-5*pow(\x,2)+5*\x-2.28333});
+%\draw[thick] (-.2,-1.2)--(2,1);
+%\draw (-1,0) node[below]{\small $-1$};
+%\draw (0,.8) node[right]{\small $1$};
+\draw (3,1) node[right]{\small $f(x)=\log x$};
+\draw (2.5,2.4) node {\small $T_5(x)=
+(x-1)-\dfrac{(x-1)^2}2+\dfrac{(x-1)^3}3-\dfrac{(x-1)^4}4+\dfrac{(x-1)^5}5$};
+\end{tikzpicture}\end{center}
+\caption{Función logaritmo y algunos polinomios de Taylor.}\label{ej:taylor-log}
+\end{figure}
+\end{latexonly}
+
+Podemos observar que:
+\begin{itemize}
+\item
+Aparece alternativamente el signo ``$-$'': las derivadas pares incluyen el signo, y las impares no. Por lo tanto, para el orden de derivación $n$, el signo será  $(-1)^{n-1}$.
+\item
+No hemos multiplicado las constantes para poder observar como se construyen: en cada paso de derivación multiplicamos por el siguiente número natural.
+De esta forma, la constante correspondiente al orden de derivación $n$ es $(n-1)!$.
+\item
+Finalmente, en cada derivada, la variable $x$ aparece con un exponente negativo, cuyo valor absoluto coincide con el orden de derivación.
+\end{itemize}
+Es decir, con la observación de estas primeras derivadas podemos ``intuir'' que
+\begin{equation}\label{ej:dern-log}
+f^{(n)}(x)= (-1)^{n-1}(n-1)!x^{-n},\quad n\ge 1
+\end{equation}
+Sin embargo, deberíamos hacer una demostración formal de esta afirmación usando \emph{inducción matemática}.
+% (ver página~\pageref{def:induccion}):
+\begin{itemize}
+\item[(i)]
+Para $n=1$:\quad $(-1)^{1-1}(1-1)!x^{-1}=1\cdot 1 x^{-1} = x^{-1}=f'(x)$.
+\item[(ii)]
+Supongamos que la fórmula es válida para $n$ y a partir de ahí, vamos a deducirla para $n+1$.
+\begin{align*}
+f^{(n)}(x) &= (-1)^{n-1}(n-1)!x^{-n} \\
+f^{(n+1)}(x) =\frac{d}{dx}(f^{(n)}(x)) &=\frac{d}{dx}\left((-1)^{n-1}(n-1)!x^{-n}\right)\\
+f^{(n+1)}(x) &= -n(-1)^{n-1}(n-1)!x^{-n-1}\\
+f^{(n+1)}(x) &= (-1)^{n}n!x^{-(n+1)}
+\end{align*}
+Efectivamente, la última igualdad se corresponde con la fórmula~\eqref{ej:dern-log} sustituyendo $n$ por $n+1$.
+\end{itemize}
+Por lo tanto, podemos concluir que la fórmula es válida para todo $n\in\mathbb{N}$.
+
+El resto del ejemplo consiste simplemente en aplicar la fórmula del polinomio de Taylor:
+%
+\begin{align*}
+&f(1)=\log 1=0,\qquad f^{(n)}(1)=(-1)^{n-1}(n-1)!\\
+T(x)&=0+1\cdot(x-1)-\frac{1!}{2!}(x-1)^2+\frac{2!}{3!}(x-1)^3+\dots+(-1)^{n-1}\frac{(n-1)!}{n!}(x-1)^n\\
+T(x)&=(x-1)-\frac12(x-1)^2+\frac13(x-1)^3+\dots+(-1)^{n-1}\frac1n(x-1)^n\\
+T(x)&=\displaystyle\sum_{k=1}^n (-1)^{k-1}\frac1k(x-1)^k
+\end{align*}
+En la figura~\ref{ej:taylor-log} de la página~\pageref{ej:taylor-log} podemos ver la gráfica de la función logaritmo junto a algunos polinomios de Taylor.
+\begin{rawhtml}
+<div class="center">
+<img src="./T4/figuras/Tema4-fig6.svg" width="550">
+</div>
+<div class="center">
+<img src="./T4/figuras/Tema4-fig7.svg" width="550">
+</div>
+<div class="center">
+<img src="./T4/figuras/Tema4-fig8.svg" width="550">
+</div>
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/rI22geX8ZFc?list=PL2rtpLKW91qZNoOySJeDAVR8zwWNGsvIA" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+En este caso observamos que al aumentar el grado del polinomio, el parecido entre este y la función solo aumenta en el intervalo $(0,2)$, mientras que por encima de dos, polinomio y función logaritmo se van separando cada vez más.
+Esto se debe a que ese intervalo es el campo de convergencia de la serie\fej
+\end{ejemplo}
+
+En general, puede ser bastante complicado hallar los polinomios de Taylor de funciones no elementales a partir de la definición, pero como es habitual en matemáticas, podemos facilitar estos cálculos estudiando el comportamiento respecto de las operaciones algebraicas y de la derivación.
+%
+\begin{proposicion-br}[Propiedades algebraicas del Polinomio de Taylor]
+\label{prop:tayalg}
+\begin{enumerate}
+\item El $n$-ésimo polinomio de Taylor de $f+g$ es la suma de los $n$-ésimos polinomios de Taylor de $f$ y~$g$
+\item El $n$-ésimo polinomio de Taylor de $f\cdot g$ es el producto
+de los $n$-ésimos polinomios de Taylor de $f$ y $g$ \emph{desechando
+los sumandos de grado mayor que~$n$}.
+%\item El $n$-ésimo polinomio de Taylor de $f/g$ es el cociente,
+%\emph{obtenido por división larga} hasta el grado $n$, de los
+%$n+m$-ésimos polinomios de
+%Taylor  de $f$ y $g$, en donde $m$ es el menor grado de los términos del polinomio de $g$ (es decir, el menor natural tal que $g^{(m)}(x_0)\ne 0$). 
+\item El $n$-ésimo polinomio de Taylor de $f\circ g$ es la composición
+de los $n$-ésimos polinomios de Taylor de $f$ y $g$ \emph{desechando
+los sumandos de grado mayor que~$n$}.
+%:1920 Taylor de la composición
+% Habría que especificar punto
+\item La derivada del $(n+1)$--ésimo polinomio de Taylor de $f$, es el
+$n$--ésimo polinomio de Taylor de $f'$. Esta propiedad se
+suele aplicar en sentido inverso, a partir del polinomio de $f'$, se
+obtiene el polinomio de $f$.
+\end{enumerate}
+\end{proposicion-br}
+
+A partir de estas propiedades y de los desarrollos de funciones elementales, es posible estudiar una amplia familia de funciones.
+Debemos observar sin embargo, que no siempre es práctico o útil el uso de los desarrollos de Taylor para funciones arbitrarias, ya que su cálculo directo puede ser imposible y, aunque la aplicación de las propiedades anteriores ayude en algunos casos, no proporciona una forma alternativa para calcular los \emph{restos}, necesarios en el control de errores, según veremos en el último tema.
+No obstante, estas propiedades son útiles para otras aplicaciones de los polinomios de Taylor.
+
+%:2016- Ejemplo y ejercicio con la propiedad de derivación del pol. de Taylor.
+%En la proposición anterior, no hemos incluido la propiedad correspondiente para la división de funciones.
+%Aunque es posible enunciar tal propiedad, consideramos que la dificultad de su aplicación y las escasas consecuencias prácticas, permiten evitar su estudio en este curso.
+
+\begin{teorema}\label{th:deftay} Sea $T_n$ el polinomio de Taylor de orden $n$ de $f$
+en $x_0$. Entonces,~$T_n$ es el único polinomio de grado menor o igual~a~$n$ tal que
+%$f(x_0)=T_n(x_0)$
+y:
+\[
+\lim_{x\to x_0}\dfrac{f(x)-T_n(x)}{(x-x_0)^n}=0
+\]
+\end{teorema}
+
+Es decir, el polinomio $T_n$ es la ``mejor aproximación'', en un entorno de $x_0$, por polinomios de grado menor o igual que $n$.
+Por ejemplo, en las figuras de la página~\pageref{ej:taylor-exp} podemos ver que los polinomios de Taylor de la función exponencial ``se parecen'' cada vez más a esta función según aumentamos el grado del polinomio, y que el intervalo en el que más se parecen es cada vez más amplio.
+Lo mismo observamos en las páginas~\pageref{fig:sentaylor} y~\pageref{fig:tgtaylor} para las funciones seno y arcotangente respectivamente.
+
+Por otra parte, la posibilidad de aproximar el valor de una expresión matemática, solo es útil si podemos controlar el error que se comete. El teorema siguiente nos da un método para hacerlo cuando usamos polinomios de Taylor.
+%
+\begin{teorema}[de Lagrange] Sea $f$ una función definida en un entorno
+abierto de $x_0$ y supongamos que $f$ es $(n+1)$-veces derivable en
+este entorno. Sea $T_n$ el polinomio de Taylor de orden $n$ de $f$ en
+$x_0$ y $E_n(x)=f(x)-T_n(x)$. Entonces, para cada $x\not=x_0$ existe un
+número $c$ (que depende de $x$ y de $n$) comprendido estrictamente entre $x$
+y $x_0$ y tal que:
+\[
+E_n(x)=\dfrac{f^{(n+1)}(c)}{(n+1)!}(x-x_0)^{n+1}
+\]
+\end{teorema}
+%
+La fórmula del resto dada en este teorema se conoce como \emph{fórmula de Lagrange}.
+Aunque no es la única posible, sí es la más utilizada por su simplicidad.
+La expresión $E_n$ puede ser negativa, sin embargo, al trabajar con errores, no distinguimos entre errores por exceso y por defecto, y por eso entendemos que el error es su valor absoluto: $\varepsilon = |E_n|$.
+%
+\begin{ejemplo}
+Para aproximar el número `$e$' con un tres decimales correctos, debemos evaluar la función exponencial en el punto $x=1$ con un error $\varepsilon\sle \frac1210^{-3}$. Si utilizamos el polinomio de Taylor de orden $n$ en 0 de la función exponencial que calculamos en el primer tema (ver sección~\ref{ss:funel}), cometeremos el siguiente error:
+\[
+\varepsilon =\left|\dfrac{e^c}{(n+1)!}1^{n+1}\right| = \dfrac{e^c}{(n+1)!},\quad c\in(0,1)
+\]
+Dado que no conocemos el valor de $c$ (y no podemos, ni pretenderemos calcularlo), no podemos conocer el error exacto.
+Por esta razón, lo que hacemos es ``estimar'' dicho error en función de $n$, sustituyendo el valor de $c$, o las subexpresiones en dónde aparece, por valores mayores pero cercanos.
+En este caso, $e^c\sle e^1=e\sle 3$ y por lo tanto:
+\[
+\varepsilon = \dfrac{e^c}{(n+1)!} \sle  \dfrac{3}{(n+1)!}
+\]
+Si queremos que el error sea menor que~$\frac1210^{-3}$, basta con encontrar el primer número natural $n$ tal que $\dfrac{3}{(n+1)!}\sle \frac1210^{-3}$, es decir, tal que $(n+1)!>6000$. Con $n=7$ lo conseguimos y por lo tanto:
+\[
+e\approx 1+1+\frac{1}{2}+\frac{1}{3!}+\frac{1}{4!}+\frac{1}{5!}+\frac{1}{6!}+\frac{1}{7!}=\dfrac{685}{252}\approx2.718
+\]
+Solo podemos estar seguros de los tres primeros decimales, aunque podemos comprobar que los cuatro primeros decimales coinciden con los que nos da cualquier calculadora.\fej
+\end{ejemplo}
+
+\subsubsection{Series de Taylor}
+
+No es difícil observar que los polinomios de Taylor no son más que la sucesión de sumas parciales de la serie asociada a la sucesión $\dfrac{f^{(n)}(x_0)}{n!}(x-x_0)^n$; la correspondiente serie se denomina \emph{serie de Taylor} de la función $f$. 
+%
+\begin{definicion} Dada una función $f$ infinitamente derivable
+en un intervalo abierto $I$, denominamos \emph{serie de
+Taylor de $f$ en $x_0\in I$} a la serie:
+\[
+\displaystyle\sum_{n=0}^\infty   \dfrac{f^{(n)}(x_0)}{n!}(x-x_0)^n\qquad x\in I
+\]
+Decimos que la serie
+\emph{representa a $f$ en $x$} si
+converge a $f(x)$, es decir:
+\[
+\displaystyle\sum_{n=0}^\infty   \dfrac{f^{(n)}(x_0)}{n!}(x-x_0)^n=f(x)
+\]
+\end{definicion}
+Evidentemente, la serie de Taylor para $x_0$ representa a
+$f$ en $x_0$ pero puede no hacerlo en otros puntos. La representación de la serie en otros puntos está caracterizada por la convergencia a 0 de la expresión del resto.
+
+\begin{teorema}
+La serie de Taylor de $f$ en $x_0$
+representa a $f$ en $x$ si y solo si:
+\[
+\lim E_n(x)=
+\lim \dfrac{f^{(n+1)}(c)}{(n+1)!}(x-x_0)^{n+1}=0
+\]
+\end{teorema}
+\begin{rawhtml}
+&nbsp;
+\end{rawhtml}
+\begin{ejemplo}\label{ej:serieexp}
+La serie de Taylor de la función exponencial la representa en todo su dominio, $\mathbb{R}$:
+\[
+\lim E_n(x)=
+\lim \dfrac{e^c}{(n+1)!}x^{n+1}
+\]
+Para comprobar que este límite es 0, podemos trabajar más fácilmente con su valor absoluto.
+Si $x\sle 0$, entonces $e^c\sle 1$ y por lo tanto
+\[
+\dfrac{e^c}{(n+1)!}|x|^{n+1} \sle \dfrac{|x|^{n+1}}{(n+1)!} \stackrel{n\to\infty}{\longrightarrow} 0
+\]
+Si $x>0$, $e^c\sle e^x$ y por lo tanto
+\[
+\dfrac{e^c}{(n+1)!}x^{n+1} \sle e^x\dfrac{x^{n+1}}{(n+1)!} \stackrel{n\to\infty}{\longrightarrow} 0
+\]
+Para demostrar los dos límites anteriores, basta tener en cuenta la condición necesaria de convergencia de series aplicada a las series $\displaystyle\sum_{n=1}^\infty  \dfrac{a^{n+1}}{(n+1)!}$, que son convergentes para cada $a>0$; esto, a su vez, lo demostramos usando el criterio del cociente.
+%En los dos límite calculados, hemos utilizado la relación que aprendimos en la lección anterior entre polinomios y función exponencial.
+%Por otra parte, obsérvese la necesidad de ``eliminar'' mediante acotación el número $c$ antes de calcular el límite, ya que este número depende tanto de $x$ como de $n$ y por lo tanto también está afectado por el operador límite.
+\fej
+\end{ejemplo}
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/q-lXDZDN1y8?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+\begin{ejemplo}\label{ej:pnfact}
+A partir de la serie $\displaystyle\sum_{n=0}^\infty  \dfrac1{n!}=e$ podemos sumar todas las series del tipo
+$\displaystyle\sum_{n=n_0}^\infty\dfrac{P(n)}{(n+q)!}$, en donde $P$ es un polinomio de grado $p$ y $q\in\mathbb{Z}$;
+el criterio del cociente permite demostrar que todas ellas son convergentes y el método que presentamos en el ejemplo siguiente permite calcular su suma.
+Por ejemplo, vamos a sumar la serie $\displaystyle\sum_{n=1}^\infty  \dfrac{n^3}{(n+1)!}$, y para ello, vamos a expresar el polinomio del numerador de la siguiente forma
+\[
+n^3 = A(n+1)n(n-1)+B(n+1)n+C(n+1)+\mathit{D}
+\]
+Cada sumando, está formado por productos de expresiones consecutivas y todas empezando por $n+1$, que es la expresión cuyo factorial aparece en el denominador del término general de la serie;
+esto permitirá simplificar cada sumando con el denominador.
+% para conseguir que en cada numerador quede una constante y en el denominador solo un factorial.
+Esta expresión se puede obtener para cualquier polinomio $P(n)$ y cualquier monomio $n+\alpha$.
+
+Eliminando los paréntesis y agrupando los términos, podemos hallar los valores de los parámetros $A$, $B$, $C$ y $\mathit D$ usando identificación de coeficientes.
+\begin{multline*}
+n^3 = A(n+1)n(n-1)+B(n+1)n+C(n+1)+\mathit{D}=\\
+= An^3+Bn^2+(B-A+C)n+(C+\mathit{D}),
+\end{multline*}
+Por lo tanto, $A=1$, $B=0$, $C=1$, $\mathit{D}=-1$ y de ahí:
+\[
+\dfrac{n^3}{(n+1)!} = \dfrac{(n+1)n(n-1)+(n+1)-1}{(n+1)!}=
+\dfrac1{(n-2)!}+\dfrac1{n!}-\dfrac1{(n+1)!}
+\]
+Obsérvese que la simplificación en el primer sumando solo es válida para $n\ge 2$, aunque la serie propuesta se suma desde $n=1$;
+para evitar este problema, solo tenemos que separar ese primer sumando antes de aplicar la igualdad anterior.
+\begin{align*}
+\displaystyle\sum_{n=1}^\infty  \dfrac{n^3}{(n+1)!} &= \frac12+\displaystyle\sum_{n=2}^\infty  \dfrac{n^3}{(n+1)!} \\
+ &= \frac12+\displaystyle\sum_{n=2}^\infty  \left(\dfrac1{(n-2)!}+\dfrac1{n!}-\dfrac1{(n+1)!}\right) \\
+ &= \frac12+\displaystyle\sum_{n=2}^\infty  \dfrac1{(n-2)!}+\displaystyle\sum_{n=2}^\infty  \dfrac1{n!}-\displaystyle\sum_{n=2}^\infty  \dfrac1{(n+1)!}\\
+ &= \frac12+\displaystyle\sum_{n=0}^\infty  \dfrac1{n!}+\displaystyle\sum_{n=2}^\infty  \dfrac1{n!}-\sum_{n=3}^\infty\dfrac1{n!}\\
+ &= \frac12+e+(e-1-1)-(e-1-1-\frac12) =e+1
+\end{align*}
+En la cuarta igualdad hemos cambiado los índices para que sea más fácil ver que los sumatorios obtenidos se corresponden con la serie del número $e$ salvo por los primeros sumandos, que debemos restarle.\fej
+\end{ejemplo}
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/NO6_6uaDB_A?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+\begin{ejemplo}
+Como un segundo ejemplo, vamos a calcular $\displaystyle\sum_{n=1}^\infty  (-1)^n\dfrac{n}{(n-1)!}$:
+\begin{align*}
+\displaystyle\sum_{n=1}^\infty  (-1)^n\dfrac{n}{(n-1)!} &= \displaystyle\sum_{n=1}^\infty  (-1)^n\dfrac{n-1+1}{(n-1)!} =\\
+&= -1+\displaystyle\sum_{n=2}^\infty  (-1)^n\dfrac{n-1+1}{(n-1)!} =\\
+&= -1+\displaystyle\sum_{n=2}^\infty  \dfrac{(-1)^n}{(n-2)!}+\displaystyle\sum_{n=2}^\infty  \dfrac{(-1)^n}{(n-1)!} =\\
+&= -1+\displaystyle\sum_{n=2}^\infty  \dfrac{(-1)^{n-2}}{(n-2)!}-\displaystyle\sum_{n=2}^\infty  \dfrac{(-1)^{n-1}}{(n-1)!} =\\
+&= -1+e^{-1}-(e^{-1}-1) = 0
+\end{align*}
+\end{ejemplo}
+
+\subsection{Funciones elementales}\label{ss:funel}
+
+En esta sección, vamos a ver los desarrollos de Taylor de todas las funciones elementales y las correspondientes expresiones del resto de Lagrange.
+Debemos tener en cuenta todas estas series para estudiar la convergencia o sumar series numéricas.
+
+\begin{rawhtml}
+<p style="text-align: center;"><iframe width="560" height="316" src="https://www.youtube.com/embed/dZg1T5fh-Is?list=PL2rtpLKW91qYX0jxd06V1-7DubLCx6l1f" frameborder="0" allowfullscreen=""></iframe></p>
+\end{rawhtml}
+
+\paragraph{Función Exponencial.}
+\[
+e^x=1+x+\frac{x^2}{2}+\dots+\frac{x^n}{n!}+e^{c_n}\frac{x^{n+1}}{(n+1)!},\ 
+\text{ ($c_n$ entre $0$ y $x$)}
+\]
+En el ejemplo~\ref{ej:exp} (página~\pageref{ej:exp}), calculamos los polinomio de Taylor de la función exponencial y en el ejemplo~\ref{ej:serieexp} hemos deducido que la serie de Taylor representa a la función exponencial en todo su dominio:
+\[
+e^x=\displaystyle\sum_{n=0}^\infty   \frac{x^n}{n!}\qquad\qquad x\in\mathbb{R}
+\]
+
+\paragraph{Función Logaritmo Neperiano.}
+Su dominio es el intervalo $(0,\infty)$ y hallamos su desarrollo en $x_0=1$:
+\begin{multline*}
+\log x =(x-1)-\frac{1}{2}(x-1)^2+\frac{1}{3}(x-1)^3+\cdots\\
+\cdots +\frac{(-1)^{n+1}}{n}(x-1)^n+ \frac{(-1)^{n}}{c_n^{n+1}(n+1)}(x-1)^{n+1}
+\end{multline*}
+Estando $c_n$ entre $1$ y $x$.
+En el ejemplo~\ref{ej:log} (página~\pageref{ej:log}), hicimos los cálculos necesarios para establecer la convergencia de esta serie;
+concretamente, obtuvimos
+\[
+\displaystyle\sum_{n=0}^\infty   \frac{x^{n+1}}{n+1} = -\log (1-x),\qquad x\in [-1,1),
+\]
+y por lo tanto,
+\[
+\log x=\displaystyle\sum_{n=1}^\infty   \frac{-(1-x)^n}{n}=\displaystyle\sum_{n=1}^\infty   \frac{(-1)^{n+1}}{n}(x-1)^n\qquad x\in (0,2]
+\]
+Alternativamente, esta serie se puede escribir como:
+\[
+\log (x+1) =\displaystyle\sum_{n=1}^\infty   (-1)^{n+1}\frac{x^n}{n}\qquad x\in (-1,1]
+\]
+%
+\begin{ejemplo}
+Vamos a usar la serie anterior para aproximar $\log 3$ con un error menor que $\frac1210^{-3}$.
+El desarrollo de Taylor de la función logaritmo permite evaluar $\log a$ si $a\in (0,2]$,
+por lo que no podemos considerar $a=3$;
+sin embargo, teniendo en cuenta las propiedades del logaritmo, tenemos que
+\[
+\log 3 =-\log \dfrac{1}{3}
+\]
+y $a=\frac13$ sí está dentro del campo de convergencia de la serie,
+\[
+\log 3 =-\log\frac13 = -\displaystyle\sum_{n=1}^\infty   \frac{(-1)^{n+1}}{n}(\frac13-1)^n =
+\displaystyle\sum_{n=1}^\infty   \frac{(-1)^{n}}{n}\frac{(-2)^n}{3^n}
+=\displaystyle\sum_{n=1}^\infty   \frac{2^n}{n3^n}
+\]
+Para decidir la suma parcial necesaria para obtener un determinado error, podemos utilizar, en principio, dos métodos.
+\begin{itemize}
+\item
+Utilizando la expresión del resto de Lagrange, el error sería:
+\[
+\varepsilon = \left|\frac{(2/3)^{n+1}}{c^{n+1}(n+1)}\right|,
+\]
+en donde $\frac13\sle c\sle 1$. Por lo tanto, $\frac1c\sle 3$ y de ahí deducimos que:
+\[
+\varepsilon = \left|\frac{(2/3)^{n+1}}{c^{n+1}(n+1)}\right|
+\sle  \frac{(2/3)^{n+1} 3^{n+1}}{n+1} = \frac{2^{n+1}}{n+1}
+\]
+La expresión de la derecha es creciente en $n$, por lo que no es posible hacerla tan pequeña como queramos.
+Por lo tanto, no podemos usar el resto de Lagrange para determinar la suma parcial adecuada.
+Esto ocurrirá siempre que evaluemos la serie del logaritmo en un número entre 0 y $\frac12$, por lo que este método solo lo podremos utilizar para calcular $\log a$ si $\frac12\sle a\sle 2$.
+
+\item
+Podemos utilizar la proposición~\ref{T-coc-aprox} (página~\pageref{T-coc-aprox}), dado que el criterio del cociente permite concluir la convergencia de la serie.
+En este caso
+\[
+\frac{a_{n+1}}{a_n} = \frac{2^{n+1}}{(n+1)3^{n+1}}\frac{n3^n}{2^n} = \frac{2n}{3(n+1)}
+\]
+es creciente y por lo tanto $\dfrac{2n}{3(n+1)}\le \lim\dfrac{2n}{3(n+1)}=\dfrac23$ para todo $n$, por lo que, para cada $N$:
+\[
+\mathrm{Error}=\log 3-S_N \sle  \frac{\frac{2^{N+1}}{(N+1)3^{N+1}}}{1-\frac23}
+=\frac{2^{N+1}}{(N+1)3^N}
+\]
+Por lo tanto, si $N\ge 14$ conseguimos que este error sea menor que $\frac1210^{-3}$.
+\[
+\log 3 \approx\sum_{n=1}^{14} \frac{2^n}{n3^n} = \frac{26289603908}{23938759845}\approx 1.098202
+\tag*{\fej}
+\]
+%\[
+%\frac{a_{n+1}}{a_n} = \frac{2^{n+1}}{(n+1)3^{n+1}}\frac{n3^n}{2^n} = \frac{2n}{3(n+1)}
+%\]
+%es decreciente y por lo tanto, si $r=\dfrac2{3(N+1)}$, el error al tomar la suma parcial $S_N$ se acota como sigue:
+%\[
+%\varepsilon \sle  \frac{\frac{2^{N+1}}{(N+1)3^{N+1}}}{1-\frac2{3(N+1)}}
+%=\frac{2^{N+1}}{(3N+1)3^N}
+%\]
+%Si $N\ge 12$, conseguimos que este error sea menor que $\frac1210^{-3}$.
+%\[
+%\log 3 \approx\sum_{n=1}^{12} \frac{2^n}{n3^n} = \frac{673699612}{613814355}\approx 1.098
+%\tag*{\fej}
+%\]
+\end{itemize}
+\end{ejemplo}
+
+\paragraph{Función Seno.}
+\[
+\operatorname{sen} x=x-\frac{x^3}{3!}+\frac{x^5}{5!}+\dots+(-1)^n\frac{x^{2n+1}}{(2n+1)!}
++(-1)^{n+1}(\operatorname{sen} c)\frac{x^{2n+2}}{(2n+2)!}
+\]
+siendo $c$ un número entre 0 y $x$.
+La correspondiente serie de Taylor representa a la función en todo su dominio, $\mathbb{R}$:
+\[
+\operatorname{sen} x=\displaystyle\sum_{n=0}^\infty   (-1)^n\frac{x^{2n+1}}{(2n+1)!}
+\]
+En la figura de la página~\pageref{fig:sentaylor}, podemos ver las gráficas de la función seno y de algunos de sus polinomios de Taylor. Vemos que, igual que ocurre con la función exponencial, la convergencia de la serie es ``muy rápida'', es decir, con pocos sumandos conseguimos unas aproximaciones muy buenas en entornos de 0 bastante amplios.
+\begin{latexonly}
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[x=1.3em,y=3em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-12.5,0) -- (12.5,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1) -- (0,2)node[right] {$Y$};
+\draw[dashed,domain=-4*pi:4*pi]
+%plot[id=sen,samples=100]
+%function{sin(x)};
+plot file {T4/figs/Calc4.sen.table};
+\draw[thick] (-2,-2)--(2,2);
+\draw (-4*pi,1.3) node[right]{\small $f(x)=\sin x$};
+\draw (-1.2,-1.7) node[right]{\small $T_{1}(x)=x$};
+\end{tikzpicture}\\[2em]
+\begin{tikzpicture}[x=1.3em,y=3em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-12.5,0) -- (12.5,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1) -- (0,2)node[right] {$Y$};
+\draw[dashed,domain=-4*pi:4*pi]
+%plot[id=sen,samples=100]
+%function{sin(x)};
+plot file {T4/figs/Calc4.sen.table};
+\draw[thick,domain=-4:4]
+%plot[id=sent5,samples=100]
+%function{x-(x**3)/6+(x**5)/5!};
+plot file {T4/figs/Calc4.sent5.table};
+\draw (-4*pi,1.3) node[right]{\small $f(x)=\sin x$};
+\draw (-3.3,-1.7) node[right]{\small $T_{5}(x)=x-\dfrac{x^3}{3!}+\dfrac{x^5}{5!}$};
+\end{tikzpicture}\\[2em]
+\begin{tikzpicture}[x=1.3em,y=3em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-12.5,0) -- (12.5,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1) -- (0,2)node[right] {$Y$};
+\draw[dashed,domain=-4*pi:4*pi]
+%plot[id=sen,samples=100]
+%function{sin(x)};
+plot file {T4/figs/Calc4.sen.table};
+\draw[thick,domain=-6.7:6.7]
+%plot[id=sent13,samples=100]
+%function{x-(x**3)/6+(x**5)/5!-(x**7)/7!+(x**9)/9!-(x**11)/11!+(x**13)/13!};
+plot file {T4/figs/Calc4.sent13.table};
+\draw (-4*pi,1.3) node[right]{\small $f(x)=\sin x$};
+\draw (-6,-1.7) node[right]{\small $T_{13}(x)=x-\dfrac{x^3}{3!}+\dfrac{x^5}{5!}-\dfrac{x^7}{7!}
++\dfrac{x^9}{9!}-\dfrac{x^{11}}{11!}+\dfrac{x^{13}}{13!}$};
+\end{tikzpicture}
+\end{center}
+\caption{Función seno y algunos polinomios de Taylor.}\label{fig:sentaylor}
+\end{figure}
+\end{latexonly}
+\begin{rawhtml}
+<div class="center">
+<img src="./T4/figuras/Tema4-fig9.svg" width="550">
+</div>
+<div class="center">
+<img src="./T4/figuras/Tema4-fig10.svg" width="550">
+</div>
+<div class="center">
+<img src="./T4/figuras/Tema4-fig11.svg" width="550">
+</div>
+\end{rawhtml}
+
+\paragraph{Función Coseno.}
+\[
+\cos x=1-\frac{x^2}{2!}+\frac{x^4}{4!}+\dots+(-1)^n\frac{x^{2n}}{(2n)!}
++(-1)^{n+1}(\operatorname{sen} c)\frac{x^{2n+1}}{(2n+1)!}
+\]
+siendo $c$ un número entre 0 y $x$. 
+Además, la serie de Taylor representa a la función coseno en todo su dominio:
+\[
+\cos x=\displaystyle\sum_{n=0}^\infty   (-1)^n\frac{x^{2n}}{(2n)!}
+\]
+
+\paragraph{Función Arco--tangente.}
+Recordemos que el dominio de esta función es $\mathbb{R}$ y su codominio es el intervalo
+$[\frac{-\pi}{2},\frac{\pi}{2}]$.
+Nuevamente, obtenemos la serie de Taylor a partir de su derivada:
+\[
+\dfrac{d}{dx}\operatorname{arctg} x=\dfrac{1}{1+x^2}=\displaystyle\sum_{n=0}^\infty   (-1)^n x^{2n}\qquad |x|\sle 1
+\]
+Integrando y deduciendo la convergencia en los extremos con el criterio de Leibniz, obtenemos:
+\[
+\operatorname{arctg} x =\displaystyle\sum_{n=0}^\infty   (-1)^n\dfrac{x^{2n+1}}{2n+1}\qquad |x|\leq 1
+\]
+Para evaluar la función arcotangente fuera del intervalo $[-1,1]$, podemos utilizar la igualdad
+\[
+\operatorname{arctg} x =\dfrac{\pi}{2}-\operatorname{arctg}\dfrac{1}{x}
+\]
+%
+\begin{ejemplo}
+Podemos usar la serie de Taylor de la función arcotangente para aproximar $\pi$, ya que $\operatorname{tg}(\frac{\pi}4)=1$:
+\[
+\pi = 4\operatorname{arctg} 1 = \displaystyle\sum_{n=0}^\infty   \dfrac{(-1)^n4}{2n+1}
+\]
+La serie es alternada, por lo que el corolario del criterio de Leibniz nos ayuda a estimar el error dado por las sumas parciales.
+Sin embargo, este método no es muy bueno, ya que nos hacen falta muchos sumandos para conseguir errores pequeños.
+La razón es que estamos evaluando la serie en el extremo del campo de convergencia.\fej 
+\end{ejemplo}
+%
+\begin{latexonly}
+\begin{figure}
+\begin{center}
+\begin{tikzpicture}[x=5.5em,y=4em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-2.5,0) -- (2.5,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1.6) -- (0,1.8)node[right] {$Y$};
+\draw (-2.5,pi/2) -- (2.5,pi/2); 
+\draw (-2.5,-pi/2) -- (2.5,-pi/2);
+\draw[dashed] (-1,-pi/2)--(-1,pi/2);
+\draw[dashed] (1,-pi/2)--(1,pi/2);
+\draw[dashed,domain=-2.5:2.5]
+%plot[id=arctg,samples=100]
+%function{atan(x)};
+plot file {T4/figs/Calc4.arctg.table};
+\draw[thick,domain=-2:2]
+%plot[id=arctgt3,samples=100]
+%function{x-(x**3)/3};
+plot file {T4/figs/Calc4.arctgt3.table};
+\draw (-1.2,0) node[above]{\small $-1$};
+\draw (.9,0) node[above]{\small $1$};
+\draw (0,1.4) node[right]{\small $\pi/2$};
+\draw (0,-1.4) node[right]{\small $-\pi/2$};
+\draw (-2.5,-.8) node[right]{\small $f(x)=\arctan x$};
+\draw (2.5,-1) node[left]{\small $T_{3}(x)=x-\dfrac{x^3}{3}$};
+\end{tikzpicture}\\[2em]
+\begin{tikzpicture}[x=5.5em,y=4em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-2.5,0) -- (2.5,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1.6) -- (0,1.8)node[right] {$Y$};
+\draw (-2.5,pi/2) -- (2.5,pi/2); 
+\draw (-2.5,-pi/2) -- (2.5,-pi/2);
+\draw[dashed] (-1,-pi/2)--(-1,pi/2);
+\draw[dashed] (1,-pi/2)--(1,-1.2);
+\draw[dashed] (1,-.6)--(1,pi/2);
+\draw[dashed,domain=-2.5:2.5]
+%plot[id=arctg,samples=100]
+%function{atan(x)};
+plot file {T4/figs/Calc4.arctg.table};
+\draw[thick,domain=-1.5:1.5]
+%plot[id=arctgt7,samples=100]
+%function{x-(x**3)/3+(x**5)/5-(x**7)/7};
+plot file {T4/figs/Calc4.arctgt7.table};
+\draw (-1.2,0) node[above]{\small $-1$};
+\draw (.9,0) node[above]{\small $1$};
+\draw (0,1.4) node[right]{\small $\pi/2$};
+\draw (0,-1.4) node[right]{\small $-\pi/2$};
+\draw (-2.5,-.8) node[right]{\small $f(x)=\arctan x$};
+\draw (2.5,-.9) node[left]{\small $T_{7}(x)=x-\dfrac{x^3}{3}+\dfrac{x^5}{5}-\dfrac{x^7}{7}$};
+\end{tikzpicture}\\[2em]
+\begin{tikzpicture}[x=5.5em,y=4em]
+%\pgfsetlinewidth{.5pt}
+\draw[-stealth] (-2.5,0) -- (2.5,0) node[right] {$X$}; 
+\draw[-stealth] (0,-1.6) -- (0,1.8)node[right] {$Y$};
+\draw (-2.5,pi/2) -- (2.5,pi/2); 
+\draw (-2.5,-pi/2) -- (2.5,-pi/2);
+\draw[dashed] (-1,-pi/2)--(-1,pi/2);
+\draw[dashed] (1,-pi/2)--(1,pi/2);
+\draw[dashed,domain=-2.5:2.5]
+%plot[id=arctg,samples=100]
+%function{atan(x)};
+plot file {T4/figs/Calc4.arctg.table};
+\draw[thick,domain=-1.26:1.23]
+%plot[id=arctgt13,samples=100]
+%function{x-(x**3)/3+(x**5)/5-(x**7)/7+(x**9)/9-(x**11)/11+(x**13)/13};
+plot file {T4/figs/Calc4.arctgt13.table};
+\draw (-1.2,0) node[above]{\small $-1$};
+\draw (.9,0) node[above]{\small $1$};
+\draw (0,1.4) node[right]{\small $\pi/2$};
+\draw (0,-1.4) node[right]{\small $-\pi/2$};
+\draw (-2.5,-.8) node[right]{\small $f(x)=\arctan x$};
+\draw (0,-2) node{\small $T_{13}(x)=x-\dfrac{x^3}{3}+\dfrac{x^5}{5}-\dfrac{x^7}{7}
++\dfrac{x^9}{9}-\dfrac{x^{11}}{11}+\dfrac{x^{13}}{13}$};
+\end{tikzpicture}
+\end{center}
+\caption{Función arcotangente y algunos polinomios de Taylor.}\label{fig:tgtaylor}
+\end{figure}
+\end{latexonly}
+\begin{rawhtml}
+<div class="center">
+<img src="./T4/figuras/Tema4-fig12.svg" width="450">
+</div>
+<div class="center">
+<img src="./T4/figuras/Tema4-fig13.svg" width="450">
+</div>
+<div class="center">
+<img src="./T4/figuras/Tema4-fig14.svg" width="450">
+</div>
+\end{rawhtml}
+
+\newpage
+
+%\thispagestyle{empty}
+%\ \newpage
+
+\section*{Relación de ejercicios \thechapter.1}
+
+\pagestyle{relaciones}
+
+\begin{enumerate}
+
+\item
+Calcule los siguientes límites:
+\setcontadoralph
+\begin{centrar}
+\nitem $\lim \dfrac{n+3}{n^3+4}$\hfill
+\nitem $\lim \dfrac{n+3n^3}{n^3+4}$\hfill
+\nitem $\lim \dfrac{3-n^5}{n^3+4}$
+\end{centrar}
+
+\item
+Demuestre que si $a_kn^k$ es el término de mayor grado del polinomio $p(n)$, entonces $p(n)$ y $a_kn^k$ son infinitos equivalentes.
+
+%:%%% INFINITÉSIMOS, INFINITOS, LIMITES CON e
+\item\label{ej:limgamma}
+Calcule los siguientes límites:
+\setcontadoralph
+\begin{centrar}
+\nitem $\lim\left( \dfrac{n+2}{n+4} \right)^{5-n}$\hfill
+\nitem $\lim \big(n-\sqrt[4]{n^3(n-1)}\,\big)$
+\end{centrar}
+
+\item
+\begin{enumerate}
+\item
+Calcule el límite $\lim \dfrac{\log (n^2+1)}{\log n}$.
+\item
+Demuestre que si $p(n)$ es un polinomio de grado $k$, entonces $\log p(n)$ y $k\log n$ son infinitos equivalentes.
+\item
+Utilice la equivalencia del apartado anterior para calcular el límite
+\[
+\lim\dfrac{\log(n^5-7)}{5\log(3n-2)}
+\]
+\end{enumerate}
+
+\item Consideremos las siguientes sucesiones:
+\[
+a_n=\frac{(-1)^n}{n}, \qquad
+b_n=\frac{n}{n+1},\qquad
+c_n=\frac{2^n}{n},\qquad
+\mathit{d}_n=\operatorname{sen}\dfrac1n
+%, \quad,\quad 
+%1+\frac12+\frac14+\dots+\frac{1}{2^n}
+%\left\{\begin{array}{l}c_1=1\\c_n=3c_{n-1}\quad\mbox{si}\quad n>1\end{array}\right.
+\]
+\begin{enumerate}
+\item
+Calcule los primeros términos de las sucesiones y deduzca ``intuitivamente'' las  características de las sucesiones (monotonía, acotación y convergencia).
+\item
+Estudie formalmente las propiedades de monotonía, acotación y convergencia. 
+\end{enumerate}
+
+\item
+\begin{enumerate}
+\item
+Calcule el límite $\displaystyle\lim_{x\to\infty}\dfrac{x^2}{e^x}=0$
+
+\item
+Demuestre por inducción sobre $m\in\mathbb{N}$ que $\displaystyle\lim_{x\to\infty}\dfrac{x^m}{e^x}=0$
+\item
+Deduzca que, si $p(x)$ un polinomio, entonces
+\[
+\lim_{x\to\infty} \dfrac{p(x)}{e^x}=0,\qquad
+\lim \dfrac{p(n)}{e^n}=0
+\]
+\end{enumerate}
+
+\end{enumerate}
+
+\newpage
+
+\ 
+
+\newpage
+
+\section*{Relación de ejercicios \thechapter.2}
+
+\pagestyle{relaciones}
+
+\begin{enumerate}
+
+%: SUMA DE SERIES
+
+\item
+Utilice el símbolo $\sum$ para expresar las siguientes sumas.
+Tenga en cuenta que en los últimos apartados, se indica cual debe ser el primer valor del índice.
+
+\begin{enumerate}\renewcommand{\itemsep}{1em}
+
+\item
+$\dfrac6{2-1}+\dfrac8{3-1}+\dfrac{10}{4-1}+\cdots+\dfrac{22}{10-1}$
+
+\item
+$1^{10}+2^9+3^8+\cdots+ 10^1$ 
+
+\item
+$1+3+5+\cdots+(2n-1) = \displaystyle\sum_{k=1}$ 
+
+\item
+$\dfrac{n}{n+1}+\dfrac{n}{n+2}+\cdots+\dfrac{n}{n+n}=\displaystyle\sum_{k=3}$
+\end{enumerate}
+
+\item
+Sume las siguientes series simplificando la sucesión de sumas parciales.
+%Estudie la convergencia de las siguientes series analizando si son telescópicas.
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=2}^\infty   \dfrac{1}{2n(n^2-1)}$ \hfill
+\nitem $\displaystyle\sum_{n=1}^\infty   \log\left(\dfrac{(n+1)^2}{n(n+2)}\right)$
+\end{centrar}
+
+
+\item
+Utilice las propiedades elementales para estudiar la convergencia de las siguientes series y obtenga la suma de las convergentes.
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=0}^\infty \left(5\left(\dfrac12\right)^n+\dfrac{3n}{5-2n}\right)$\hfill
+\nitem $\displaystyle\sum_{n=0} (-2)^n\dfrac{3^{2n}}{9^{2n-1}}$ \hfill
+\nitem $\displaystyle\sum_{n=1}^{10}\dfrac{1}{n} $
+\end{centrar}
+
+\item
+Determine cuáles de las siguientes series son aritmético-geométricas y sume las que sean convergentes siguiendo el método descrito en ejemplo~\ref{ej:arit-geom} de la página~\pageref{ej:arit-geom}.
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=0}\dfrac{2n-1}{3^n}$ \hfill
+\nitem $\displaystyle\sum_{n=2}^\infty   (2n-1)\mbox{e}^n$ 
+\end{centrar}
+
+\item
+Sume la serie $\displaystyle\sum_{n=1}^\infty  \dfrac{n^2+1}{5^n}$ partiendo del mismo procedimiento usado para las series aritmético-geométricas.
+
+\item
+Determine cuáles de las siguientes series son hipergeométricas y sume las que sean convergentes utilizando el método descrito en el ejemplo~\ref{ej:hipergeom} de la página~\pageref{ej:hipergeom}.
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=2}^\infty   \dfrac{1}{4n^2-1}$\hfill
+\nitem $\displaystyle\sum_{n=3}^\infty   \dfrac{1}{n^2}$
+\end{centrar}
+
+\item
+Estudie el carácter de las siguientes series:
+\setcontadoralph
+\begin{center}
+\begin{tabular}{l@{\qquad}l@{\qquad}l}
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{3^nn!}{n^n}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{n^n}{(2n+1)^n}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \operatorname{sen}\dfrac1n$  \\[1.5em]
+\nitem $\displaystyle\sum_{n=1}^\infty   (-1)^n\operatorname{sen}\dfrac1n$  &
+\nitem $\displaystyle\sum_{n=1}^\infty   (-1)^n\dfrac{n}{\log n}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{(-1)^n}{n}\log\dfrac{2n}{n-1}$
+\end{tabular}
+\end{center}
+
+\item
+Estudie el carácter de la serie $\displaystyle\sum_{n=1}^\infty   \dfrac{(n!)^a}{(3n)!}$ en función del parámetro $a\in\mathbb{R}$.
+
+%:curso1920
+% Revisar relación 4.4 para delimitar el tipo de series cuyo carácter queremos que deduzcan.
+\item
+Estudie el carácter de la serie $\displaystyle\sum_{n=1}^\infty   \dfrac{\log n}{\sqrt n}$.
+
+%\item
+%\textcolor{red}{Estudiar la monotonía de $a_n=\dfrac{n!e^n}{n^n}$. ¿Qué se puede decir del carácter de $\displaystyle\sum_{n=1}^\infty  \dfrac{n!e^n}{n^n}$? 
+%}
+
+\item
+Demuestre que la serie $\displaystyle\sum_{n=1}^\infty   \dfrac{n^n}{3^nn!}$ es convergente y encuentre la suma parcial que aproxima su suma con un error menor que $10^{-3}$.
+
+\item
+Demuestre que la serie $\displaystyle\sum_{n=1}^\infty   \dfrac{(-1)^n\log n}{n}$ es convergente y encuentre la suma parcial que aproxima su suma con un error menor que $10^{-3}$.
+
+\item
+El \emph{Criterio de condensación} establece:
+\begin{quote}
+\emph{Si $a_n$ es una sucesión
+decreciente de términos positivos, entonces las series $\displaystyle\sum_{n=1}^\infty   a_n$ y 
+$\displaystyle\sum_{n=1}^\infty   2^n a_{2^n}$ tienen el mismo carácter.}
+\end{quote}
+Si es posible, utilice el criterio de condensación para determinar el carácter de las series
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac1{\sqrt n}$, \hfill
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{\log n}{n}$,\hfill
+\nitem $\displaystyle\sum_{n=1}^\infty   (-1)^n\dfrac{\log n}{n}$
+\end{centrar}
+
+
+\end{enumerate}
+
+\newpage
+
+\section*{Relación de ejercicios \thechapter.3}
+
+\pagestyle{relaciones}
+
+\begin{enumerate}
+
+\item
+%\label{cmp-conv}
+\setcontadoralph
+Halle los campos de convergencia de las series de potencias siguientes:
+
+\begin{tabular}{lll}
+\rule{.3\textwidth}{0pt} & \rule{.3\textwidth}{0pt} \\[-1em]
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{x^n}{n!}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   n^n(x-5)^n$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{(x+3)^n}{n!}$\\[1.5em]
+\nitem $\displaystyle\sum_{n=1}^\infty  \dfrac{(-1)^nn!}{n^2}(x-1)^n$ &
+\nitem $\displaystyle\sum_{n=1}^\infty  \dfrac{(-1)^nn!}{n^n}(x-1)^n$ &
+\nitem $\displaystyle\sum_{n=1}^\infty  \dfrac{(n!)^2}{(2n)!}x^n$
+\end{tabular}
+
+\item
+Determine la serie de Taylor de la función $f(x) =\dfrac{x}{(1-x)^2}$ partiendo de la derivada de $\dfrac{1}{1-x}=\displaystyle\sum_{n=0}^\infty  x^n$. ¿Para qué valores de $x$ la serie de Taylor representa a $f(x)$?
+
+\item
+Obtenga la suma de la serie $\displaystyle\sum_{n=3}^\infty (-1)^n\dfrac{n^2}{2^{n+1}}$ usando el siguiente proceso:
+\begin{enumerate}
+\item
+Sume la serie de potencias $\displaystyle\sum_{n=1}^\infty   n^2x^n$ usando las propiedades de derivación y las propiedades algebraicas de las series para reducirla a una serie más simple.
+\item
+Evalúe la serie del apartado anterior en un valor de $x$ adecuado para poder sumar la serie propuesta.
+\end{enumerate}
+
+\item
+Sume las siguientes series numéricas
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=3}^\infty\dfrac{(-1)^{n+1}}{n2^n}$,\hfill
+\nitem $\displaystyle\sum_{n=3}^\infty\dfrac{3^n}{(n+1)!}$
+\end{centrar}
+
+\item
+Utilice el método de Horner para evaluar el polinomio de McLaurin de orden 5 de la función exponencial en $x=1/2$.
+Utilice una calculadora para comparar el resultado con $e^{1/2}=\sqrt e$
+
+
+\item
+Para la función $f(x)=\operatorname{sen} x$, determine los polinomios de Taylor de órdenes 1, 2, 3, 4 y 5 en $x_0=0$. Deduzca la expresión de su polinomio de Taylor de cualquier orden.
+
+\item
+Consideremos la función $f(x)=x^2\operatorname{sen} x$:
+\begin{enumerate}
+\item
+Use la definición para determinar el polinomio de Taylor de $f(x)$, de orden 5 en el punto $x_0=0$
+\item
+Use las propiedades algebraicas del Polinomio de Taylor como forma alternativa para hallar el mismo polinomio del apartado anterior.
+\end{enumerate}
+
+\newpage
+\item
+Considere la función $f(x)=x^2e^{-x}$.
+Utilice el polinomio de Taylor de la función exponencial, su expresión del resto de Lagrange y las propiedades algebraicas para obtener el polinomio de Taylor de $f$ y una expresión de su resto.
+Utilícelo para hallar $f(\frac{1}{4})$ con un error menor que $10^{-4}$.
+
+
+
+\item
+Calcule $\sqrt{e}$ con un error menor que $10^{-3}$.
+%, ¿qué función considera más adecuada para este objetivo, la función exponencial o la función raíz cuadrada? Razone la respuesta y utilice la función elegida para aproximar dicho número con un error menor que $10^{-3}$.
+
+\item
+Calcule $\log \dfrac65$ con un error menor que $10^{-3}$.
+
+
+
+\item
+Siguiendo el método del ejemplo~\ref{ej:pnfact}
+(página~\pageref{ej:pnfact}), sume la serie $\displaystyle\sum_{n=2}^\infty   \dfrac{n^2-2}{n!}$.
+
+\end{enumerate}
+
+%\newpage
+
+\thispagestyle{empty}
+\ \newpage
+\section*{Relación de ejercicios \thechapter.4}
+
+\pagestyle{relaciones}
+
+\begin{enumerate}
+
+\item Consideremos las siguientes sucesiones:
+\[
+a_n=\frac{-3n+5}{n},\qquad 
+b_n=(-3)^n,\qquad 
+c_n=\frac{n^2-3n}{n!},\qquad 
+d_n=\frac{1}{\sqrt{n+4}}
+\]
+Para cada una de ellas, calcule los primeros términos, analice intuitivamente sus propiedades (monotonía, acotación y convergencia) y finalmente estúdielas formalmente.
+
+
+%:%%% SUCESIONES POR RECURRENCIA
+
+\item
+Consideramos la siguiente sucesión definida por recurrencia:
+\[
+\begin{cases}
+a_1=2\\
+a_n=a_{n-1}-3 & \text{ si }\quad n>1
+\end{cases}
+\]
+\begin{enumerate}
+\item
+Calcule los diez primeros términos de la sucesión y analice intuitivamente sus características (monotonía, acotación y convergencia).
+\item
+Estudie formalmente las propiedades de monotonía, acotación y convergencia. 
+\item
+Deduzca el término general de la sucesión.
+\end{enumerate} 
+
+\item
+Consideramos la siguiente sucesión definida por recurrencia:
+\[
+\begin{cases}
+b_1=3\\
+b_n=b_{n-1}+n & \text{ si }\quad n>1
+\end{cases}
+\]
+\begin{enumerate}
+\item
+Calcule los diez primeros términos de la sucesión y analice intuitivamente sus características (monotonía, acotación y convergencia).
+\item
+Estudie formalmente las propiedades de monotonía, acotación y convergencia. 
+\item
+Deduzca el término general de la sucesión.
+\end{enumerate} 
+
+\item
+Justifique que las siguientes sucesiones son convergentes y calcule sus límites
+\begin{center}
+$\begin{cases}
+c_1 = \sqrt2\\
+c_n =2\sqrt{c_{n-1}}
+\end{cases}$\qquad\qquad
+$\begin{cases}
+\mathit{d}_1=a,\ 0\le a\le\frac14\\
+\mathit{d}_n=a+(\mathit{d}_{n-1})^2
+\end{cases}$
+\end{center}
+
+%:%%% LIMITES
+
+\item Resuelva los siguientes límites:
+\setcontadoralph
+\begin{centrar}
+\nitem $\lim \left( n-\sqrt{(n+a)(n+b)}\right)$\hfill
+\nitem $\lim n^2\left( \sqrt[n]{a}-\sqrt[n-1]{a}\right)$
+\end{centrar}
+
+%:%%% STOLTZ
+
+\item
+Utilice la caracterización secuencial para calcular los siguientes límites:
+\setcontadoralph
+\begin{centrar}
+\nitem $\lim \sqrt[n]{n^2+n}$,\hfill
+\nitem $\lim \dfrac{(\log n)^2}{n}$
+\end{centrar}
+
+\item
+Demuestre que para todo $\alpha>1$, las sucesiones $(n+1)^\alpha-n^\alpha$ y $\alpha n^{\alpha-1}$ son infinitos equivalentes.
+
+\item
+Calcule la suma de $\displaystyle\sum_{n=1}^\infty   \dfrac{(-1)^{n-1}(2n+1)}{n(n+1)}$ simplificando la sucesión de sumas parciales.
+
+\item
+Estudie el carácter y sume si es posible las siguientes series:
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=0}^\infty   \dfrac{3^n+4^n}{5^n}$\hfill
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{2^{n+3}}{3^n}$ \hfill
+\nitem $\displaystyle\sum_{n=0}^\infty   \dfrac{(-1)^n}{5^n}$ 
+\end{centrar}
+
+
+\item 
+Sume la serie $\displaystyle\sum_{n=3}^\infty   \dfrac{2+4+8+\cdots +2^n}{3^n}$
+
+\item
+Sume las siguientes series aritmético-geométricas:
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=0}^\infty   \dfrac{n}{10^n}$ \hfill
+\nitem $\displaystyle\sum_{n=3}^\infty   \dfrac{1-n}{5^n}$ \hfill
+\nitem $\displaystyle\sum_{n=0}^\infty   (-1)^n\dfrac{n-2}{2^n}$
+\end{centrar}
+
+
+\item
+Demuestre que la serie $\displaystyle\sum_{n=2}^\infty  \dfrac{1\cdot 4\cdot 7\cdots (3n-5)}%
+{2\cdot 5\cdot 8 \cdots (3n-4)}$ es hipergeométrica y súmela si es posible.
+
+\item
+El \emph{Criterio del logaritmo} establece:
+\begin{quote}
+\em
+Sea $\displaystyle\sum_{n=0}^\infty   a_n$ una serie de términos positivos y 
+\[
+\ell=\lim\frac{\log\frac1{a_n}}{\log n},
+\]
+entonces: Si $\ell\sle 1$ la serie diverge y si $\ell>1$ la serie converge.
+\end{quote}
+\begin{enumerate}
+\item
+Utilice el criterio del logaritmo para estudiar la convergencia de las series $p$-armónicas.
+\item
+Si es posible, aplique el criterio del logaritmo para estudiar la convergencia de las siguientes series:
+\setcontadoralph
+\begin{center}
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{(-1)^n}{n^2}$ \qquad
+\nitem $\displaystyle\sum_{n=2}^\infty   \dfrac{n}{2^n}$ \qquad
+\nitem $\displaystyle\sum_{n=3}^\infty   n$ \qquad
+\nitem $\displaystyle\sum_{n=4}^\infty   \dfrac{1}{n}$ 
+\end{center}
+\end{enumerate}
+
+\item
+Aplique infinitos equivalentes para encontrar series $p$-armónicas con el mismo carácter que las siguientes y deduzca su carácter:
+\setcontadoralph
+\begin{center}
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{n^2-5n+8}{n-2}$\qquad
+\nitem $\displaystyle\sum_{n=2}^\infty   \dfrac{4n^2+5n-3}{2-3n^5}$ 
+\end{center}
+
+\item Estudie el carácter de las siguientes series:
+\setcontadoralph
+\begin{center}
+\begin{tabular}{l@{\qquad}l@{\qquad}l}
+\nitem $\displaystyle\sum_{n=2}^\infty   \dfrac{1}{\sqrt[3]{n^2-1}}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{n^2}{n!}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{2^nn!}{n^n}$ \\
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{2^{n-1}}{(3n+2)\cdot n^{4/3}}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \left(\dfrac{1}{n}-\dfrac{1}{n!}\right)$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{n^3}{2^n}$ \\
+\nitem $\displaystyle\sum_{n=1}^\infty   \Big(\dfrac{n+1}{n}\Big)^n$ &
+\end{tabular}
+\end{center}
+
+
+\item Estudie el carácter de las siguientes series:
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{\operatorname{sen}^3 n}{n^4}$, \hfill
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{1+\cos^2 n}{n^3}$, \hfill
+\nitem $\displaystyle\sum_{n=1}^\infty   \operatorname{sen}\left(\dfrac{\pi}{4n^2}\right)$, \hfill
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{n}{2^n}\cos^2\dfrac{\pi n}{3}$
+\end{centrar}
+
+\item
+\begin{enumerate}
+\item
+Calcule el límite $\displaystyle\lim_{x\to +\infty} \dfrac{(\log x)^2}x$
+\item
+Demuestre por inducción sobre $k\in\mathbb{N}$ que $\displaystyle\lim_{x\to +\infty} \dfrac{(\log x)^k}x=0$
+\item
+Determine el carácter de $\displaystyle\sum_{n=2}^\infty   \dfrac{1}{(\log n)^k}$ en función de $k\in\mathbb{N}$
+\item
+Determine el carácter de $\displaystyle\sum_{n=2}^\infty   \dfrac{1}{(\log n)^n}$
+\end{enumerate}
+
+
+\item Estudie el carácter de las siguientes series:
+\setcontadoralph
+\begin{center}
+\begin{tabular}{l@{\qquad}l@{\qquad}l}
+\nitem $\displaystyle\sum_{n=1}^\infty   (-1)^n\dfrac{1}{\sqrt{n}}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   (-1)^{n+1}\dfrac{1}{2n-1}$ &
+\nitem $\displaystyle\sum_{n=2}^\infty   (-1)^n\dfrac{1}{n\log n}$ \\
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{(-1)^n}{\sqrt{n}-\sqrt{n+1}}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   (-1)^n\dfrac{n}{2^n}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   (-1)^n\dfrac{(n!)^2}{(2n)!}$ 
+\end{tabular}
+\end{center}
+
+%:%% SERIES DE POTENCIAS
+
+\item
+Halle los campos de convergencia de las series de potencias siguientes:
+\setcontadoralph
+\begin{center}
+\begin{tabular}{l@{\qquad}l@{\qquad}l}
+\nitem $\displaystyle\sum_{n=1}^\infty   nx^n$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{(x-1)^n}n$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{n+1}{\sqrt{1+2n}}x^n$ \\
+\nitem $\displaystyle\sum_{n=1}^\infty  \dfrac{(-1)^n}{n+1}x^n$ &
+\nitem $\displaystyle\sum_{n=1}^\infty  \dfrac{(-1)^n}{n^2+1}(x+2)^n$ &
+\nitem $\displaystyle\sum_{n=2}^\infty  \dfrac{x^n}{n^2-\sqrt n}$\\
+\end{tabular}
+\end{center}
+
+\item
+Halle los campos de convergencia de las series de potencias siguientes:
+\setcontadoralph
+\begin{center}
+\begin{tabular}{l@{\qquad}l@{\qquad}l}
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{1}{n2^n}x^n$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{2^n}{n+1}x^n$ &
+\nitem $\displaystyle\sum_{n=1}^\infty  \dfrac{(-1)^nn^3}{3^n}(x+3)^n$ \\
+\nitem $\displaystyle\sum_{n=1}^\infty   n^n(x-1)^n$ &
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{(x-1)^n}{n^n}$ &
+\nitem $\displaystyle\sum_{n=1}^\infty  \dfrac{(n+1)!}{5^n}(x-2)^n$ \\
+\nitem $\displaystyle\sum_{n=1}^\infty  \dfrac{5^n}{(n+1)!}(x-2)^n$
+\end{tabular}
+\end{center}
+
+
+\item
+Halle los campos de convergencia de las series de potencias siguientes:
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=1}^\infty   (\log n)x^n$, \hfill
+\nitem $\displaystyle\sum_{n=1}^\infty  \dfrac{\log n}{n}x^n$, \hfill
+\nitem $\displaystyle\sum_{n=2}^\infty  \dfrac{x^n}{(\log n)^n}$ 
+\end{centrar}
+
+\item
+\begin{enumerate}
+\item
+Calcule $e$ con un error menor que $10^{-8}$. ¿Cuántas cifras decimales de esta aproximación son exactas?
+\item
+Calcule $\operatorname{sen} 1$ con un error menor que $10^{-4}$.
+\item
+Calcule $\log 1'5$ con un error menor que $10^{-4}$.
+\end{enumerate}
+
+\item
+Para $f(x)=x^2\cos x$, hallar $f(\frac{7\pi}{8})$ con un error menor que $10^{-4}$.
+
+\item
+Sume las siguientes series:
+
+\setcontadoralph
+\begin{centrar}
+\nitem $\displaystyle\sum_{n=2}^\infty   \dfrac{n}{(n+1)!}$,\hfill
+\nitem $\displaystyle\sum_{n=1}^\infty   \dfrac{n^2}{(n+2)!}$,\hfill
+\nitem $\displaystyle\sum_{n=2}^\infty   \dfrac{n^2+3n-1}{n!}$.
+\end{centrar}
+
+\item Represente mediante serie de potencias de $x$ las siguientes funciones:
+%
+\setcontadoralph
+\begin{centrar}
+\nitem $f(x) =\operatorname{sen} x$\hfill
+\nitem $f(x) =\log\dfrac{1+x}{1-x}$
+\end{centrar}
+%
+\item
+Sume las siguientes series de potencias
+\setcontadoralph
+\begin{centrar}
+\nitem
+$\displaystyle\sum_{n=2}^\infty   (n+1)x^n$\hfill
+\nitem
+$\displaystyle\sum_{n=2}^\infty   \dfrac{x^n}{n^2-n}$.
+% (Indicación: $\int\log t\,dt=t\log(t)-1$)
+\end{centrar}
+
+\end{enumerate}
+
+% Las lineas siguientes se añaden si la última página está en blanco
+% \newpage
+%
+%\ \thispagestyle{empty}
+%
+%:FIN DEL DOCUMENTO
+
+\endinput

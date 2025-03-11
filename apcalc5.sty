@@ -1,0 +1,223 @@
+%!TEX encoding = UTF-8 Unicode
+%%%%%%%
+%
+% Version 2016-09-20
+%
+% Paquete para la configuración de los apuntes de cï¿½lculo;
+% Estï¿½ pensado para usar con
+% \documentclass[11pt,twocolumn,twoside]{book}
+% Requiere los paquetes: theorem, fancyhdr y titlesec
+%
+%%%%%%%%
+%
+%:Diseño de página e interlineado
+%
+%\hoffset .65cm
+%\voffset -2.9cm
+%\textheight 23cm
+%\textwidth 13cm
+%\headsep 15mm
+%\footskip = 20mm
+%\columnsep = 10mm
+%\oddsidemargin -.8cm
+%
+\hoffset -1.6cm %.65cm
+\voffset -2.4cm
+\textheight 24.3cm
+\textwidth 14cm
+\headsep 15mm
+\footskip = 12mm %%%
+%\columnsep = 10mm
+\oddsidemargin 2.8cm %-.8cm
+%
+\renewcommand{\arraystretch}{1.2}
+\renewcommand{\baselinestretch}{1.15}
+\setlength{\parskip}{.5\baselineskip}  % Separación uniforme de los parrafos
+                                                          % sin usar \***skip
+%
+%%%%%%
+%
+%:Cabecera y pie
+%
+\RequirePackage{fancyhdr}
+%\pagestyle{plain}
+\fancypagestyle{temas}{
+%\addtolength{\headwidth}{4cm}
+\fancyhf{}
+\renewcommand{\footrulewidth}{.4pt}
+%\fancyheadoffset[LE,RO]{4cm}
+%\fancyfootoffset[LE,RO]{4cm}
+\fancyfoot[RE]{E.T.S.I.Informática}
+\fancyfoot[LO]{Grados en Ingeniería Informática, del Software y de Computadores}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{Cálculo para la computación}
+\fancyhead[LO]{\rmfamily{\nouppercase{\rightmark}.}}
+%\fancyhead[LO]{\titulo.}
+}
+%
+\fancypagestyle{primera}{
+\fancyhf{}
+\fancyfoot[LO]{Ingeniería Informática. Cálculo para la computación}
+\fancyfoot[RO]{\thepage}
+\renewcommand{\footrulewidth}{.4pt}
+\renewcommand{\headrulewidth}{0pt}}
+%
+\fancypagestyle{relaciones}{
+\renewcommand{\footrulewidth}{.4pt}
+%\fancyheadoffset[LE,RO]{4cm}
+%\fancyfootoffset[LE,RO]{4cm}
+\fancyfoot[RE]{E.T.S.I.Informática}
+\fancyfoot[LO]{Grados en Ingeniería Informática, del Software y de Computadores}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[RE]{Cálculo para la computación}
+\fancyhead[LO]{Relaciones de ejercicios}
+}
+
+%\fancyhf{}
+%\fancyfoot[LO,LE]{\larelacion}
+%\fancyfoot[RO,RE]{\thepage}
+%\fancyhead[LE,LO]{E.T.S.I. Informática. Ingeniería Informática. Cálculo para la computación}
+%\renewcommand{\footrulewidth}{.4pt}
+%\renewcommand{\headrulewidth}{.4pt}}
+%\fancypagestyle{propcalc}{
+%\fancyhf{}
+%\fancyfoot[LO,LE]{\lospropuestos}
+%\fancyfoot[RO,RE]{\thepage}
+%\fancyhead[LE,LO]{E.T.S.I. Informática. Ingeniería Informática. Cálculo para la computación}
+%\renewcommand{\footrulewidth}{.4pt}
+%\renewcommand{\headrulewidth}{.4pt}}
+
+\title{\titulo}
+\author{}
+\date{}
+%
+%%%%%%
+%
+%:Diseño de título del tema
+%
+\RequirePackage{titlesec}
+\renewcommand{\thechapter}{\arabic{chapter}}
+\renewcommand{\chaptertitlename}{tema}
+\titlespacing{\chapter}{0pt}{-20pt}{40pt}%[-3.5cm]
+\titleformat{\chapter}[display]
+{\bfseries\Large}
+{\filleft\MakeUppercase{\chaptertitlename}\ \huge\thechapter}
+{4ex}
+{\titlerule\vspace{2ex}\filright\huge}
+[\vspace{2.5ex}\titlerule\vspace{2pt}{\titlerule[1pt]}]
+%%%
+%\titleformat{\section}[block]
+%{\normalfont\scshape\Large}
+%{Lecci\'on \thesection}{.5em}{\titlerule\\[.7ex]\bfseries\filcenter}[\vspace{.8ex}\titlerule]
+%%%
+\titleformat{\section}[frame]
+{\scshape}
+{\filright\enspace LECCI\'ON \thesection\enspace}
+{.5ex}
+{\Large\bfseries\filcenter}
+%
+\titleformat{\subsection}
+{\bfseries}
+{\thesubsection.}
+{1ex}
+{}
+%
+%%%%%%
+%
+%:Relaciones de problemas
+%
+%\newcommand{\relacion}{%
+%\newpage\onecolumn
+%\gdef\larelacion{Relaci\'on \thechapter}
+%\pagestyle{relcalc}
+%\ \hfill{\large\bf\larelacion}\hfill\rule{0pt}{0pt}\par}
+%%
+%%:Ejercicios propuestos
+%%
+%\newcommand{\propuestos}{%
+%\newpage
+%\gdef\lospropuestos{%
+%Tema \thechapter: ejercicios propuestos}
+%\pagestyle{propcalc}
+%\ \hfill{\large\bf\lospropuestos}\hfill\rule{0pt}{0pt}\par}
+%
+%%%%%%
+%
+%:Entornos matemï¿½ticos
+% usando el paquete 'theorem'
+%
+\RequirePackage{theorem}
+%
+{\theoremstyle{plain}
+\theoremheaderfont{\scshape}
+\newtheorem{definicion}{Definici\'on}[section]}
+%
+{\theoremstyle{plain}
+\theoremheaderfont{\scshape}
+\newtheorem{teorema}[definicion]{Teorema}}
+%
+{\theoremstyle{plain}
+\theoremheaderfont{\scshape}
+\newtheorem{corolario}[definicion]{Corolario}}
+%
+{\theoremstyle{plain}
+\theoremheaderfont{\scshape}
+\newtheorem{lema}[definicion]{Lema}}
+%
+{\theoremstyle{plain}
+\theoremheaderfont{\scshape}
+\newtheorem{proposicion}[definicion]{Proposici\'on}}
+%
+{\theorembodyfont{\rmfamily}
+\theoremstyle{plain}
+\theoremheaderfont{\scshape}
+\newtheorem{nota}[definicion]{Observaci\'on}}
+%
+{\theoremstyle{break}
+\theorembodyfont{\itshape}
+\theoremheaderfont{\scshape}
+\newtheorem{definicion-br}[definicion]{Definici\'on}}
+%
+{\theoremstyle{break}
+\theorembodyfont{\itshape}
+\theoremheaderfont{\scshape}
+\newtheorem{teorema-br}[definicion]{Teorema}}
+%
+{\theoremstyle{break}
+\theorembodyfont{\itshape}
+\theoremheaderfont{\scshape}
+\newtheorem{corolario-br}[definicion]{Corolario}}
+%
+{\theoremstyle{break}
+\theorembodyfont{\itshape}
+\theoremheaderfont{\scshape}
+\newtheorem{lema-br}[definicion]{Lema}}
+%
+{\theoremstyle{break}
+\theorembodyfont{\itshape}
+\theoremheaderfont{\scshape}
+\newtheorem{proposicion-br}[definicion]{Proposici\'on}}
+
+{\theorembodyfont{\rmfamily}
+\theoremstyle{break}
+\theoremheaderfont{\scshape}
+\newtheorem{nota-br}[definicion]{Observaci\'on}}
+%
+{\theorembodyfont{\rmfamily}
+\theoremstyle{plain}
+\theoremheaderfont{\scshape}
+\newtheorem{ejemplo}[definicion]{Ejemplo}}
+%
+{\theorembodyfont{\rmfamily}
+\theoremstyle{break}
+\theoremheaderfont{\scshape}
+\newtheorem{ejemplo-br}[definicion]{Ejemplo}}
+%
+%\newcommand{\qed}{\rule{2em}{0pt}\hfill$\Box$\newline}
+\newcommand{\qed}{\rule{2em}{0pt}\hfill$\spadesuit$\newline}
+%\newcommand{\fej}{\rule{2em}{0pt}\hfill\rule{2em}{.5pt}\newline}
+\newcommand{\fej}{\rule{2em}{0pt}\hfill$\Box$\newline}
+\newcommand{\fejeq}{\tag*{\fej}}
+
+\endinput
+

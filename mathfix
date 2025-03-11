@@ -1,0 +1,8 @@
+s/\\fejeq/ /g
+s/\\fej/ /g
+s/\\sle/\&lt;/g
+s/\\\(/<span class="math inline">\\\(/g
+s/\\\)/\\\)<\/span>/g
+s/\\\[/<span class="math display">\\\[/g
+s/\\\]/\\\]<\/span> /g
+s/<p>/<p class="texto">/g

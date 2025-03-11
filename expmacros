@@ -1,0 +1,17 @@
+s/\\ene/\\mathbb{N}/g
+s/\\erre/\\mathbb{R}/g
+s/\\cu/\\mathbb{Q}/g
+s/\\ceta/\\mathbb{Z}/g
+s/\\senh/\\operatorname{sen}/g
+s/\\sen/\\operatorname{sen}/g
+s/\\tg/\\operatorname{tg}/g
+s/\\cotg/\\operatorname{cotg}/g
+s/\\cosec/\\operatorname{cosec}/g
+s/\\arcsen/\\operatorname{arcsen}/g
+s/\\arctg/\\operatorname{arctg}/g
+s/\\arcsec/\\operatorname{arcsec}/g
+s/\\arccosec/\\operatorname{arccosec}/g
+s/\\argsenh/\\operatorname{argsenh}/g
+s/\\ii/\\mathrm{i}/g
+s/\\mathrm\{i\}nt/\\int/g
+

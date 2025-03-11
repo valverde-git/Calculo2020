@@ -1,0 +1,91 @@
+%!TEX TS-program = pdflatex --shell-escape
+%!TEX encoding = UTF-8 Unicode
+%
+\documentclass[11pt,twoside,a4paper]{book}
+\usepackage[spanish]{babel}
+
+\usepackage{hevea}
+\usepackage[auto]{mathjax}
+\renewcommand{\cuttingunit}{subsection}
+\setcounter{cuttingdepth}{2}
+
+\addto\shorthandsspanish{\spanishdeactivate{<>}}
+\usepackage[utf8]{inputenc}
+%
+\usepackage{textcomp,latexsym,amsmath,amssymb,cancel,yhmath,stackrel}
+\usepackage{graphicx,longtable,floatflt,pifont}
+%
+\usepackage{AVmacros}
+\usepackage{apcalc5}
+%
+%%% El siguiente paquete permite utilizar cajas 
+\usepackage[most]{tcolorbox}
+\tcbuselibrary{breakable}
+\tcbset{enhanced jigsaw,%
+colback=gray!10!white,%
+colframe=gray!100!black,%
+%watermark color=yellow!25!white,%
+%watermark text=\arabic{tcbbreakpart},%
+fonttitle=\bfseries}
+%
+\usepackage{tikz}
+\usetikzlibrary{shapes}
+\usepgflibrary{arrows}
+\usepackage{pgfplots}
+%% Descomentar las siguientes líneas para que los gráficos
+%% de Tikz se generen como archivos independientes
+%\usetikzlibrary{external}
+%\tikzexternalize
+%
+%
+%\newcommand{\titulo}{*Número y nombre del tema.*}
+%
+%\newcommand{\otralinea}{\rule{0pt}{0pt}\par\vspace{-1.3em}}
+\newcommand{\nlinea}{\rule{0pt}{0pt}\par\vskip-\baselineskip\noindent}
+\newcommand{\nada}{\rule{0pt}{0pt}}
+%
+%\DeclareMathSymbol{d}{\mathalpha}{operators}{`d}
+%\DeclareMathSymbol{D}{\mathalpha}{operators}{`D}
+\DeclareMathSymbol{e}{\mathalpha}{operators}{`e}
+%\DeclareMathSymbol{i}{\mathalpha}{operators}{`i}
+\decimalpoint
+
+\newcommand{\parcialx}{\dfrac{\partial}{\partial x}}
+\newcommand{\parcialy}{\dfrac{\partial}{\partial y}}
+\newcommand{\parcialxi}{\dfrac{\partial}{\partial x_i}}
+\newcommand{\boldmat}[1]{\mathversion{bold}$#1$\mathversion{normal}}
+
+\newcommand{\sumn}{\sum\limits_n}
+
+\newcommand{\evalen}{\vphantom{\displaystyle\int}}
+
+\newcommand{\sle}{<}
+
+\setcounter{secnumdepth}{3}
+%\setcounter{secnumdepth}{2}
+
+\includeonly{%
+T0/intro,%
+T1/Calc1,%
+%,%
+T2/Calc2,%
+%,%
+T3/Calc3,%
+%,%
+T4/Calc4,
+T5/Calc5%
+}
+
+
+\begin{document}
+
+
+\include{T0/intro}
+\pagestyle{fancy}
+\include{T1/Calc1}
+\include{T2/Calc2}
+\include{T3/Calc3}
+\include{T4/Calc4}
+\include{T5/Calc5}
+%
+\end{document}
